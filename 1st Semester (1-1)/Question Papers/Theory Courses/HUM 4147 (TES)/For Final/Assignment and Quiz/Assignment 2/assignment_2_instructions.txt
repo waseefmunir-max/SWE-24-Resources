@@ -1,0 +1,10 @@
+Answer these 3 questions with suitable references, while following the requirements below:
+- Font size: 10
+- Font family: Times New Roman
+- File type: .docx or .pdf
+- Minimum length: 10 pages (for all 3 questions) 
+
+Questions:
+1. What is the primary objective of a sewage treatment plant?
+2. Describe the four main stages of sewage treatment.
+3. Describe the global and local environmental issues.
