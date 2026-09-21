@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross-Cultural Communication — Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0c0c10;
+    --bg-elevated:#15151b;
+    --bg-card:#1a1a22;
+    --bg-card-hover:#1f1f29;
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.16);
+    --text-primary:#f4f4f7;
+    --text-secondary:#a6a6b8;
+    --text-tertiary:#6c6c7d;
+    --violet:#8b6cf7;
+    --violet-bright:#a78bfa;
+    --blue:#43c6ff;
+    --violet-dim:rgba(139,108,247,0.14);
+    --blue-dim:rgba(67,198,255,0.12);
+    --green:#3ddc97;
+    --amber:#ffb454;
+    --red:#ff6b6b;
+    --sans:'Inter',sans-serif;
+    --mono:'JetBrains Mono',monospace;
+    --radius:14px;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text-primary);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:80px;
+  }
+
+  ::selection{background:var(--violet); color:#fff;}
+
+  #progress{
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background:linear-gradient(90deg, var(--violet), var(--blue));
+    z-index:1000;
+    transition:width .08s linear;
+  }
+
+  a{color:var(--blue); text-decoration:none;}
+
+  header.hero{
+    padding:90px 24px 60px;
+    max-width:1080px;
+    margin:0 auto;
+    text-align:left;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--blue);
+    display:inline-block;
+    margin-bottom:22px;
+    padding:6px 12px;
+    border:1px solid var(--border-strong);
+    border-radius:100px;
+    background:var(--blue-dim);
+  }
+  h1.hero-title{
+    font-size:clamp(36px, 6vw, 64px);
+    font-weight:900;
+    letter-spacing:-0.03em;
+    line-height:1.04;
+    background:linear-gradient(135deg, #ffffff 30%, var(--violet-bright) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    max-width:820px;
+  }
+  .hero-sub{
+    margin-top:20px;
+    font-size:17px;
+    color:var(--text-secondary);
+    max-width:640px;
+  }
+
+  .signal-row{
+    display:flex; align-items:flex-end; gap:6px; margin:34px 0 6px;
+  }
+  .signal-row .bar{
+    width:7px; border-radius:3px;
+    background:linear-gradient(180deg, var(--violet), var(--blue));
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  .signal-row .bar:nth-child(1){height:14px; animation-delay:0s;}
+  .signal-row .bar:nth-child(2){height:22px; animation-delay:.15s;}
+  .signal-row .bar:nth-child(3){height:34px; animation-delay:.3s;}
+  .signal-row .bar:nth-child(4){height:22px; animation-delay:.45s;}
+  .signal-row .bar:nth-child(5){height:14px; animation-delay:.6s;}
+  @keyframes pulse{
+    0%,100%{opacity:.45; transform:scaleY(0.85);}
+    50%{opacity:1; transform:scaleY(1);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .signal-row .bar{animation:none; opacity:0.85;}
+  }
+
+  .stat-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:8px;}
+  .stat-chip{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-secondary);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 14px;
+    background:var(--bg-card);
+  }
+  .stat-chip b{color:var(--text-primary); font-size:15px;}
+  .stat-chip.v b{color:var(--violet-bright);}
+  .stat-chip.b b{color:var(--blue);}
+
+  nav.topnav{
+    position:sticky; top:3px; z-index:900;
+    background:rgba(12,12,16,0.85);
+    backdrop-filter:blur(10px);
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-scroll{
+    max-width:1080px; margin:0 auto;
+    display:flex; gap:6px; overflow-x:auto;
+    padding:12px 24px;
+    scrollbar-width:none;
+  }
+  .nav-scroll::-webkit-scrollbar{display:none;}
+  .nav-scroll a{
+    flex:0 0 auto;
+    font-size:13px;
+    font-family:var(--mono);
+    color:var(--text-secondary);
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    padding:7px 13px;
+    border-radius:100px;
+    white-space:nowrap;
+    transition:all .15s ease;
+  }
+  .nav-scroll a:hover{
+    color:var(--text-primary);
+    border-color:var(--violet);
+    background:var(--violet-dim);
+  }
+  .nav-scroll a.part-label{
+    color:var(--blue);
+    border-color:transparent;
+    background:none;
+    padding-left:4px; padding-right:4px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    font-size:11px;
+  }
+
+  main{max-width:1080px; margin:0 auto; padding:50px 24px 0;}
+
+  .part-title{
+    font-size:14px;
+    font-family:var(--mono);
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--violet-bright);
+    margin:70px 0 20px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .part-title::after{
+    content:""; flex:1; height:1px;
+    background:linear-gradient(90deg, var(--border-strong), transparent);
+  }
+  .part-title:first-of-type{margin-top:0;}
+
+  section.card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:30px 32px;
+    margin-bottom:22px;
+  }
+  section.card h2{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:-0.01em;
+    margin-bottom:14px;
+    color:var(--text-primary);
+    display:flex; align-items:center; gap:10px;
+  }
+  section.card h2 .num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--blue);
+    background:var(--blue-dim);
+    border:1px solid var(--border-strong);
+    padding:3px 9px;
+    border-radius:8px;
+  }
+  section.card h3{
+    font-size:16px;
+    font-weight:700;
+    margin:22px 0 8px;
+    color:var(--violet-bright);
+  }
+  section.card p{color:var(--text-secondary); margin-bottom:10px; font-size:15px;}
+  section.card ul, section.card ol{margin:8px 0 14px 22px; color:var(--text-secondary); font-size:15px;}
+  section.card li{margin-bottom:6px;}
+  section.card li b, section.card p b, section.card li strong{color:var(--text-primary); font-weight:600;}
+
+  .key-term{
+    color:var(--violet-bright);
+    font-weight:600;
+    background:var(--violet-dim);
+    padding:1px 6px;
+    border-radius:5px;
+  }
+
+  .callout{
+    border-left:3px solid var(--blue);
+    background:var(--blue-dim);
+    padding:14px 18px;
+    border-radius:0 10px 10px 0;
+    margin:14px 0;
+    font-size:14.5px;
+    color:var(--text-secondary);
+  }
+  .callout b{color:var(--text-primary);}
+
+  .table-wrap{overflow-x:auto; margin:14px 0 18px; border-radius:10px; border:1px solid var(--border);}
+  table{width:100%; border-collapse:collapse; font-size:14px; min-width:480px;}
+  thead th{
+    background:linear-gradient(135deg, var(--violet-dim), var(--blue-dim));
+    color:var(--text-primary);
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    text-align:left;
+    padding:12px 16px;
+    border-bottom:1px solid var(--border-strong);
+  }
+  tbody td{
+    padding:12px 16px;
+    border-bottom:1px solid var(--border);
+    color:var(--text-secondary);
+    vertical-align:top;
+  }
+  tbody td:first-child{color:var(--text-primary); font-weight:600;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover td{background:var(--bg-card-hover);}
+
+  .question-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:0;
+    margin-bottom:26px;
+    overflow:hidden;
+  }
+  .q-head{
+    padding:24px 30px 18px;
+    border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .q-badge{
+    font-family:var(--mono);
+    font-weight:700;
+    font-size:13px;
+    color:#0c0c10;
+    background:linear-gradient(135deg, var(--violet-bright), var(--blue));
+    padding:6px 13px;
+    border-radius:8px;
+  }
+  .q-head h3{font-size:19px; font-weight:800; flex:1; min-width:200px;}
+  .q-tag{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--text-tertiary);
+    border:1px solid var(--border);
+    padding:4px 10px;
+    border-radius:100px;
+  }
+
+  .scenario{
+    margin:22px 30px 18px;
+    padding:18px 20px;
+    background:var(--bg-elevated);
+    border-left:3px solid var(--violet);
+    border-radius:0 10px 10px 0;
+    font-size:14.5px;
+    color:var(--text-secondary);
+    font-style:italic;
+  }
+  .scenario b{color:var(--text-primary); font-style:normal;}
+
+  .q-parts{margin:0 30px 20px;}
+  .q-parts .table-wrap{margin:0;}
+  .q-parts td:nth-child(1){width:34px; text-align:center; color:var(--violet-bright); font-family:var(--mono);}
+  .q-parts td:nth-child(3){width:64px; text-align:center; color:var(--text-primary); font-family:var(--mono); font-weight:700;}
+
+  details.answer-toggle{
+    margin:0 30px 26px;
+    border:1px solid var(--border-strong);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  details.answer-toggle summary{
+    cursor:pointer;
+    list-style:none;
+    padding:13px 18px;
+    background:var(--bg-elevated);
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--green);
+    display:flex; align-items:center; gap:8px;
+    user-select:none;
+    transition:background .15s ease;
+  }
+  details.answer-toggle summary::-webkit-details-marker{display:none;}
+  details.answer-toggle summary:hover{background:#202028;}
+  details.answer-toggle summary::before{
+    content:"▸";
+    transition:transform .2s ease;
+    color:var(--green);
+  }
+  details.answer-toggle[open] summary::before{transform:rotate(90deg);}
+  details.answer-toggle[open] summary{border-bottom:1px solid var(--border);}
+  .answer-content{padding:18px 22px 20px; font-size:14.5px; color:var(--text-secondary);}
+  .answer-content p{margin-bottom:10px;}
+  .answer-content b{color:var(--text-primary);}
+  .answer-part-label{
+    display:inline-block;
+    font-family:var(--mono);
+    color:var(--blue);
+    font-weight:700;
+    margin-right:6px;
+  }
+
+  footer{
+    max-width:1080px; margin:60px auto 0; padding:30px 24px;
+    border-top:1px solid var(--border);
+    color:var(--text-tertiary);
+    font-size:13px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+  }
+
+  #toTop{
+    position:fixed; bottom:26px; right:26px;
+    width:46px; height:46px;
+    border-radius:50%;
+    background:linear-gradient(135deg, var(--violet), var(--blue));
+    color:#fff; border:none;
+    font-size:18px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 6px 20px rgba(139,108,247,0.35);
+    opacity:0; pointer-events:none;
+    transition:opacity .25s ease, transform .15s ease;
+    z-index:900;
+  }
+  #toTop.show{opacity:1; pointer-events:auto;}
+  #toTop:hover{transform:translateY(-3px);}
+
+  @media (max-width:640px){
+    header.hero{padding:60px 18px 36px;}
+    main{padding:34px 16px 0;}
+    section.card{padding:22px 18px;}
+    .q-head{padding:20px 18px 14px;}
+    .scenario, .q-parts, details.answer-toggle{margin-left:18px; margin-right:18px;}
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header class="hero">
+  <span class="eyebrow">Business Communication · Chapter 15 · Exam Prep</span>
+  <h1 class="hero-title">Cross-Cultural Communication, distilled.</h1>
+  <p class="hero-sub">A study guide built from your Chapter 15 lecture — Hofstede's dimensions, Hall's context theory, Lewis's cultural types, gestures, and language equivalency — organized for fast scanning, with five exam-style practice questions in your reference paper's case-study format.</p>
+
+  <div class="signal-row" aria-hidden="true">
+    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-chip"><b>3,000+</b> languages used worldwide</div>
+    <div class="stat-chip v"><b>6</b> Hofstede cultural dimensions</div>
+    <div class="stat-chip b"><b>3</b> Lewis cultural types</div>
+  </div>
+</header>
+
+<nav class="topnav">
+  <div class="nav-scroll">
+    <span class="nav-scroll-pad part-label">Notes</span>
+    <a href="#s1">Culture</a>
+    <a href="#s2">Why It Matters</a>
+    <a href="#s3">Topography/History/Religion</a>
+    <a href="#s4">Body &amp; Gestures</a>
+    <a href="#s5">Business Cards &amp; Handshakes</a>
+    <a href="#s6">Time, Space, Frankness</a>
+    <a href="#s7">High/Low Context</a>
+    <a href="#s8">Hofstede</a>
+    <a href="#s9">Lewis Types</a>
+    <a href="#s10">Language Equivalency</a>
+    <a href="#s11">Difficulties with English</a>
+    <a href="#s12">Advice</a>
+    <span class="part-label">Practice</span>
+    <a href="#q1">Q1</a>
+    <a href="#q2">Q2</a>
+    <a href="#q3">Q3</a>
+    <a href="#q4">Q4</a>
+    <a href="#q5">Q5</a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============ PART 1: STUDY NOTES ============ -->
+  <div class="part-title">Part 1 — Study Notes</div>
+
+  <section class="card" id="s1">
+    <h2><span class="num">1.1</span> What Is Culture?</h2>
+    <p>Geert Hofstede defined culture as <span class="key-term">"the collective programming of the mind which distinguishes the members of one category of people from another."</span> Culture is the shared way a group understands and interprets the world.</p>
+    <p><span class="key-term">National culture</span> is the part of our mental programming we share with more of our compatriots than with most other world citizens.</p>
+    <div class="callout"><b>Important nuance:</b> the person you're communicating with may be completely unrepresentative of their culture of origin — even within one culture there are many subcultures (regional, ethnic, gender). Treat cultural frameworks as tendencies, not guarantees about any one individual.</div>
+  </section>
+
+  <section class="card" id="s2">
+    <h2><span class="num">1.2</span> Why Cross-Cultural Communication Matters</h2>
+    <ul>
+      <li>Businesses sell both domestically and internationally — understanding customer needs across cultures wins business.</li>
+      <li>It makes you more efficient inside and outside the company, letting you work harmoniously with colleagues from other cultures.</li>
+      <li>Minimizing cultural barriers lets you hire from a wider pool of good people and avoid problems caused purely by misinterpretation.</li>
+      <li>It enriches both your business and personal life.</li>
+    </ul>
+    <div class="callout"><b>The constant:</b> adapting your words, sentences, and overall message to your audience matters everywhere — but never more than cross-culturally. Clarity, courtesy, and correctness are appreciated in every culture.</div>
+  </section>
+
+  <section class="card" id="s3">
+    <h2><span class="num">1.3</span> Dimensions of Cultural Difference</h2>
+    <p>Sensitivity to a culture's roots helps you avoid <span class="key-term">ethnocentrism</span> — the tendency to see only your own cultural programming as "normal." Three roots to study:</p>
+    <h3>1. Topography</h3>
+    <p>The shape and features of land surfaces shape culture. Mountain life encourages heavier clothing and physical strength; coastal life encourages lighter clothing, swimming, and fishing traditions. <b>Example:</b> Japan's island geography with limited resources fostered a culture valuing efficiency and conservation — visible today in just-in-time manufacturing.</p>
+    <h3>2. History</h3>
+    <p>Historical experience shapes business values and negotiation style. <b>Example:</b> Germany's post-WWII rebuilding created a business culture emphasizing precision and quality ("German engineering"). India's colonial history shaped its legal system and gave it an English-language advantage in global IT/BPO industries.</p>
+    <h3>3. Religion</h3>
+    <p>Religious tradition deeply influences business ethics. <b>Example:</b> Islamic banking prohibits charging interest, forcing multinational banks to redesign products for Muslim-majority markets. In predominantly Buddhist Thailand, relationship-building precedes deal-making, requiring patience from Western partners.</p>
+  </section>
+
+  <section class="card" id="s4">
+    <h2><span class="num">1.4</span> Body Position, Movement &amp; Gestures</h2>
+    <p>Communication with hands, arms, and head varies sharply by culture. In Japan, people greet by <span class="key-term">bowing</span> — a small nod is casual, a deep bend signals respect; bowing is also used to thank, apologize, request, or ask a favor. U.S. natives who don't bow may unintentionally read as rude to a bowing culture, just as not standing when someone enters a room reads as impolite in the U.S. but not elsewhere.</p>
+    <h3>Hand gestures: same shape, different meaning</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Gesture</th><th>What it means where</th></tr></thead>
+        <tbody>
+          <tr><td>"V" / two fingers</td><td>Victory/peace in North America; closer to "take this!" (an insult) in England/Australia</td></tr>
+          <tr><td>"OK" sign (circle)</td><td>OK/approval in North America; "worthless person" in France; refers to money in Japan; vulgar/inappropriate in Brazil, Russia, Germany</td></tr>
+          <tr><td>"Thumbs up"</td><td>"Good job" in North America; means "one" in Germany; means "five" in Japan</td></tr>
+          <tr><td>"Hook 'em horns"</td><td>University of Texas rally call; "you're being tricked" in Italy; "warding off evil" in Brazil/Venezuela</td></tr>
+          <tr><td>Waving hand</td><td>Greeting/getting attention in North America; signals disagreement in much of Europe</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Memory hook:</b> never assume a gesture is universally positive — the friendlier it feels to you, the more important it is to check its meaning abroad.</div>
+  </section>
+
+  <section class="card" id="s5">
+    <h2><span class="num">1.5</span> Business Cards &amp; Handshakes</h2>
+    <h3>Presenting a business card (meishi) in Japan</h3>
+    <ul>
+      <li>Arriving without a business card is considered bad manners.</li>
+      <li>Receive a card with both hands, especially if the other party is senior in age, status, or a potential customer — receiving is "an art."</li>
+      <li>Don't fiddle with the card or put it in a back pocket — that's crude. Use a distinctive case.</li>
+      <li>People doing business in both countries often have cards translated on the back.</li>
+    </ul>
+    <h3>Handshaking around the world</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Culture</th><th>Handshake style</th></tr></thead>
+        <tbody>
+          <tr><td>Americans</td><td>Firm, five to seven pumps</td></tr>
+          <tr><td>Germans</td><td>Brusque, firm, single pump, repeated on arrival and departure</td></tr>
+          <tr><td>French</td><td>Light, quick, not offered to superiors, repeated on arrival/departure, may include a double kiss</td></tr>
+          <tr><td>British</td><td>Soft, three to five pumps</td></tr>
+          <tr><td>Hispanics</td><td>Moderate grasp, repeated frequently</td></tr>
+          <tr><td>Latin Americans</td><td>Firm, long-lasting</td></tr>
+          <tr><td>Middle Easterners</td><td>Gentle, repeated frequently</td></tr>
+          <tr><td>Asians</td><td>Gentle; handshaking can feel unfamiliar (Koreans are an exception — generally firm)</td></tr>
+          <tr><td>Arabs</td><td>Gentle, long-lasting, sometimes with kisses on both cheeks</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="s6">
+    <h2><span class="num">1.6</span> Views on Time, Space, Odors, Frankness, Hierarchy, Work &amp; Emotion</h2>
+    <h3>Time — Monochronic vs. Polychronic</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Monochronic (e.g., U.S.)</th><th>Polychronic (e.g., Middle East, parts of Asia)</th></tr></thead>
+        <tbody>
+          <tr><td>Do one thing at a time</td><td>Do many things at once</td></tr>
+          <tr><td>Concentrate on the job</td><td>Are highly distractible</td></tr>
+          <tr><td>Committed to the job</td><td>Committed to people</td></tr>
+          <tr><td>Accustomed to short-term relationships</td><td>Build lifetime relationships</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Polychronic cultures may view lateness by important people as a sign that they're busy, and negotiations often open with casual talk before the main issue.</p>
+    <h3>Space</h3>
+    <p>Americans treat personal space (roughly 2 feet) as a right; Arab culture favors standing closer — keeping distance there can read as impolite.</p>
+    <h3>Odors</h3>
+    <p>Americans work to neutralize/cover body odor and may view those who don't as unsanitary; some Asian cultures view body odor as something friends naturally experience, not something to hide.</p>
+    <h3>Frankness</h3>
+    <p>North Americans are relatively frank/direct; Germans and Israelis are even more frank; Asians tend toward reticence and indirectness to save face. Exception: Chinese phone calls often end abruptly once the purpose is done, while North Americans cushion the ending with friendly talk.</p>
+    <h3>Workplace Values</h3>
+    <p>North Americans expect to change companies several times and expect employers to hire/fire as needs change. In Japan, employment has traditionally been viewed as lifelong, with the company resembling a family — a mismatch that has caused friction in American–Japanese joint ventures.</p>
+    <h3>Expression of Emotions</h3>
+    <p>Some cultures mix business with social pleasure; some prefer aggressive bargaining, others straightforward dealing; some talk loudly with emotion, others stay subdued; Asian cultures generally frown on public displays of affection, while Westerners accept a moderate amount.</p>
+  </section>
+
+  <section class="card" id="s7">
+    <h2><span class="num">1.7</span> Low-Context vs. High-Context Cultures <span style="color:var(--text-tertiary); font-size:13px; font-weight:400;">(Edward T. Hall)</span></h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Style</th><th>Tends to include</th></tr></thead>
+        <tbody>
+          <tr><td>Low-context</td><td>Concrete, direct, explicit — the message contains everything needed to interpret it</td><td>American, German, Scandinavian, Swiss, Finnish</td></tr>
+          <tr><td>High-context</td><td>Multimodal — meaning carried through eye movement, body language, tone, and shared cultural context, not just words</td><td>French, Japanese, Indian, Irish, British, Arabic</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Use with caution:</b> Peter Cardon's research review found Hall's generalizations arose from unsystematic observation and are often contradicted — yet it remains the most-cited theory in cross-cultural communication. Keep it in your toolbox, but don't treat it as a guarantee about any individual.</div>
+  </section>
+
+  <section class="card" id="s8">
+    <h2><span class="num">1.8</span> Hofstede's Six Cultural Dimensions</h2>
+    <p>Developed by Geert Hofstede through research at IBM; these scales describe national cultures and inform work styles, leadership, negotiation, and communication preferences.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dimension</th><th>High end</th><th>Low end</th><th>Business implication</th></tr></thead>
+        <tbody>
+          <tr><td>Power Distance (PDI)</td><td>Hierarchy, authority, centralized decisions (Malaysia, Mexico)</td><td>Equality, participative decisions (Denmark, New Zealand)</td><td>High PDI: managers maintain formality and respect hierarchy. Low PDI: leaders can be democratic/inclusive.</td></tr>
+          <tr><td>Individualism vs. Collectivism (IDV)</td><td>Personal achievement, autonomy, direct communication (USA, UK)</td><td>Group loyalty, harmony, indirect/context-sensitive communication (China, Indonesia)</td><td>Individualist: personal accountability, direct feedback. Collectivist: teamwork, group harmony.</td></tr>
+          <tr><td>Masculinity vs. Femininity (MAS)</td><td>Competition, achievement, success (Japan, Germany)</td><td>Quality of life, nurturing, cooperation (Sweden, Netherlands)</td><td>Masculine: emphasize performance/outcomes. Feminine: emphasize work-life balance/collaboration.</td></tr>
+          <tr><td>Uncertainty Avoidance (UAI)</td><td>Structure, rules, stability (Greece, Portugal)</td><td>Acceptance of change/flexible rules (Singapore, India)</td><td>High UAI: detailed planning, risk minimization. Low UAI: open to experimentation, informal practices.</td></tr>
+          <tr><td>Long- vs. Short-Term Orientation (LTO)</td><td>Perseverance, thrift, future rewards (China, South Korea)</td><td>Tradition, social obligation, immediate outcomes (USA, Nigeria)</td><td>Long-term: relationship-building, sustainability. Short-term: quick results, respect for tradition.</td></tr>
+          <tr><td>Indulgence vs. Restraint (IVR)</td><td>Gratification of desires, having fun (Australia, Brazil)</td><td>Gratification regulated by strict norms (Russia, Pakistan)</td><td>Indulgent: relaxed, open environments. Restrained: discipline, adherence to norms expected.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="s9">
+    <h2><span class="num">1.9</span> Richard Lewis's Cultural Types Model</h2>
+    <p>Lewis grouped cultures into three broad communication/behavior styles describing how people plan, communicate, and relate in business.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Key traits</th><th>Business behavior</th><th>Sample countries</th></tr></thead>
+        <tbody>
+          <tr><td>Linear-Active</td><td>Task-oriented, organized, punctual, plans ahead, prefers facts/logic/written word, speaks one at a time</td><td>Emphasizes agendas, deadlines, contracts; expects punctuality and rational decisions</td><td>Germany, Switzerland, USA, UK, Netherlands, Scandinavia</td></tr>
+          <tr><td>Multi-Active</td><td>People-oriented, flexible, spontaneous, talkative, emotional, does many things at once</td><td>Prefers relationship-building before business; may interrupt; comfortable with shifting deadlines</td><td>Italy, Spain, Latin America, Arab nations, sub-Saharan Africa</td></tr>
+          <tr><td>Reactive</td><td>Respectful, good listeners, value harmony, reserved/indirect, takes time before responding</td><td>Avoids open disagreement; values silence/reflection; builds trust and consensus before deciding</td><td>China, Japan, Korea, Vietnam, Finland</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b>Examples:</b> a German manager sticks to an agenda and expects a formal, data-backed presentation (Linear-Active). A Brazilian negotiator may discuss personal matters first and shift topics often (Multi-Active). A Japanese executive may take time before responding and avoid a direct "no" (Reactive).</p>
+  </section>
+
+  <section class="card" id="s10">
+    <h2><span class="num">1.10</span> Lack of Language Equivalency</h2>
+    <p>Over 3,000 languages are used worldwide, and exact translation between them is often impossible.</p>
+    <ul>
+      <li><b>Concept gaps:</b> "florist" assumes flowers are sold in a shop — but in cultures where flowers are sold by street vendors, there's no precise equivalent word.</li>
+      <li><b>Missing distinctions:</b> French has no separate words for mind/brain or man/gentleman; Spanish has no separate words for chairman/president.</li>
+      <li><b>Grammar gaps:</b> some languages (e.g., Urdu) have no gerunds.</li>
+      <li><b>Multiple meanings:</b> English "run" alone has dozens of meanings — the Oxford English Dictionary needs 15,000+ words to define it.</li>
+      <li><b>Idiomatic expressions taken literally:</b> "Business couldn't be better" (meaning very good) could be read by another culture as "business is bad — it's impossible to improve."</li>
+      <li><b>"Yes" isn't always "yes":</b> a Chinese "yes" can mean "I am listening" or a polite agreement with a negative statement — e.g., replying "yes" to "I see you don't agree with this clause" can mean "Yes, you're right, I do not agree."</li>
+    </ul>
+    <h3>Overcoming the problem</h3>
+    <p>Know the language · ask if unsure · stay aware the problem exists · use back-translation to verify meaning.</p>
+  </section>
+
+  <section class="card" id="s11">
+    <h2><span class="num">1.11</span> Difficulties with English</h2>
+    <h3>Two-word verbs confuse non-native readers — prefer the one-word substitute</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Two-word verb</th><th>Clearer substitute</th></tr></thead>
+        <tbody>
+          <tr><td>Give up</td><td>Surrender</td></tr>
+          <tr><td>Speed up / hurry up</td><td>Accelerate</td></tr>
+          <tr><td>Go on / keep on</td><td>Continue</td></tr>
+          <tr><td>Put off</td><td>Defer, delay</td></tr>
+          <tr><td>Take off</td><td>Depart, remove</td></tr>
+          <tr><td>Come down</td><td>Descend</td></tr>
+          <tr><td>Go in / come in / get in</td><td>Enter</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3>Avoid slang and colloquialisms in cross-cultural writing</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Not this</th><th>But this</th></tr></thead>
+        <tbody>
+          <tr><td>"That's just off the top of my head."</td><td>"Here's a quick idea."</td></tr>
+          <tr><td>"They couldn't make heads or tails of the report."</td><td>"They couldn't understand the report."</td></tr>
+          <tr><td>"The sales campaign was a flop."</td><td>"The sales campaign was a failure."</td></tr>
+          <tr><td>"Don't let him get your goat."</td><td>"Don't let him upset you."</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" id="s12">
+    <h2><span class="num">1.12</span> Advice for Communicating Across Cultures</h2>
+    <ul>
+      <li>Do your research on the culture you're entering.</li>
+      <li>Know yourself and your own company's norms — don't expect others to already understand your culture.</li>
+      <li>Be aware of stereotypes and avoid leaning on them as fact.</li>
+      <li>Adapt English to your audience: talk simply, clearly, and slowly; avoid double-barreled and negative questions; ask open-ended questions.</li>
+      <li>Be open to change rather than expecting others to adapt to you alone.</li>
+    </ul>
+  </section>
+
+  <!-- ============ PART 2: PRACTICE QUESTIONS ============ -->
+  <div class="part-title">Part 2 — Practice Questions</div>
+
+  <!-- Q1 -->
+  <article class="question-card" id="q1">
+    <div class="q-head">
+      <span class="q-badge">Q1</span>
+      <h3>Hofstede's Cultural Dimensions in Negotiation</h3>
+      <span class="q-tag">30 marks</span>
+    </div>
+    <div class="scenario">A U.S. software firm sends a junior account executive, <b>Maya</b>, to pitch a partnership to a Malaysian manufacturing supplier. Maya opens with a casual, first-name-basis tone, presents data showing how the deal benefits her personally hitting quota, and directly asks the supplier's junior engineers for their opinions in the meeting. The senior Malaysian executives appear visibly uncomfortable, defer every question to their managing director, and the deal stalls — the Malaysian side later says the pitch "felt disorganized and disrespectful."</div>
+    <div class="q-parts">
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td>a)</td><td><b>Identify</b> the Hofstede dimensions (PDI and IDV) at play in this scenario, with one piece of evidence each.</td><td>05</td></tr>
+            <tr><td>b)</td><td><b>Explain</b>, using Hofstede's framework, why Maya's approach created friction with the Malaysian executives.</td><td>12</td></tr>
+            <tr><td>c)</td><td><b>Recommend</b> specific communication adjustments Maya's firm should make for future meetings with high-PDI, collectivist partners.</td><td>13</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <details class="answer-toggle">
+      <summary>Show Model Answer</summary>
+      <div class="answer-content">
+        <p><span class="answer-part-label">a)</span> <b>Power Distance:</b> Malaysia is a high-PDI country, evidenced by the executives deferring every question to their managing director rather than answering directly. <b>Individualism vs. Collectivism:</b> Maya's individualist framing (the U.S. is low-IDV) — pitching the deal in terms of her personal quota and inviting junior staff to share independent opinions — clashes with a collectivist culture (Malaysia) where group consensus and hierarchy-respecting input matter more than individual opinion.</p>
+        <p><span class="answer-part-label">b)</span> In a high-PDI culture, authority and centralized decision-making are expected; a junior account executive directly soliciting opinions from junior engineers undermines the hierarchy and signals disorganization to the senior Malaysian team, who expect formality and deference to rank. The collectivist framing problem compounds this: Maya's personal-benefit pitch reads as self-interested rather than group/organization-oriented, which collectivist negotiators are more likely to find off-putting than persuasive. Together, these dimension mismatches — not the deal's substance — produced the discomfort and stall.</p>
+        <p><span class="answer-part-label">c)</span> Send a senior representative (or have a senior figure visibly lead/open the meeting) to match the high-PDI expectation of dealing with appropriately-ranked counterparts. Route questions and decisions through the most senior person present rather than canvassing junior staff directly. Reframe the pitch around mutual/organizational benefit (group harmony, long-term partnership) rather than individual achievement. Build in time for relationship-establishing formality before moving to business specifics, and maintain a more formal tone and dress/structure consistent with hierarchy-respecting norms.</p>
+      </div>
+    </details>
+  </article>
+
+  <!-- Q2 -->
+  <article class="question-card" id="q2">
+    <div class="q-head">
+      <span class="q-badge">Q2</span>
+      <h3>Hall's Low-Context vs. High-Context Communication</h3>
+      <span class="q-tag">30 marks</span>
+    </div>
+    <div class="scenario">An American project manager, <b>Drew</b>, emails a Japanese partner, <b>Mr. Sato</b>: <b>"Your team missed the deadline. We need the revised files by Friday or the contract is at risk."</b> Mr. Sato replies only: <b>"We understand your concerns and will do our best. Please also consider the recent changes on our side."</b> Drew reads this as a confirmation the files will arrive Friday. Friday passes with no files, and Drew is blindsided — Mr. Sato later explains he was trying to signal, respectfully, that the deadline wasn't realistic given circumstances Drew hadn't asked about.</div>
+    <div class="q-parts">
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td>a)</td><td><b>Classify</b> Drew's and Mr. Sato's communication styles using Hall's low-context/high-context model, with evidence.</td><td>05</td></tr>
+            <tr><td>b)</td><td><b>Explain</b> the miscommunication using context theory and the slides' discussion of frankness.</td><td>12</td></tr>
+            <tr><td>c)</td><td><b>Recommend</b> two strategies Drew could use in future messages to communicate more effectively with Mr. Sato.</td><td>13</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <details class="answer-toggle">
+      <summary>Show Model Answer</summary>
+      <div class="answer-content">
+        <p><span class="answer-part-label">a)</span> Drew is a <b>low-context</b> communicator: his message is concrete, direct, and explicit — everything he means is stated plainly in the words ("missed the deadline," "need files by Friday," "contract is at risk"), consistent with American low-context norms. Mr. Sato is a <b>high-context</b> communicator: his reply relies on indirect cues ("will do our best," "please also consider the recent changes") rather than a direct statement, expecting Drew to read between the lines using shared context — consistent with Japanese high-context norms.</p>
+        <p><span class="answer-part-label">b)</span> Because Drew is low-context, he interpreted Mr. Sato's words at face value as an implicit "yes," missing the indirect signal. Because Mr. Sato is high-context and Asian cultures tend toward reticence to save face (per the slides' point on frankness), he avoided an explicit "no" — which would risk confrontation or loss of face for both parties — and instead embedded his real message ("the deadline isn't realistic") inside a polite, contextual reply. The mismatch isn't about honesty; it's that each party expected the other to extract meaning the way their own culture would.</p>
+        <p><span class="answer-part-label">c)</span> Drew should explicitly invite direct disagreement in low-stakes language — e.g., asking a closed, specific question like "Is Friday realistic given your current workload?" rather than only stating his own need. He should also watch for soft qualifiers ("will do our best," "please also consider...") as potential signals of difficulty rather than confirmation, and follow up to confirm understanding explicitly rather than assuming silence/politeness equals agreement — applying the slides' general advice to research the culture and adapt his own communication rather than expecting Mr. Sato to match his directness.</p>
+      </div>
+    </details>
+  </article>
+
+  <!-- Q3 -->
+  <article class="question-card" id="q3">
+    <div class="q-head">
+      <span class="q-badge">Q3</span>
+      <h3>Richard Lewis's Cultural Types in a Project Team</h3>
+      <span class="q-tag">30 marks</span>
+    </div>
+    <div class="scenario">A three-person product team includes <b>Klaus</b> (Germany), who arrives with a detailed agenda and grows visibly frustrated when meetings run long; <b>Camila</b> (Brazil), who arrives a few minutes late, talks about her weekend before business, and frequently jumps between topics and interrupts to add ideas; and <b>Haruto</b> (Japan), who says little during meetings, takes notes, and only shares his opinion privately to Klaus afterward. Klaus has started calling Camila "unprofessional" and assumes Haruto "has no opinions."</div>
+    <div class="q-parts">
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td>a)</td><td><b>Classify</b> Klaus, Camila, and Haruto using Lewis's cultural types model, with one piece of evidence each.</td><td>05</td></tr>
+            <tr><td>b)</td><td><b>Explain</b> the source of friction in this team by comparing each type's characteristics and business behaviors.</td><td>12</td></tr>
+            <tr><td>c)</td><td><b>Recommend</b> how this team could restructure its meetings to work effectively across all three styles.</td><td>13</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <details class="answer-toggle">
+      <summary>Show Model Answer</summary>
+      <div class="answer-content">
+        <p><span class="answer-part-label">a)</span> <b>Klaus — Linear-Active:</b> task-oriented, organized, arrives with a detailed agenda, and is frustrated when meetings deviate from schedule. <b>Camila — Multi-Active:</b> people-oriented and flexible, builds relationship first ("talks about her weekend"), interrupts, and moves fluidly between topics. <b>Haruto — Reactive:</b> reserved and indirect, listens and takes notes rather than speaking up, and shares his view only after reflection, in private.</p>
+        <p><span class="answer-part-label">b)</span> Klaus's Linear-Active need for agendas, punctuality, and one-topic-at-a-time directly conflicts with Camila's Multi-Active comfort with flexible timing, relationship talk, and interrupting — what Klaus sees as "unprofessional," Camila experiences as normal relationship-building before business. Meanwhile, Haruto's Reactive preference for silence, reflection, and consensus-building before speaking is being misread by Klaus as having no opinion, when in fact Haruto is following his own culture's norm of avoiding open disagreement and building trust before contributing — his input is simply arriving on a different channel (private, after reflection) than Klaus expects (public, in real time).</p>
+        <p><span class="answer-part-label">c)</span> Set a shared agenda in advance (serves Klaus) but build in a short relationship-building window at the start (serves Camila) rather than treating it as wasted time. Explicitly invite Haruto's input with direct, specific questions and allow a pause after asking before moving on, rather than assuming silence means no opinion — and create a follow-up channel (written notes, one-on-one check-ins) where Reactive team members can contribute after reflection. Klaus should reframe Camila's style as relationship-oriented rather than unprofessional, and the team should agree explicitly on how decisions will be made (e.g., consensus check before closing) so all three styles feel heard.</p>
+      </div>
+    </details>
+  </article>
+
+  <!-- Q4 -->
+  <article class="question-card" id="q4">
+    <div class="q-head">
+      <span class="q-badge">Q4</span>
+      <h3>Nonverbal Communication, Gestures &amp; Business Card Etiquette</h3>
+      <span class="q-tag">30 marks</span>
+    </div>
+    <div class="scenario">A U.S. sales rep, <b>Jordan</b>, visits two new markets in one trip. In Tokyo, Jordan accepts a new contact's business card with one hand, glances at it briefly, then slides it into a back pocket while continuing to talk. Later that week in São Paulo, while wrapping up a successful pitch, Jordan gives a cheerful "OK" hand sign (circling thumb and finger) to the client across the table. Both meetings end with the local counterparts visibly cooler than expected, though neither says anything directly.</div>
+    <div class="q-parts">
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td>a)</td><td><b>Identify</b> the two nonverbal/etiquette errors Jordan made.</td><td>05</td></tr>
+            <tr><td>b)</td><td><b>Explain</b> why each action was likely received negatively, referencing the specific cultural meanings involved.</td><td>12</td></tr>
+            <tr><td>c)</td><td><b>Recommend</b> the correct practice Jordan should follow in each market going forward.</td><td>13</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <details class="answer-toggle">
+      <summary>Show Model Answer</summary>
+      <div class="answer-content">
+        <p><span class="answer-part-label">a)</span> In Tokyo: mishandling the business card (meishi) — receiving it casually with one hand, barely looking at it, and putting it in a back pocket. In São Paulo: using the "OK" hand gesture, which is not a neutral or positive sign in Brazil.</p>
+        <p><span class="answer-part-label">b)</span> In Japan, receiving and reading a business card is treated as "an art" — proper practice is to receive it with both hands, especially from someone senior or a potential customer, and never to fiddle with it or pocket it, since that is considered crude; doing so signals disrespect even without a word being said. In Brazil, the "OK" circle gesture is considered vulgar/inappropriate rather than a friendly confirmation as it is in North America — what Jordan intended as positive affirmation likely landed as an offensive gesture, explaining the client's sudden coolness despite a strong pitch.</p>
+        <p><span class="answer-part-label">c)</span> In Japan: receive the card with both hands, take a moment to read it respectfully before putting it away in a dedicated card case (never a back pocket), and ideally have Jordan's own cards translated on the back for reciprocal courtesy. In Brazil: avoid the "OK" gesture entirely; use neutral verbal affirmation ("Great, thank you") or a simple handshake/nod instead, since gestures that feel default and harmless at home can carry an entirely different — even offensive — meaning elsewhere. More broadly, Jordan should research each market's nonverbal norms before travel rather than relying on gestures and habits that work at home.</p>
+      </div>
+    </details>
+  </article>
+
+  <!-- Q5 -->
+  <article class="question-card" id="q5">
+    <div class="q-head">
+      <span class="q-badge">Q5</span>
+      <h3>Language Equivalency &amp; Monochronic/Polychronic Time</h3>
+      <span class="q-tag">30 marks</span>
+    </div>
+    <div class="scenario">An American project manager, <b>Renee</b>, emails her team in China and the UAE: <b>"We need to wrap this up ASAP — let's not drag our feet. Can you confirm you're on board by EOD?"</b> Both overseas teams reply with a simple <b>"Yes."</b> Renee assumes full agreement and immediate action. A week later, neither team has delivered, and Renee learns the UAE team felt the timeline was unrealistic and never intended to rush, while the Chinese team says their "yes" simply meant they had received and understood the message.</div>
+    <div class="q-parts">
+      <div class="table-wrap">
+        <table>
+          <tbody>
+            <tr><td>a)</td><td><b>Identify</b> one language-equivalency problem and one time-orientation mismatch in this scenario.</td><td>05</td></tr>
+            <tr><td>b)</td><td><b>Explain</b> why the Chinese team's "yes" and the UAE team's silence-after-agreement did not mean what Renee assumed.</td><td>12</td></tr>
+            <tr><td>c)</td><td><b>Recommend</b> how Renee should rewrite this message for clearer cross-cultural communication.</td><td>13</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <details class="answer-toggle">
+      <summary>Show Model Answer</summary>
+      <div class="answer-content">
+        <p><span class="answer-part-label">a)</span> <b>Language equivalency problem:</b> Renee's message is full of idioms and colloquialisms ("wrap this up ASAP," "drag our feet," "on board") that are easily misread or only partially understood by non-native English speakers. <b>Time-orientation mismatch:</b> Renee is communicating from a monochronic mindset (urgent deadline, "ASAP," "EOD") while the UAE team likely operates with a more polychronic view of time, where deadlines and pacing are treated more flexibly and relationship/circumstance matter as much as the clock.</p>
+        <p><span class="answer-part-label">b)</span> As the slides note, a "yes" doesn't always mean full agreement to act — a Chinese "yes" can simply mean "I am listening" or polite acknowledgment of the message rather than commitment to the deadline, which is exactly what the Chinese team later clarified. The UAE team's quiet "yes" followed by no urgency reflects a polychronic view of time: rather than treating "EOD" as a hard commitment the way a monochronic communicator would, they may have intended a more general, good-faith acknowledgment without the rigid, single-track urgency Renee assumed — consistent with polychronic cultures' relaxed view of scheduling.</p>
+        <p><span class="answer-part-label">c)</span> Replace idioms with plain language: "We need this completed by [specific date]. Please confirm in writing that this date works for your team, and let us know now if it doesn't." Ask a closed, specific, non-idiomatic question rather than a vague one, and explicitly invite disagreement ("please tell us if this timeline is a problem") instead of just requesting confirmation — since a simple "yes" can mean different things in different cultures. Avoid assuming silence or a short reply equals full commitment; follow up with a clarifying question to confirm true understanding, and build in extra buffer time when working with polychronic-time partners rather than treating a single hard deadline as equally binding everywhere.</p>
+      </div>
+    </details>
+  </article>
+
+</main>
+
+<footer>
+  <span>Built from your Chapter 15: Cross-Cultural Communication lecture deck.</span>
+  <span>For self-study use — verify against your instructor's marking scheme.</span>
+</footer>
+
+<button id="toTop" aria-label="Back to top">↑</button>
+
+<script>
+  const progress = document.getElementById('progress');
+  const toTop = document.getElementById('toTop');
+
+  function onScroll(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progress.style.width = pct + '%';
+    toTop.classList.toggle('show', scrollTop > 600);
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  toTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+</script>
+
+</body>
+</html>

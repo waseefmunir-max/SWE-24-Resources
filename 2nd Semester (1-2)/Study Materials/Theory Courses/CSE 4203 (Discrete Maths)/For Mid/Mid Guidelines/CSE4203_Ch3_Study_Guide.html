@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSE 4203 — Chapter 3: Algorithms &amp; Complexity | IUT Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<style>
+:root{
+  --bg:#0C0E14;--bg2:#10131A;--surface:#14171F;
+  --card:#1A1E2B;--card2:#1E2335;--card3:#222840;
+  --border:#232A3A;--border2:#2C3450;
+  --indigo:#6366F1;--indigo-l:#818CF8;
+  --ig:rgba(99,102,241,.14);--ib:rgba(99,102,241,.28);
+  --emerald:#10B981;--eg:rgba(16,185,129,.13);--eb:rgba(16,185,129,.28);
+  --amber:#F59E0B;--ag:rgba(245,158,11,.13);--ab:rgba(245,158,11,.28);
+  --red:#EF4444;--rg:rgba(239,68,68,.1);--rb:rgba(239,68,68,.25);
+  --cyan:#06B6D4;--cg:rgba(6,182,212,.12);--cb:rgba(6,182,212,.28);
+  --rose:#F43F5E;--violet:#7C3AED;
+  --t1:#F1F5F9;--t2:#94A3B8;--t3:#64748B;--t4:#3A4462;
+  --code:#070A10;--cbrd:#1B2034;
+  --sw:270px;--r:10px;--rs:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;line-height:1.7;display:flex;min-height:100vh}
+a{text-decoration:none;color:inherit}
+.sb{width:var(--sw);min-height:100vh;background:var(--bg2);border-right:1px solid var(--border);position:fixed;top:0;left:0;overflow-y:auto;z-index:100}
+.sb-head{padding:1.3rem 1.1rem .9rem;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg2);z-index:1}
+.sb-tag{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--indigo);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:.28rem}
+.sb-head h2{font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;color:var(--t1);line-height:1.35}
+.ng{padding:.55rem .65rem 0}
+.ngl{font-size:.61rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t4);padding:.45rem .45rem .18rem}
+.nl{display:flex;align-items:center;gap:.42rem;padding:.36rem .45rem;border-radius:var(--rs);color:var(--t3);font-size:.76rem;transition:all .12s;cursor:pointer}
+.nl:hover{color:var(--t1);background:var(--card)}
+.nl.active{color:var(--indigo-l);background:var(--ig);font-weight:500}
+.nl .dot{width:4px;height:4px;border-radius:50%;background:var(--border2);flex-shrink:0}
+.nl.active .dot{background:var(--indigo)}
+.nsub{margin-left:.85rem}
+.nsub .nl{font-size:.72rem;padding:.28rem .45rem}
+.main{margin-left:var(--sw);flex:1;padding:0 2.2rem 5rem;max-width:980px}
+.hero{padding:3.2rem 0 2.3rem;border-bottom:1px solid var(--border)}
+.hero-tag{display:inline-flex;align-items:center;gap:.45rem;background:var(--ig);border:1px solid var(--ib);border-radius:100px;padding:.26rem .7rem;font-family:'JetBrains Mono',monospace;font-size:.67rem;color:var(--indigo);font-weight:600;margin-bottom:1rem}
+.hero h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(1.85rem,3vw,2.8rem);font-weight:700;line-height:1.12;margin-bottom:.6rem;background:linear-gradient(135deg,#F1F5F9 0%,#94A3B8 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--t2);font-size:.93rem;max-width:570px;margin-bottom:1.5rem}
+.hs-row{display:flex;gap:1.8rem;flex-wrap:wrap;margin-bottom:1.8rem}
+.hs{display:flex;flex-direction:column;gap:.1rem}
+.hs .n{font-family:'Space Grotesk',sans-serif;font-size:1.65rem;font-weight:700;color:var(--indigo)}
+.hs .l{font-size:.67rem;color:var(--t3);text-transform:uppercase;letter-spacing:.05em}
+.cbar{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.05rem 1.4rem}
+.cbar-lbl{font-size:.63rem;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:.85rem}
+.citems{display:flex;align-items:center;flex-wrap:wrap;gap:0;row-gap:.5rem}
+.ci{display:flex;flex-direction:column;align-items:center;flex:1;min-width:55px}
+.ci-chip{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;padding:.26rem .42rem;border-radius:var(--rs);text-align:center;white-space:nowrap}
+.ci-sub{font-size:.57rem;color:var(--t4);margin-top:.18rem}
+.carr{color:var(--border2);padding:0 .18rem;font-size:.85rem;flex-shrink:0}
+.cc1{color:#10B981;background:rgba(16,185,129,.12)}.cc2{color:#06B6D4;background:rgba(6,182,212,.12)}
+.cc3{color:#6366F1;background:rgba(99,102,241,.12)}.cc4{color:#8B5CF6;background:rgba(139,92,246,.12)}
+.cc5{color:#F59E0B;background:rgba(245,158,11,.12)}.cc6{color:#F97316;background:rgba(249,115,22,.12)}
+.cc7{color:#EF4444;background:rgba(239,68,68,.12)}
+.sec{padding:2.8rem 0;border-bottom:1px solid var(--border)}
+.sec-hd{display:flex;align-items:flex-start;gap:.85rem;margin-bottom:1.85rem}
+.badge{font-family:'JetBrains Mono',monospace;font-size:.67rem;padding:.28rem .58rem;border-radius:100px;font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:.2rem}
+.bi{background:var(--ig);color:var(--indigo);border:1px solid var(--ib)}
+.be{background:var(--eg);color:var(--emerald);border:1px solid var(--eb)}
+.ba{background:var(--ag);color:var(--amber);border:1px solid var(--ab)}
+.bc{background:var(--cg);color:var(--cyan);border:1px solid var(--cb)}
+.br{background:var(--rg);color:var(--rose);border:1px solid var(--rb)}
+.bp{background:rgba(139,92,246,.12);color:#A78BFA;border:1px solid rgba(139,92,246,.28)}
+.sec-tg h2{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;color:var(--t1);line-height:1.2}
+.sec-tg p{color:var(--t2);font-size:.87rem;margin-top:.28rem}
+.ssec{margin-bottom:2.3rem}
+.ssec-t{font-family:'Space Grotesk',sans-serif;font-size:1.03rem;font-weight:600;color:var(--t1);margin-bottom:.85rem;display:flex;align-items:center;gap:.52rem}
+.ssec-t::before{content:'';display:block;width:3px;height:1.1em;background:var(--indigo);border-radius:2px;flex-shrink:0}
+h4{font-family:'Space Grotesk',sans-serif;font-size:.9rem;font-weight:600;color:var(--t1);margin-bottom:.55rem;margin-top:.75rem}
+p{color:var(--t2);margin-bottom:.78rem}
+p:last-child{margin-bottom:0}
+strong{color:var(--t1);font-weight:600}
+em{font-style:italic}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem 1.35rem;margin-bottom:1rem}
+.def-box{background:var(--card);border-left:3px solid var(--indigo);border-radius:0 var(--r) var(--r) 0;padding:1.1rem 1.35rem;margin-bottom:1rem}
+.def-box .dl{font-family:'JetBrains Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;color:var(--indigo);font-weight:700;margin-bottom:.38rem}
+.note{background:var(--ag);border:1px solid var(--ab);border-radius:var(--r);padding:.85rem 1.1rem;margin-bottom:.9rem}
+.note .nl2{font-size:.7rem;font-weight:700;color:var(--amber);margin-bottom:.22rem}
+.note p{color:#FBBF24;font-size:.84rem;margin:0}
+.tip{background:var(--eg);border:1px solid var(--eb);border-radius:var(--r);padding:.85rem 1.1rem;margin-bottom:.9rem}
+.tip .nl2{font-size:.7rem;font-weight:700;color:var(--emerald);margin-bottom:.22rem}
+.tip p{color:#6EE7B7;font-size:.84rem;margin:0}
+.err{background:var(--rg);border:1px solid var(--rb);border-radius:var(--r);padding:.85rem 1.1rem;margin-bottom:.9rem}
+.err .nl2{font-size:.7rem;font-weight:700;color:var(--red);margin-bottom:.22rem}
+.err p{color:#FCA5A5;font-size:.84rem;margin:0}
+.cw{background:var(--code);border:1px solid var(--cbrd);border-radius:var(--r);margin-bottom:1rem;overflow:hidden}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1.05rem;border-bottom:1px solid var(--cbrd)}
+.cn{font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3)}
+.cbadge{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--emerald);background:var(--eg);padding:.12rem .42rem;border-radius:100px;border:1px solid var(--eb)}
+.cb2{padding:1.05rem 1.35rem;overflow-x:auto}
+pre{font-family:'JetBrains Mono',monospace;font-size:.79rem;line-height:1.78;color:var(--t1)}
+.kw{color:#818CF8;font-weight:600}.fn{color:#67E8F9}.cm{color:#3A4462;font-style:italic}.nm{color:#6EE7B7}.op{color:#FCD34D}
+.tw{overflow-x:auto;margin-bottom:1rem;border-radius:var(--r);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse}
+thead th{background:var(--card2);color:var(--t2);font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:.68rem .9rem;text-align:left;border-bottom:1px solid var(--border)}
+tbody td{padding:.62rem .9rem;font-size:.83rem;color:var(--t2);border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:rgba(255,255,255,.015)}
+.tm{font-family:'JetBrains Mono',monospace;font-size:.78rem}
+.tg{color:var(--emerald)}.ta{color:var(--amber)}.tr2{color:var(--red)}.ti{color:var(--indigo-l)}.tc2{color:var(--cyan)}
+.ex{background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:1.4rem;overflow:hidden}
+.ex-hd{display:flex;align-items:center;gap:.68rem;padding:.78rem 1.15rem;background:var(--card2);border-bottom:1px solid var(--border)}
+.ex-num{font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:700;color:var(--cyan);background:var(--cg);border:1px solid var(--cb);padding:.16rem .46rem;border-radius:4px}
+.ex-ttl{font-size:.85rem;font-weight:600;color:var(--t1)}
+.ex-body{padding:1.15rem}
+.ex-q{background:var(--surface);border-radius:var(--rs);padding:.78rem .95rem;margin-bottom:.95rem;font-size:.85rem;border-left:2px solid var(--cyan);color:var(--t2)}
+.ex-q .ql{font-size:.61rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--cyan);margin-bottom:.28rem}
+.sol{font-size:.61rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--emerald);margin-bottom:.45rem}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:.95rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.85rem;margin-bottom:.95rem}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1.05rem}
+.sc .sl{font-size:.67rem;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:.22rem}
+.sc .sv{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:700;color:var(--t1)}
+.sc .ss{font-size:.72rem;color:var(--t3);margin-top:.1rem}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:.78rem;margin-bottom:1rem}
+.fc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:.9rem 1.05rem}
+.ft{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t3);margin-bottom:.42rem}
+.fm{font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--emerald);font-weight:500;line-height:1.5;margin-bottom:.3rem}
+.fd{font-size:.75rem;color:var(--t3)}
+.mg{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:.72rem}
+.mc{background:linear-gradient(135deg,var(--card) 0%,var(--card2) 100%);border:1px solid var(--border2);border-radius:var(--r);padding:.9rem 1.05rem;position:relative;overflow:hidden}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--indigo),var(--violet))}
+.mc-n{font-family:'JetBrains Mono',monospace;font-size:1.85rem;font-weight:700;color:var(--border2);line-height:1;position:absolute;right:.8rem;top:.55rem}
+.mc-t{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;color:var(--t1);margin-bottom:.38rem}
+.mc-v{font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--indigo-l);line-height:1.55}
+.trace{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:.9rem}
+.tr-hd,.tr-row{display:grid}
+.tr-hd{background:var(--card2);border-bottom:1px solid var(--border)}
+.tr-row{border-bottom:1px solid var(--border)}
+.tr-row:last-child{border-bottom:none}
+.tr-row:hover{background:rgba(99,102,241,.04)}
+.tr-row.hl{background:rgba(99,102,241,.09)}
+.tc-cell{padding:.43rem .72rem;font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--t2);border-right:1px solid var(--border)}
+.tc-cell:last-child{border-right:none}
+.tr-hd .tc-cell{color:var(--t3);font-size:.66rem;font-weight:700;text-transform:uppercase}
+.pyq{background:var(--card);border:1px solid var(--border);border-radius:var(--r);margin-bottom:1.05rem;overflow:hidden}
+.pyq-hd{background:var(--card2);padding:.76rem 1.15rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:.85rem}
+.pyq-ttl{font-size:.85rem;font-weight:600;color:var(--t1)}
+.pyq-yr{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--rose);background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.25);padding:.16rem .46rem;border-radius:4px;white-space:nowrap}
+.pyq-body{padding:1.05rem 1.15rem}
+.ic{font-family:'JetBrains Mono',monospace;font-size:.82em;background:var(--card);border:1px solid var(--border);padding:.1rem .33rem;border-radius:3px;color:var(--indigo-l)}
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.69rem;font-weight:600;padding:.17rem .46rem;border-radius:4px;margin:.08rem}
+.tg-g{background:var(--eg);color:var(--emerald);border:1px solid var(--eb)}
+.tg-r{background:var(--rg);color:var(--red);border:1px solid var(--rb)}
+.tg-a{background:var(--ag);color:var(--amber);border:1px solid var(--ab)}
+.tg-i{background:var(--ig);color:var(--indigo-l);border:1px solid var(--ib)}
+ul,ol{padding-left:1.35rem;color:var(--t2);margin-bottom:.78rem}
+li{margin-bottom:.28rem;font-size:.87rem;line-height:1.65}
+.btop{position:fixed;bottom:1.6rem;right:1.6rem;background:var(--card);border:1px solid var(--border);color:var(--t2);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.95rem;transition:all .15s;z-index:200;text-decoration:none}
+.btop:hover{background:var(--card2);color:var(--t1)}
+.div{height:1px;background:var(--border);margin:1.2rem 0}
+@media(max-width:900px){body{flex-direction:column}.sb{position:static;width:100%;min-height:auto;border-right:none;border-bottom:1px solid var(--border)}.ng{display:none}.main{margin-left:0;padding:0 1.05rem 3rem}.g2,.g3{grid-template-columns:1fr}.fg{grid-template-columns:1fr}.mg{grid-template-columns:1fr}}
+@media(max-width:600px){.hero h1{font-size:1.55rem}.hs-row{gap:1.2rem}}
+</style>
+</head>
+<body>
+<!-- SIDEBAR -->
+<nav class="sb" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-tag">CSE 4203 · IUT · SWE 2<sup>nd</sup> Semester</div>
+    <h2>Discrete Math<br>Ch.3 Study Guide</h2>
+  </div>
+  <div class="ng"><div class="ngl">Overview</div>
+    <a class="nl" href="#hero"><span class="dot"></span>Introduction &amp; Complexity Bar</a>
+  </div>
+  <div class="ng"><div class="ngl">§3.1 Algorithms</div>
+    <a class="nl" href="#s31"><span class="dot"></span>Definition &amp; Properties</a>
+    <div class="nsub">
+      <a class="nl" href="#max"><span class="dot"></span>Finding Maximum</a>
+      <a class="nl" href="#linear"><span class="dot"></span>Linear Search</a>
+      <a class="nl" href="#binary"><span class="dot"></span>Binary Search</a>
+      <a class="nl" href="#bubble"><span class="dot"></span>Bubble Sort</a>
+      <a class="nl" href="#insert"><span class="dot"></span>Insertion Sort</a>
+      <a class="nl" href="#greedy"><span class="dot"></span>Greedy Algorithms</a>
+      <a class="nl" href="#halting"><span class="dot"></span>Halting Problem</a>
+    </div>
+  </div>
+  <div class="ng"><div class="ngl">§3.2 Growth of Functions</div>
+    <a class="nl" href="#s32"><span class="dot"></span>Big-O Notation</a>
+    <div class="nsub">
+      <a class="nl" href="#omega"><span class="dot"></span>Big-Ω Notation</a>
+      <a class="nl" href="#theta"><span class="dot"></span>Big-Θ Notation</a>
+      <a class="nl" href="#order"><span class="dot"></span>Function Ordering</a>
+      <a class="nl" href="#theorems"><span class="dot"></span>Sum &amp; Product Theorems</a>
+    </div>
+  </div>
+  <div class="ng"><div class="ngl">§3.3 Complexity</div>
+    <a class="nl" href="#s33"><span class="dot"></span>Time Complexity</a>
+    <div class="nsub">
+      <a class="nl" href="#analysis"><span class="dot"></span>Algorithm Analysis</a>
+      <a class="nl" href="#classes"><span class="dot"></span>Complexity Classes</a>
+      <a class="nl" href="#pvsnp"><span class="dot"></span>P vs NP</a>
+    </div>
+  </div>
+  <div class="ng"><div class="ngl">Study Resources</div>
+    <a class="nl" href="#formulas"><span class="dot"></span>Formula Cheat Sheet</a>
+    <a class="nl" href="#memorize"><span class="dot"></span>What to Memorize</a>
+    <a class="nl" href="#mistakes"><span class="dot"></span>Common Mistakes</a>
+    <a class="nl" href="#examples"><span class="dot"></span>Solved Textbook Examples</a>
+    <a class="nl" href="#exercises"><span class="dot"></span>Exercise Solutions</a>
+    <a class="nl" href="#pyq"><span class="dot"></span>Past Year Questions</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hero-tag">📘 CSE 4203 · Chapter 3 · Rosen Discrete Mathematics pp.201–267</div>
+  <h1>Algorithms, Growth of Functions<br>&amp; Complexity of Algorithms</h1>
+  <p class="hero-sub">Complete exam-ready study guide — every concept explained, all textbook examples solved, exercises covered, common mistakes flagged, and past year questions analysed.</p>
+  <div class="hs-row">
+    <div class="hs"><div class="n">3</div><div class="l">Core Sections</div></div>
+    <div class="hs"><div class="n">16+</div><div class="l">Examples Solved</div></div>
+    <div class="hs"><div class="n">25+</div><div class="l">Exercises Solved</div></div>
+    <div class="hs"><div class="n">10</div><div class="l">Mistakes Listed</div></div>
+  </div>
+  <div class="cbar">
+    <div class="cbar-lbl">⚡ Complexity Growth Order — Slowest to Fastest (memorise this!)</div>
+    <div class="citems">
+      <div class="ci"><div class="ci-chip cc1">$O(1)$</div><div class="ci-sub">Constant</div></div>
+      <div class="carr">→</div>
+      <div class="ci"><div class="ci-chip cc2">$O(\log n)$</div><div class="ci-sub">Logarithmic</div></div>
+      <div class="carr">→</div>
+      <div class="ci"><div class="ci-chip cc3">$O(n)$</div><div class="ci-sub">Linear</div></div>
+      <div class="carr">→</div>
+      <div class="ci"><div class="ci-chip cc3">$O(n \log n)$</div><div class="ci-sub">Linearithmic</div></div>
+      <div class="carr">→</div>
+      <div class="ci"><div class="ci-chip cc4">$O(n^2)$</div><div class="ci-sub">Quadratic</div></div>
+      <div class="carr">→</div>
+      <div class="ci"><div class="ci-chip cc5">$O(2^n)$</div><div class="ci-sub">Exponential</div></div>
+      <div class="carr">→</div>
+      <div class="ci"><div class="ci-chip cc7">$O(n!)$</div><div class="ci-sub">Factorial</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ §3.1 ALGORITHMS ═══ -->
+<div class="sec" id="s31">
+  <div class="sec-hd"><div class="badge bi">§ 3.1</div>
+    <div class="sec-tg"><h2>Algorithms</h2>
+      <p>Formal definitions, searching &amp; sorting algorithms, greedy paradigms, and the halting problem.</p>
+    </div>
+  </div>
+
+  <!-- Definition & Properties -->
+  <div class="ssec">
+    <div class="ssec-t">Definition &amp; Properties</div>
+    <div class="def-box">
+      <div class="dl">📖 Definition 1</div>
+      <p style="color:var(--t1);margin:0;font-size:.94rem"><strong>An algorithm</strong> is a <strong>finite sequence of precise instructions</strong> for performing a computation or for solving a problem.</p>
+    </div>
+    <p>The word <em>algorithm</em> derives from <strong>al-Khowarizmi</strong>, a 9th-century mathematician. His works on Hindu numerals became the basis of modern decimal notation and arithmetic procedures.</p>
+    <h4>Seven Properties Every Algorithm Must Have</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Property</th><th>What it means</th><th>Violation example</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Input</strong></td><td>Input values from a specified set</td><td>—</td></tr>
+        <tr><td><strong>Output</strong></td><td>Produces output values solving the problem</td><td>—</td></tr>
+        <tr><td><strong>Definiteness</strong></td><td>Every step is precisely and unambiguously defined</td><td><span class="ic">x := either a or b</span> — undefined!</td></tr>
+        <tr><td><strong>Correctness</strong></td><td>Produces correct output for every valid input</td><td>Returns wrong maximum</td></tr>
+        <tr><td><strong>Finiteness</strong></td><td>Terminates after a finite number of steps</td><td><span class="ic">while n&gt;0: n:=2n</span> — infinite loop!</td></tr>
+        <tr><td><strong>Effectiveness</strong></td><td>Each step executable in finite time</td><td><span class="ic">m:=1/n</span> when n could be 0</td></tr>
+        <tr><td><strong>Generality</strong></td><td>Works for ALL problems of the intended form</td><td>Hard-coded for one specific input only</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- Finding Maximum -->
+  <div class="ssec" id="max">
+    <div class="ssec-t">Algorithm 1 — Finding the Maximum Element</div>
+    <div class="cw">
+      <div class="ch"><span class="cn">Algorithm 1 — Max Element</span><span class="cbadge">Θ(n) · exactly 2n−1 comparisons</span></div>
+      <div class="cb2"><pre><span class="kw">procedure</span> <span class="fn">max</span>(a₁, a₂, …, aₙ : integers)
+  max := a₁
+  <span class="kw">for</span> i := <span class="nm">2</span> <span class="kw">to</span> n
+    <span class="kw">if</span> max &lt; aᵢ <span class="kw">then</span> max := aᵢ
+  <span class="kw">return</span> max   <span class="cm">{ max is the largest element }</span></pre></div>
+    </div>
+    <div class="note"><div class="nl2">⚡ Exact Count Derivation</div>
+      <p>2 comparisons per element (i≤n and max&lt;aᵢ) for elements 2 through n, plus 1 exit comparison = 2(n−1) + 1 = <strong>2n − 1</strong> comparisons. Note: this count is the same for every input — no best/worst case distinction!</p>
+    </div>
+    <h4>Trace — Find max of 8, 4, 11, 3, 10</h4>
+    <div class="trace">
+      <div class="tr-hd" style="grid-template-columns:1fr 1fr 2fr 1fr">
+        <div class="tc-cell">i</div><div class="tc-cell">aᵢ</div><div class="tc-cell">max &lt; aᵢ?</div><div class="tc-cell">max</div>
+      </div>
+      <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">init</div><div class="tc-cell">—</div><div class="tc-cell">set max = a₁</div><div class="tc-cell" style="color:var(--amber)">8</div></div>
+      <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">2</div><div class="tc-cell">4</div><div class="tc-cell">8 &lt; 4? No</div><div class="tc-cell">8</div></div>
+      <div class="tr-row hl" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">3</div><div class="tc-cell">11</div><div class="tc-cell">8 &lt; 11? ✓ Yes → update</div><div class="tc-cell" style="color:var(--amber)">11</div></div>
+      <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">4</div><div class="tc-cell">3</div><div class="tc-cell">11 &lt; 3? No</div><div class="tc-cell">11</div></div>
+      <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">5</div><div class="tc-cell">10</div><div class="tc-cell">11 &lt; 10? No</div><div class="tc-cell" style="color:var(--emerald)">11 ✓</div></div>
+    </div>
+  </div>
+
+  <!-- Linear Search -->
+  <div class="ssec" id="linear">
+    <div class="ssec-t">Algorithm 2 — Linear Search (Sequential Search)</div>
+    <p>Scan list one element at a time, comparing x with each element until found or list exhausted.</p>
+    <div class="cw">
+      <div class="ch"><span class="cn">Algorithm 2 — Linear Search</span><span class="cbadge">Worst O(n) · Best O(1)</span></div>
+      <div class="cb2"><pre><span class="kw">procedure</span> <span class="fn">linear_search</span>(x: integer, a₁, a₂, …, aₙ: distinct integers)
+  i := <span class="nm">1</span>
+  <span class="kw">while</span> (i ≤ n <span class="kw">and</span> x ≠ aᵢ)
+    i := i + <span class="nm">1</span>
+  <span class="kw">if</span> i ≤ n <span class="kw">then</span> location := i
+  <span class="kw">else</span> location := <span class="nm">0</span>   <span class="cm">{ 0 means not found }</span>
+  <span class="kw">return</span> location</pre></div>
+    </div>
+    <div class="g2">
+      <div class="sc"><div class="sl">Worst Case (x not in list)</div><div class="sv">2n + 2</div><div class="ss">2n loop comparisons + 1 exit + 1 outside loop</div></div>
+      <div class="sc"><div class="sl">Best Case (x = a₁)</div><div class="sv">3</div><div class="ss">1 inside loop (i≤n) + 1 (x≠a₁ — false) + 1 outside</div></div>
+    </div>
+  </div>
+
+  <!-- Binary Search -->
+  <div class="ssec" id="binary">
+    <div class="ssec-t">Algorithm 3 — Binary Search</div>
+    <div class="err"><div class="nl2">🚨 CRITICAL: Sorted List Required!</div>
+      <p><strong>Binary search ONLY works on a sorted list.</strong> Applying it to an unsorted list gives wrong answers. Always verify the list is in increasing order first.</p>
+    </div>
+    <p>Repeatedly compare x with the middle element, then restrict search to either the left or right half. Each comparison cuts the remaining search space in half.</p>
+    <div class="cw">
+      <div class="ch"><span class="cn">Algorithm 3 — Binary Search</span><span class="cbadge">Worst Θ(log n) · ≤ 2⌊log n⌋+2 comparisons</span></div>
+      <div class="cb2"><pre><span class="kw">procedure</span> <span class="fn">binary_search</span>(x: integer, a₁, a₂, …, aₙ: increasing integers)
+  i := <span class="nm">1</span>   <span class="cm">{ left endpoint }</span>
+  j := n   <span class="cm">{ right endpoint }</span>
+  <span class="kw">while</span> i &lt; j
+    m := ⌊(i + j) / <span class="nm">2</span>⌋
+    <span class="kw">if</span> x &gt; aₘ <span class="kw">then</span> i := m + <span class="nm">1</span>   <span class="cm">{ x is in right half }</span>
+    <span class="kw">else</span>           j := m       <span class="cm">{ x is in left half }</span>
+  <span class="kw">if</span> x = aᵢ <span class="kw">then</span> location := i
+  <span class="kw">else</span>           location := <span class="nm">0</span>
+  <span class="kw">return</span> location</pre></div>
+    </div>
+    <div class="tip"><div class="nl2">💡 Complexity Explanation</div>
+      <p>For n = 2<sup>k</sup>: each comparison halves the list. After k halvings we reach a single element. Total = 2 comparisons per stage × k stages + 2 final comparisons = <strong>2k + 2 = 2 log n + 2</strong> comparisons.</p>
+    </div>
+    <h4>Linear vs Binary Search — Quick Comparison</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Feature</th><th>Linear Search</th><th>Binary Search</th></tr></thead>
+      <tbody>
+        <tr><td>Input requirement</td><td>None — works on any list</td><td class="tr2"><strong>Must be sorted!</strong></td></tr>
+        <tr><td>Worst case</td><td class="ta tm">Θ(n) — 2n+2 comparisons</td><td class="tg tm">Θ(log n) — 2⌊log n⌋+2</td></tr>
+        <tr><td>For n = 1024</td><td class="ta">Up to 2050 comparisons</td><td class="tg">At most 22 comparisons</td></tr>
+        <tr><td>For n = 1,000,000</td><td class="ta">Up to 2,000,002</td><td class="tg">At most 42 comparisons!</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- Bubble Sort -->
+  <div class="ssec" id="bubble">
+    <div class="ssec-t">Algorithm 4 — Bubble Sort</div>
+    <p>In each pass, compare adjacent pairs and swap if out of order. Each pass guarantees the largest unsorted element "bubbles up" to its final position.</p>
+    <div class="cw">
+      <div class="ch"><span class="cn">Algorithm 4 — Bubble Sort</span><span class="cbadge">Always Θ(n²) · exactly (n−1)n/2 comparisons</span></div>
+      <div class="cb2"><pre><span class="kw">procedure</span> <span class="fn">bubblesort</span>(a₁, …, aₙ : real numbers, n ≥ <span class="nm">2</span>)
+  <span class="kw">for</span> i := <span class="nm">1</span> <span class="kw">to</span> n − <span class="nm">1</span>
+    <span class="kw">for</span> j := <span class="nm">1</span> <span class="kw">to</span> n − i
+      <span class="kw">if</span> aⱼ &gt; aⱼ₊₁ <span class="kw">then</span> interchange aⱼ and aⱼ₊₁
+  <span class="cm">{ a₁, …, aₙ is now in increasing order }</span></pre></div>
+    </div>
+    <p><strong>Why (n−1)n/2?</strong> Pass 1 does n−1 comparisons, Pass 2 does n−2, …, Pass n−1 does 1. Total = (n−1)+(n−2)+…+1 = n(n−1)/2.</p>
+    <div class="note"><div class="nl2">⚠️ Bubble Sort Is Always Θ(n²)</div>
+      <p>The algorithm as written does ALL passes even if the list is already sorted. There is no early exit. This makes it Θ(n²) in all cases, not just worst case. (A modified version with an early exit flag can be O(n) best case.)</p>
+    </div>
+    <h4>Trace — Sort: 3, 2, 4, 1, 5</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Pass</th><th>List after pass</th><th>What's guaranteed sorted</th></tr></thead>
+      <tbody>
+        <tr><td class="tm">Start</td><td class="tm">3, 2, 4, 1, 5</td><td>nothing</td></tr>
+        <tr><td class="tm">Pass 1</td><td class="tm">2, 3, 1, 4, <span class="tg">5</span></td><td>5 (largest) at end</td></tr>
+        <tr><td class="tm">Pass 2</td><td class="tm">2, 1, 3, <span class="tg">4, 5</span></td><td>4 and 5 in place</td></tr>
+        <tr><td class="tm">Pass 3</td><td class="tm">1, 2, <span class="tg">3, 4, 5</span></td><td>3, 4, 5 in place</td></tr>
+        <tr><td class="tm">Pass 4</td><td class="tm tg">1, 2, 3, 4, 5 ✓</td><td>All sorted!</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- Insertion Sort -->
+  <div class="ssec" id="insert">
+    <div class="ssec-t">Algorithm 5 — Insertion Sort</div>
+    <p>For each element j (from 2 to n), insert it into the correct position among the already-sorted first j−1 elements, shifting others right.</p>
+    <div class="cw">
+      <div class="ch"><span class="cn">Algorithm 5 — Insertion Sort</span><span class="cbadge">Worst Θ(n²) · Best O(n)</span></div>
+      <div class="cb2"><pre><span class="kw">procedure</span> <span class="fn">insertion_sort</span>(a₁, a₂, …, aₙ : real numbers, n ≥ <span class="nm">2</span>)
+  <span class="kw">for</span> j := <span class="nm">2</span> <span class="kw">to</span> n
+    i := <span class="nm">1</span>
+    <span class="kw">while</span> aⱼ &gt; aᵢ          <span class="cm">{ find insertion point }</span>
+      i := i + <span class="nm">1</span>
+    m := aⱼ
+    <span class="kw">for</span> k := <span class="nm">0</span> <span class="kw">to</span> j − i − <span class="nm">1</span>
+      aⱼ₋ₖ := aⱼ₋ₖ₋₁       <span class="cm">{ shift right to make room }</span>
+    aᵢ := m               <span class="cm">{ insert element }</span>
+  <span class="cm">{ a₁, …, aₙ is now in increasing order }</span></pre></div>
+    </div>
+    <p><strong>Worst-case count:</strong> At step j, at most j comparisons are needed → total = 2+3+…+n = n(n+1)/2 − 1.</p>
+    <h4>Bubble vs Insertion Sort</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Feature</th><th>Bubble Sort</th><th>Insertion Sort</th></tr></thead>
+      <tbody>
+        <tr><td>Worst case</td><td class="ta tm">Θ(n²)</td><td class="ta tm">Θ(n²)</td></tr>
+        <tr><td>Best case</td><td class="tr2 tm">Θ(n²) — always!</td><td class="tg tm">O(n) — already sorted</td></tr>
+        <tr><td>Exact worst count</td><td class="tm">n(n−1)/2</td><td class="tm">n(n+1)/2 − 1</td></tr>
+        <tr><td>Practical speed</td><td>Generally slower</td><td>Better for nearly sorted data</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- Greedy -->
+  <div class="ssec" id="greedy">
+    <div class="ssec-t">Greedy Algorithms</div>
+    <div class="def-box"><div class="dl">📖 Greedy Algorithm</div>
+      <p style="color:var(--t1);margin:0;font-size:.92rem">A <strong>greedy algorithm</strong> makes the locally optimal (best-looking) choice at each step, without reconsidering previous choices or exploring all possible paths.</p>
+    </div>
+    <div class="g2">
+      <div>
+        <h4>Cashier's Algorithm (Making Change)</h4>
+        <div class="cw">
+          <div class="ch"><span class="cn">Algorithm 7 — Cashier's Algorithm</span></div>
+          <div class="cb2"><pre><span class="kw">for</span> i := <span class="nm">1</span> <span class="kw">to</span> r
+  dᵢ := <span class="nm">0</span>
+  <span class="kw">while</span> n ≥ cᵢ
+    dᵢ := dᵢ + <span class="nm">1</span>   <span class="cm">{ use coin of value cᵢ }</span>
+    n  := n  − cᵢ</pre></div>
+        </div>
+        <p>Always pick the largest denomination coin ≤ remaining amount. <strong>Optimal</strong> for quarters, dimes, nickels, pennies. <span class="tag tg-r">NOT always optimal</span> for arbitrary coin sets.</p>
+      </div>
+      <div>
+        <h4>Scheduling Talks (Earliest Finish)</h4>
+        <div class="cw">
+          <div class="ch"><span class="cn">Algorithm 8 — Greedy Scheduler</span></div>
+          <div class="cb2"><pre>Sort talks by finish time eᵢ
+S := ∅
+<span class="kw">for</span> j := <span class="nm">1</span> <span class="kw">to</span> n
+  <span class="kw">if</span> talk j compatible with S
+    S := S ∪ {talk j}
+<span class="kw">return</span> S</pre></div>
+        </div>
+        <p>Pick talk with <strong>earliest ending time</strong> compatible with schedule. This is <span class="tag tg-g">provably optimal</span> — maximises number of scheduled talks.</p>
+      </div>
+    </div>
+    <div class="err"><div class="nl2">🚨 When Greedy Fails — Know These Counter-Examples!</div>
+      <p><strong>Earliest Start Time fails:</strong> Talk A: 8AM–12PM, B: 9AM–10AM, C: 11AM–12PM. Greedy (earliest start) picks A → blocks B and C → only 1 talk. Optimal: B+C = 2 talks.<br><br>
+      <strong>Shortest Duration fails:</strong> Talk A: 8AM–9:15AM, B: 9AM–10AM, C: 9:45AM–11AM. Greedy picks B (1 hr shortest) → blocks both others → only 1 talk. Optimal: A+C = 2 talks.</p>
+    </div>
+  </div>
+
+  <!-- Halting Problem -->
+  <div class="ssec" id="halting">
+    <div class="ssec-t">The Halting Problem — An Unsolvable Problem</div>
+    <div class="def-box"><div class="dl">📖 Halting Problem</div>
+      <p style="color:var(--t1);margin:0;font-size:.92rem">Does there exist an algorithm H(P, I) that correctly determines for any program P and input I whether P will <strong>halt</strong> or <strong>loop forever</strong>?</p>
+    </div>
+    <p><strong>Answer: NO. Alan Turing proved in 1936 that no such algorithm can exist.</strong> Proof is by contradiction using a clever self-referential construction.</p>
+    <div class="card">
+      <h4 style="margin-top:0">Turing's Proof (Proof by Contradiction)</h4>
+      <ol>
+        <li><strong>Assume</strong> H(P, I) exists and works correctly for all P, I.</li>
+        <li><strong>Construct</strong> K(P): runs H(P,P); if output = "loops forever" → K(P) <em>halts</em>; if output = "halts" → K(P) <em>loops forever</em>. K does the opposite of what H predicts when a program runs on itself.</li>
+        <li><strong>Run K on itself:</strong> Evaluate K(K).
+          <ul>
+            <li>If H(K,K) = "loops forever" → K(K) halts (by definition of K) → H is wrong. Contradiction!</li>
+            <li>If H(K,K) = "halts" → K(K) loops forever → H is wrong. Contradiction!</li>
+          </ul>
+        </li>
+        <li>Either way H gives the wrong answer. So <strong>no such H can exist. ∎</strong></li>
+      </ol>
+    </div>
+    <div class="tip"><div class="nl2">💡 Significance</div>
+      <p>The halting problem proves there exist problems that are <strong>inherently unsolvable</strong> — not just computationally hard, but mathematically impossible to solve with any algorithm.</p>
+    </div>
+  </div>
+</div><!-- end §3.1 -->
+
+<!-- ═══ §3.2 GROWTH OF FUNCTIONS ═══ -->
+<div class="sec" id="s32">
+  <div class="sec-hd"><div class="badge be">§ 3.2</div>
+    <div class="sec-tg"><h2>The Growth of Functions</h2>
+      <p>Big-O, Big-Ω, and Big-Θ notation — how to use them, prove them, and the relationships between them.</p>
+    </div>
+  </div>
+
+  <!-- Big-O -->
+  <div class="ssec">
+    <div class="ssec-t">Big-O Notation — Upper Bound</div>
+    <div class="def-box"><div class="dl">📖 Definition 1 — Big-O</div>
+      <p style="color:var(--t1);margin:0;font-size:.92rem">f(x) is <strong>O(g(x))</strong> if there exist constants <strong>C</strong> and <strong>k</strong> (called <em>witnesses</em>) such that
+      $$|f(x)| \leq C|g(x)| \quad \text{whenever } x > k$$
+      Read as: <em>"f of x is big-oh of g of x."</em></p>
+    </div>
+    <p><strong>Intuition:</strong> f grows no faster than a constant multiple of g for sufficiently large x. Big-O is an <strong>upper bound</strong> on the growth rate.</p>
+
+    <div class="card">
+      <h4 style="margin-top:0">How to Find Witnesses — Step by Step</h4>
+      <ol>
+        <li><strong>Choose k</strong> (often k = 1 or k = 2) where f(x) is easy to bound.</li>
+        <li><strong>For x &gt; k, replace each lower-order term</strong> in f(x) with the dominant term g(x). Example: replace x with x², replace 1 with x², etc.</li>
+        <li><strong>Sum up</strong> all the replaced terms to get C · g(x).</li>
+        <li><strong>State clearly</strong>: "Witnesses are C = ___ and k = ___".</li>
+      </ol>
+    </div>
+    <div class="err"><div class="nl2">🚨 f(x) = O(g(x)) is NOT a real equality!</div>
+      <p>The "=" in "f(x) = O(g(x))" is a notational convention, not true equality. You cannot do algebra with it normally. Better notation is f(x) ∈ O(g(x)). Many functions can belong to the same Big-O class.</p>
+    </div>
+
+    <h4>Important Big-O Results Table</h4>
+    <div class="tw"><table>
+      <thead><tr><th>f(x)</th><th>Is O(…)</th><th>C, k witnesses</th><th>How to see it</th></tr></thead>
+      <tbody>
+        <tr><td class="tm">x² + 2x + 1</td><td class="tm tg">O(x²)</td><td class="tm">C=4, k=1</td><td>For x&gt;1: 2x≤2x², 1≤x² → total ≤ 4x²</td></tr>
+        <tr><td class="tm">7x²</td><td class="tm tg">O(x³)</td><td class="tm">C=1, k=7</td><td>For x&gt;7: 7x² &lt; x·x² = x³</td></tr>
+        <tr><td class="tm">1+2+…+n</td><td class="tm tg">O(n²)</td><td class="tm">C=1, k=1</td><td>Each of n terms ≤ n, so sum ≤ n²</td></tr>
+        <tr><td class="tm">n!</td><td class="tm tg">O(nⁿ)</td><td class="tm">C=1, k=1</td><td>Each factor in n! is ≤ n</td></tr>
+        <tr><td class="tm">log(n!)</td><td class="tm tg">O(n log n)</td><td class="tm">C=1, k=1</td><td>log(n!) ≤ log(nⁿ) = n log n</td></tr>
+        <tr><td class="tm">n</td><td class="tm tg">O(2ⁿ)</td><td class="tm">C=1, k=1</td><td>n &lt; 2ⁿ for all positive n (provable by induction)</td></tr>
+        <tr><td class="tm">log n</td><td class="tm tg">O(n)</td><td class="tm">C=1, k=1</td><td>log n &lt; n for all n ≥ 1</td></tr>
+        <tr><td class="tm">n²</td><td class="tm tr2">NOT O(n)</td><td class="tm">—</td><td>n² ≤ Cn → n ≤ C, impossible for all large n</td></tr>
+        <tr><td class="tm">x³</td><td class="tm tr2">NOT O(7x²)</td><td class="tm">—</td><td>x³ ≤ 7Cx² → x ≤ 7C, impossible for all large x</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- Big-Omega -->
+  <div class="ssec" id="omega">
+    <div class="ssec-t">Big-Ω Notation — Lower Bound</div>
+    <div class="def-box"><div class="dl">📖 Definition 2 — Big-Ω</div>
+      <p style="color:var(--t1);margin:0;font-size:.92rem">f(x) is <strong>Ω(g(x))</strong> if there exist constants <strong>C &gt; 0</strong> and <strong>k</strong> such that
+      $$|f(x)| \geq C|g(x)| \quad \text{whenever } x > k$$</p>
+    </div>
+    <p><strong>Intuition:</strong> f grows at least as fast as a positive constant multiple of g. Big-Ω is a <strong>lower bound</strong> on the growth rate.</p>
+    <div class="tip"><div class="nl2">💡 Key Connection — Convert Between O and Ω</div>
+      <p><strong>f(x) is Ω(g(x)) if and only if g(x) is O(f(x)).</strong><br>
+      This means: to prove f is Ω(g), you can equivalently show that g is O(f).</p>
+    </div>
+    <p><strong>Example:</strong> 8x³ + 5x² + 7 is Ω(x³). Proof: For all x &gt; 0, we have 8x³ + 5x² + 7 ≥ 8x³ ≥ 1·x³. So C = 1, k = 0. (Equivalently, x³ is O(8x³ + 5x² + 7).)</p>
+  </div>
+
+  <!-- Big-Theta -->
+  <div class="ssec" id="theta">
+    <div class="ssec-t">Big-Θ Notation — Tight (Exact) Bound</div>
+    <div class="def-box"><div class="dl">📖 Definition 3 — Big-Θ</div>
+      <p style="color:var(--t1);margin:0;font-size:.92rem">f(x) is <strong>Θ(g(x))</strong> if f(x) is <strong>both O(g(x)) AND Ω(g(x))</strong>. Equivalently, there exist positive constants C₁, C₂ and k such that
+      $$C_1|g(x)| \leq |f(x)| \leq C_2|g(x)| \quad \text{whenever } x > k$$</p>
+    </div>
+    <p>Big-Θ gives the <strong>exact order of growth</strong>. When f(x) is Θ(g(x)), we say f and g are of the <strong>same order</strong>.</p>
+    <h4>Three Notations Side-by-Side</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Notation</th><th>Bound type</th><th>Mathematical condition</th><th>Analogy</th></tr></thead>
+      <tbody>
+        <tr><td class="tm">O(g)</td><td>Upper bound only</td><td class="tm">|f| ≤ C|g| for x &gt; k</td><td>f ≤ Cg (asymptotically)</td></tr>
+        <tr><td class="tm">Ω(g)</td><td>Lower bound only</td><td class="tm">|f| ≥ C|g| for x &gt; k</td><td>f ≥ Cg (asymptotically)</td></tr>
+        <tr><td class="tm">Θ(g)</td><td><strong>Both bounds</strong></td><td class="tm">C₁|g| ≤ |f| ≤ C₂|g|</td><td>C₁g ≤ f ≤ C₂g (asymptotically)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="note"><div class="nl2">⚠️ Most Misused Concept</div>
+      <p>Textbooks and professors often say "O(n²)" when they really mean "Θ(n²)". Big-O only guarantees an upper bound. The bubble sort IS O(n²) but also O(n³) and O(2ⁿ) — these are all valid but not useful. The tight bound Θ(n²) is the informative one. <strong>When you know both bounds, use Θ.</strong></p>
+    </div>
+    <h4>Example: Show 3x² + 8x log x is Θ(x²)</h4>
+    <p><strong>Upper bound (O):</strong> For x &gt; 1: 8x log x ≤ 8x² (since log x ≤ x). So 3x² + 8x log x ≤ 11x². → C₂ = 11, k = 1.</p>
+    <p><strong>Lower bound (Ω):</strong> 3x² + 8x log x ≥ 3x² for all x &gt; 0. → C₁ = 3, k = 0.</p>
+    <p>Combined: 3x² ≤ 3x² + 8x log x ≤ 11x² for x &gt; 1. <strong>Therefore Θ(x²). ✓</strong></p>
+  </div>
+
+  <!-- Function Ordering -->
+  <div class="ssec" id="order">
+    <div class="ssec-t">Ordering Functions by Growth Rate</div>
+    <div class="card">
+      <h4 style="margin-top:0;margin-bottom:.75rem">The Fundamental Growth Hierarchy</h4>
+      $$1 \ll \log n \ll n \ll n\log n \ll n^2 \ll n^3 \ll 2^n \ll n!$$
+      <p style="font-size:.8rem;color:var(--t3);margin-top:.6rem;margin-bottom:0">Each function is Big-O of the next. None of the reverse relationships hold.</p>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Function</th><th>Type</th><th>Is O(?) but NOT Ω(?)</th></tr></thead>
+      <tbody>
+        <tr><td class="tm tg">1</td><td>Constant</td><td>O of everything above</td></tr>
+        <tr><td class="tm tc2">log n</td><td>Logarithmic</td><td>O(n^d) for any d &gt; 0, but n^d NOT O(log n)</td></tr>
+        <tr><td class="tm ti">n</td><td>Linear</td><td>O(n log n), but n log n NOT O(n)</td></tr>
+        <tr><td class="tm ti">n log n</td><td>Linearithmic</td><td>O(n²), but n² NOT O(n log n)</td></tr>
+        <tr><td class="tm ta">n²</td><td>Quadratic</td><td>O(2ⁿ), but 2ⁿ NOT O(n²)</td></tr>
+        <tr><td class="tm tr2">2ⁿ</td><td>Exponential</td><td>O(n!), but n! NOT O(2ⁿ)</td></tr>
+        <tr><td class="tm tr2">n!</td><td>Factorial</td><td>Dominates everything above</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tip"><div class="nl2">💡 Log Base Never Matters in Big-O!</div>
+      <p>$\log_a n$ is $\Theta(\log_b n)$ for any bases $a, b > 1$, because $\log_a n = \frac{\log_b n}{\log_b a}$ — they differ only by a constant. In Big-O analysis, always write just "log n".</p>
+    </div>
+  </div>
+
+  <!-- Theorems -->
+  <div class="ssec" id="theorems">
+    <div class="ssec-t">Theorems for Combining Big-O Estimates</div>
+    <div class="g2">
+      <div class="def-box" style="border-left-color:var(--emerald)">
+        <div class="dl" style="color:var(--emerald)">📖 Theorem 2 — Sum</div>
+        <p style="color:var(--t1);margin-bottom:.5rem;font-size:.88rem">If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$, then:</p>
+        <p style="color:var(--t1);font-family:'JetBrains Mono',monospace;font-size:.83rem;margin:0">(f₁ + f₂)(x) is O(max(|g₁(x)|, |g₂(x)|))</p>
+      </div>
+      <div class="def-box" style="border-left-color:var(--amber)">
+        <div class="dl" style="color:var(--amber)">📖 Theorem 3 — Product</div>
+        <p style="color:var(--t1);margin-bottom:.5rem;font-size:.88rem">If $f_1$ is $O(g_1)$ and $f_2$ is $O(g_2)$, then:</p>
+        <p style="color:var(--t1);font-family:'JetBrains Mono',monospace;font-size:.83rem;margin:0">(f₁ · f₂)(x) is O(g₁(x) · g₂(x))</p>
+      </div>
+    </div>
+    <div class="tip"><div class="nl2">💡 Corollary (Special Case)</div>
+      <p>If both $f_1(x)$ and $f_2(x)$ are $O(g(x))$, then $(f_1 + f_2)(x)$ is also $O(g(x))$. [Because max(g, g) = g.]</p>
+    </div>
+    <h4>Theorem 4 — Leading Term Dominates Polynomials</h4>
+    <p>If $f(x) = a_n x^n + a_{n-1}x^{n-1} + \cdots + a_1 x + a_0$ with $a_n \neq 0$, then $f(x)$ is $\Theta(x^n)$.</p>
+    <p><strong>Implication:</strong> The leading term always determines the exact order of a polynomial. E.g., $3x^8 + 10x^7 + 221x^2 + 1444$ is $\Theta(x^8)$. You can ignore all lower-order terms and constant coefficients.</p>
+  </div>
+</div><!-- end §3.2 -->
+
+<!-- ═══ §3.3 COMPLEXITY ═══ -->
+<div class="sec" id="s33">
+  <div class="sec-hd"><div class="badge ba">§ 3.3</div>
+    <div class="sec-tg"><h2>Complexity of Algorithms</h2>
+      <p>Time complexity analysis, exact operation counts, average vs worst case, and the P vs NP problem.</p>
+    </div>
+  </div>
+
+  <div class="ssec" id="analysis">
+    <div class="ssec-t">Time Complexity — Exact Analysis</div>
+    <p>Time complexity measures the number of <strong>basic operations</strong> (comparisons, additions, multiplications) used by an algorithm as a function of input size n, not actual clock time. This avoids hardware-dependent measurements.</p>
+    <div class="g2">
+      <div class="def-box" style="border-left-color:var(--cyan)"><div class="dl" style="color:var(--cyan)">Worst-Case</div>
+        <p style="color:var(--t1);margin:0;font-size:.88rem">Maximum number of operations over ALL inputs of size n. Gives a guaranteed upper bound.</p>
+      </div>
+      <div class="def-box" style="border-left-color:var(--violet)"><div class="dl" style="color:var(--violet)">Average-Case</div>
+        <p style="color:var(--t1);margin:0;font-size:.88rem">Average operations over all inputs (assuming uniform distribution). Usually harder to compute.</p>
+      </div>
+    </div>
+    <h4>Complete Complexity Table — All Key Algorithms</h4>
+    <div class="tw"><table>
+      <thead><tr><th>Algorithm</th><th>Exact Count</th><th>Worst Case</th><th>Average Case</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Finding Maximum</strong></td>
+          <td class="tm">2n − 1 comparisons</td>
+          <td class="tm tg">Θ(n)</td>
+          <td class="tm tg">Θ(n)</td>
+          <td>Same count for every input!</td>
+        </tr>
+        <tr>
+          <td><strong>Linear Search</strong></td>
+          <td class="tm">2n+2 (worst), n+2 (avg)</td>
+          <td class="tm ta">Θ(n)</td>
+          <td class="tm ta">Θ(n)</td>
+          <td>Avg assumes x is in the list</td>
+        </tr>
+        <tr>
+          <td><strong>Binary Search</strong></td>
+          <td class="tm">≤ 2⌊log n⌋ + 2</td>
+          <td class="tm tg">Θ(log n)</td>
+          <td class="tm tg">Θ(log n)</td>
+          <td>Requires sorted list</td>
+        </tr>
+        <tr>
+          <td><strong>Bubble Sort</strong></td>
+          <td class="tm">n(n−1)/2 always</td>
+          <td class="tm tr2">Θ(n²)</td>
+          <td class="tm tr2">Θ(n²)</td>
+          <td>No early exit → always n(n−1)/2</td>
+        </tr>
+        <tr>
+          <td><strong>Insertion Sort</strong></td>
+          <td class="tm">n(n+1)/2−1 (worst)</td>
+          <td class="tm tr2">Θ(n²)</td>
+          <td class="tm ta">Θ(n²)</td>
+          <td>Best case O(n) for sorted input</td>
+        </tr>
+        <tr>
+          <td><strong>n×n Matrix Mult</strong></td>
+          <td class="tm">n³ mult, n²(n−1) add</td>
+          <td class="tm tr2">Θ(n³)</td>
+          <td class="tm tr2">Θ(n³)</td>
+          <td>From definition; Strassen: O(n^2.81)</td>
+        </tr>
+        <tr>
+          <td><strong>Boolean Matrix n×n</strong></td>
+          <td class="tm">2n³ bit ops</td>
+          <td class="tm tr2">Θ(n³)</td>
+          <td class="tm tr2">Θ(n³)</td>
+          <td>n ORs + n ANDs per entry</td>
+        </tr>
+      </tbody>
+    </table></div>
+
+    <h4>Average-Case Linear Search Derivation</h4>
+    <p>Assume x is always in the list and equally likely to be at any position i (i = 1 to n):</p>
+    <ul>
+      <li>If x = aᵢ: uses 2i + 1 comparisons (2 per loop step for i steps + 1 outside loop)</li>
+      <li>Average comparisons = $\frac{\sum_{i=1}^{n}(2i+1)}{n} = \frac{2 \cdot \frac{n(n+1)}{2} + n}{n} = \frac{n(n+1)+n}{n} = n + 2$</li>
+      <li>So average-case is <strong>n + 2 = Θ(n)</strong></li>
+    </ul>
+  </div>
+
+  <!-- Matrix Chain -->
+  <div class="ssec">
+    <div class="ssec-t">Matrix Chain Multiplication</div>
+    <p>When multiplying a chain of matrices A₁A₂…Aₙ, the order of multiplication affects the total number of operations. Use associativity to choose the cheapest order. The cost of multiplying an (m×k) matrix by a (k×n) matrix is <strong>m·k·n multiplications</strong>.</p>
+    <div class="card">
+      <h4 style="margin-top:0">Example: Multiply A₁(30×20) · A₂(20×40) · A₃(40×10)</h4>
+      <p><strong>Option 1: (A₁A₂)A₃</strong></p>
+      <ul>
+        <li>A₁A₂: 30×20×40 = <strong>24,000</strong> mult → gives 30×40 matrix</li>
+        <li>(A₁A₂)A₃: 30×40×10 = <strong>12,000</strong> mult</li>
+        <li>Total: <strong>36,000</strong> multiplications</li>
+      </ul>
+      <p><strong>Option 2: A₁(A₂A₃)</strong></p>
+      <ul>
+        <li>A₂A₃: 20×40×10 = <strong>8,000</strong> mult → gives 20×10 matrix</li>
+        <li>A₁(A₂A₃): 30×20×10 = <strong>6,000</strong> mult</li>
+        <li>Total: <strong>14,000</strong> multiplications ← <span class="tag tg-g">OPTIMAL</span></li>
+      </ul>
+      <p>Computing A₂A₃ first saves 36,000 − 14,000 = <strong>22,000 multiplications!</strong></p>
+    </div>
+  </div>
+
+  <!-- Complexity Classes -->
+  <div class="ssec" id="classes">
+    <div class="ssec-t">Complexity Classes &amp; Terminology</div>
+    <div class="tw"><table>
+      <thead><tr><th>Complexity</th><th>Terminology</th><th>Example</th><th>For n=1000</th></tr></thead>
+      <tbody>
+        <tr><td class="tm tg">Θ(1)</td><td><strong>Constant</strong></td><td>Array index, hash table lookup</td><td class="tg">Instant always</td></tr>
+        <tr><td class="tm tc2">Θ(log n)</td><td><strong>Logarithmic</strong></td><td>Binary search</td><td class="tg">~10 operations</td></tr>
+        <tr><td class="tm ti">Θ(n)</td><td><strong>Linear</strong></td><td>Linear search, find max</td><td class="tg">1,000 operations</td></tr>
+        <tr><td class="tm ti">Θ(n log n)</td><td><strong>Linearithmic</strong></td><td>Merge sort, heap sort</td><td class="tg">~10,000 operations</td></tr>
+        <tr><td class="tm ta">Θ(n²)</td><td><strong>Quadratic</strong> (Polynomial)</td><td>Bubble sort, insertion sort</td><td class="ta">1,000,000 operations</td></tr>
+        <tr><td class="tm ta">Θ(n³)</td><td><strong>Cubic</strong> (Polynomial)</td><td>Matrix multiplication</td><td class="ta">10⁹ operations</td></tr>
+        <tr><td class="tm tr2">Θ(2ⁿ)</td><td><strong>Exponential</strong></td><td>All truth assignments (SAT brute force)</td><td class="tr2">10³⁰⁰ — impossible!</td></tr>
+        <tr><td class="tm tr2">Θ(n!)</td><td><strong>Factorial</strong></td><td>Traveling salesman (brute force)</td><td class="tr2">10²⁵⁶⁷ — astronomical!</td></tr>
+      </tbody>
+    </table></div>
+    <div class="g2">
+      <div class="tip" style="margin-bottom:0"><div class="nl2">✅ Tractable (Class P)</div>
+        <p>Problems solvable in <strong>polynomial time</strong> (O(n^k) for some k). Practical for reasonable input. Searching, sorting, shortest path are all tractable.</p>
+      </div>
+      <div class="err" style="margin-bottom:0"><div class="nl2">❌ Intractable</div>
+        <p>No known polynomial-time algorithm. May require exponential or factorial time. Brute-force solutions are impractical for large n.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- P vs NP -->
+  <div class="ssec" id="pvsnp">
+    <div class="ssec-t">P versus NP — The $1,000,000 Question</div>
+    <div class="tw"><table>
+      <thead><tr><th>Class</th><th>Definition</th><th>Key property</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="tm tg"><strong>P</strong></td>
+          <td>Solvable in polynomial time</td>
+          <td>Can FIND solutions fast</td>
+          <td>Sorting, search, matrix mult</td>
+        </tr>
+        <tr>
+          <td class="tm ta"><strong>NP</strong></td>
+          <td>Verifiable in polynomial time</td>
+          <td>Can CHECK solutions fast</td>
+          <td>SAT, Hamiltonian Path, Knapsack</td>
+        </tr>
+        <tr>
+          <td class="tm tr2"><strong>NP-Complete</strong></td>
+          <td>Hardest problems in NP</td>
+          <td>If ANY NP-complete problem is in P, then ALL NP problems are in P</td>
+          <td>SAT (Cook-Levin), 3-Colorability</td>
+        </tr>
+      </tbody>
+    </table></div>
+    <div class="note"><div class="nl2">🏆 Millennium Prize Problem</div>
+      <p><strong>"Does P = NP?"</strong> is one of 7 Millennium Prize Problems with a <strong>$1,000,000 reward</strong> from the Clay Mathematics Institute. The vast majority of computer scientists believe P ≠ NP — meaning some problems can be verified quickly but never solved quickly — but this remains unproved. The Satisfiability Problem (SAT) was the first proved NP-Complete (Cook-Levin Theorem, early 1970s). Over <strong>3,000 NP-complete problems</strong> are now known.</p>
+    </div>
+  </div>
+</div><!-- end §3.3 -->
+
+<!-- ═══ FORMULA CHEAT SHEET ═══ -->
+<div class="sec" id="formulas">
+  <div class="sec-hd"><div class="badge bp">📋</div>
+    <div class="sec-tg"><h2>Complete Formula Cheat Sheet</h2>
+      <p>Every formula, definition, and count you need — all in one place.</p>
+    </div>
+  </div>
+  <div class="ssec">
+    <div class="ssec-t">Exact Operation Counts</div>
+    <div class="fg">
+      <div class="fc"><div class="ft">Maximum Finding</div><div class="fm">Comparisons = 2n − 1</div><div class="fd">Always exactly this. No best/worst case difference.</div></div>
+      <div class="fc"><div class="ft">Linear Search — Worst</div><div class="fm">Comparisons = 2n + 2</div><div class="fd">When x is NOT in the list</div></div>
+      <div class="fc"><div class="ft">Linear Search — Average</div><div class="fm">Comparisons = n + 2</div><div class="fd">When x is in the list, uniform distribution</div></div>
+      <div class="fc"><div class="ft">Binary Search — Worst</div><div class="fm">Comparisons ≤ 2⌊log n⌋ + 2</div><div class="fd">For n = 2ᵏ: exactly 2k+2 comparisons</div></div>
+      <div class="fc"><div class="ft">Bubble Sort</div><div class="fm">Comparisons = n(n−1)/2</div><div class="fd">= 1+2+…+(n−1). Always this exact count!</div></div>
+      <div class="fc"><div class="ft">Insertion Sort — Worst</div><div class="fm">Comparisons = n(n+1)/2 − 1</div><div class="fd">= 2+3+…+n. For reverse-sorted input.</div></div>
+      <div class="fc"><div class="ft">Matrix Mult (n×n)</div><div class="fm">n³ mult + n²(n−1) add</div><div class="fd">n² entries, each needs n mult and n−1 add</div></div>
+      <div class="fc"><div class="ft">Boolean Matrix (n×n)</div><div class="fm">2n³ bit operations</div><div class="fd">n ORs + n ANDs per entry × n² entries</div></div>
+    </div>
+  </div>
+  <div class="ssec">
+    <div class="ssec-t">Big-O, Big-Ω, Big-Θ — Key Definitions</div>
+    <div class="fg">
+      <div class="fc"><div class="ft">Big-O (Upper Bound)</div><div class="fm">|f(x)| ≤ C|g(x)|, x &gt; k</div><div class="fd">C, k are witnesses. f grows no faster than C·g.</div></div>
+      <div class="fc"><div class="ft">Big-Ω (Lower Bound)</div><div class="fm">|f(x)| ≥ C|g(x)|, x &gt; k</div><div class="fd">C &gt; 0. f grows at least as fast as C·g.</div></div>
+      <div class="fc"><div class="ft">Big-Θ (Tight Bound)</div><div class="fm">C₁|g| ≤ |f| ≤ C₂|g|, x &gt; k</div><div class="fd">C₁,C₂ &gt; 0. f and g have same order of growth.</div></div>
+      <div class="fc"><div class="ft">Key Equivalence</div><div class="fm">f is Ω(g) ⟺ g is O(f)</div><div class="fd">Use this to easily convert between the two!</div></div>
+    </div>
+  </div>
+  <div class="ssec">
+    <div class="ssec-t">Important Summation &amp; Growth Results</div>
+    <div class="fg">
+      <div class="fc"><div class="ft">Sum Formula</div><div class="fm">1+2+…+n = n(n+1)/2</div><div class="fd">Used in sorting analysis. This is Θ(n²).</div></div>
+      <div class="fc"><div class="ft">Factorial Upper Bound</div><div class="fm">n! is O(nⁿ)</div><div class="fd">Each factor ≤ n, so product ≤ nⁿ</div></div>
+      <div class="fc"><div class="ft">Log-Factorial</div><div class="fm">log(n!) is O(n log n)</div><div class="fd">Also Θ(n log n) — tight both ways</div></div>
+      <div class="fc"><div class="ft">Exponential Dominates</div><div class="fm">n^d is O(bⁿ), b&gt;1, d&gt;0</div><div class="fd">But bⁿ is NOT O(n^d) — exponential beats polynomial</div></div>
+      <div class="fc"><div class="ft">Log vs Power</div><div class="fm">(log n)^c is O(n^d), c,d&gt;0</div><div class="fd">Any power of log &lt; any positive power of n</div></div>
+      <div class="fc"><div class="ft">Factorial dominates</div><div class="fm">cⁿ is O(n!), c&gt;1</div><div class="fd">But n! is NOT O(cⁿ) — factorial beats all exponentials</div></div>
+    </div>
+  </div>
+  <div class="ssec">
+    <div class="ssec-t">Growth Hierarchy — The Most Important Thing to Memorise</div>
+    <div class="card">
+      $$1 \;\ll\; \log n \;\ll\; \sqrt{n} \;\ll\; n \;\ll\; n\log n \;\ll\; n^2 \;\ll\; n^3 \;\ll\; 2^n \;\ll\; 3^n \;\ll\; n!$$
+      <p style="font-size:.79rem;color:var(--t3);margin-top:.65rem;margin-bottom:0">Each is Big-O of the next. None of the reverse relationships hold. ≪ means "is Big-O of, but not Θ of".</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ WHAT TO MEMORIZE ═══ -->
+<div class="sec" id="memorize">
+  <div class="sec-hd"><div class="badge bi">🧠</div>
+    <div class="sec-tg"><h2>What to Memorize for the Exam</h2>
+      <p>Flash-card style — the exact things examiners test.</p>
+    </div>
+  </div>
+  <div class="mg">
+    <div class="mc"><div class="mc-n">01</div><div class="mc-t">Max Element Count</div><div class="mc-v">2n − 1 comparisons<br>= Θ(n) always</div></div>
+    <div class="mc"><div class="mc-n">02</div><div class="mc-t">Binary Search Bound</div><div class="mc-v">≤ 2⌊log n⌋ + 2<br>= Θ(log n)</div></div>
+    <div class="mc"><div class="mc-n">03</div><div class="mc-t">Bubble Sort Count</div><div class="mc-v">n(n−1)/2 comparisons<br>= Θ(n²) — always!</div></div>
+    <div class="mc"><div class="mc-n">04</div><div class="mc-t">Insertion Sort Worst</div><div class="mc-v">n(n+1)/2 − 1<br>= Θ(n²)</div></div>
+    <div class="mc"><div class="mc-n">05</div><div class="mc-t">Sum Formula</div><div class="mc-v">1+2+…+n<br>= n(n+1)/2</div></div>
+    <div class="mc"><div class="mc-n">06</div><div class="mc-t">log(n!) Big-O</div><div class="mc-v">log(n!) is O(n log n)<br>n! is O(nⁿ)</div></div>
+    <div class="mc"><div class="mc-n">07</div><div class="mc-t">Big-O Definition</div><div class="mc-v">|f(x)| ≤ C|g(x)|<br>for all x &gt; k</div></div>
+    <div class="mc"><div class="mc-n">08</div><div class="mc-t">Ω ⟺ O Connection</div><div class="mc-v">f is Ω(g)<br>⟺ g is O(f)</div></div>
+    <div class="mc"><div class="mc-n">09</div><div class="mc-t">Growth Order</div><div class="mc-v">1≪ log n ≪ n ≪<br>n log n ≪ n² ≪ 2ⁿ ≪ n!</div></div>
+    <div class="mc"><div class="mc-n">10</div><div class="mc-t">Algorithm Properties</div><div class="mc-v">Input·Output·Definite<br>Correct·Finite·Effective·General</div></div>
+    <div class="mc"><div class="mc-n">11</div><div class="mc-t">Binary Search Req.</div><div class="mc-v">List MUST be<br>sorted first!</div></div>
+    <div class="mc"><div class="mc-n">12</div><div class="mc-t">Greedy Cashier</div><div class="mc-v">Optimal for Q,D,N,P<br>NOT arbitrary coin sets</div></div>
+    <div class="mc"><div class="mc-n">13</div><div class="mc-t">Scheduling</div><div class="mc-v">Earliest FINISH time<br>= optimal greedy choice</div></div>
+    <div class="mc"><div class="mc-n">14</div><div class="mc-t">Halting Problem</div><div class="mc-v">UNSOLVABLE — proved<br>by Turing (1936)</div></div>
+    <div class="mc"><div class="mc-n">15</div><div class="mc-t">Matrix n×n</div><div class="mc-v">n³ multiplications<br>n²(n−1) additions</div></div>
+    <div class="mc"><div class="mc-n">16</div><div class="mc-t">P vs NP Prize</div><div class="mc-v">$1,000,000 reward<br>Still unsolved!</div></div>
+  </div>
+</div>
+
+<!-- ═══ COMMON MISTAKES ═══ -->
+<div class="sec" id="mistakes">
+  <div class="sec-hd"><div class="badge br">⚠️</div>
+    <div class="sec-tg"><h2>10 Common Mistakes &amp; Confusions</h2>
+      <p>These are the most frequent errors in Discrete Math exams — study these carefully!</p>
+    </div>
+  </div>
+  <div class="err"><div class="nl2">❌ Mistake 1 — Confusing Big-O with Big-Θ</div>
+    <p>Saying "O(n²)" is ONLY an upper bound. The bubble sort is O(n²), but it's also O(n³) and O(2ⁿ) — all technically correct but useless. <strong>Use Big-Θ when you know the exact growth rate.</strong> Exams often ask for "big-Θ estimate" — don't give a weaker Big-O!</p>
+  </div>
+  <div class="err"><div class="nl2">❌ Mistake 2 — Witnesses Not Provided</div>
+    <p>To <em>prove</em> f(x) is O(g(x)), you MUST explicitly state the constants C and k. Writing "f grows like g" is NOT a proof. Always state: <strong>"For x &gt; k, we have |f(x)| ≤ C|g(x)|. Witnesses: C = ___, k = ___."</strong></p>
+  </div>
+  <div class="err"><div class="nl2">❌ Mistake 3 — Binary Search on Unsorted Lists</div>
+    <p>Binary search is ONLY valid for <strong>sorted</strong> lists. Applied to an unsorted list it gives wrong answers — it doesn't "search," it just jumps to incorrect sub-lists. <em>Always check: "Is this list sorted?" before using binary search.</em></p>
+  </div>
+  <div class="err"><div class="nl2">❌ Mistake 4 — n! is O(2ⁿ) [BACKWARDS!]</div>
+    <p>The correct direction is: 2ⁿ is O(n!), but <strong>n! is NOT O(2ⁿ)</strong>. Factorial grows MUCH faster than exponential. In the hierarchy: …2ⁿ ≪ n!. Never say n! is "bounded above" by an exponential.</p>
+  </div>
+  <div class="err"><div class="nl2">❌ Mistake 5 — Greedy Always Gives Optimal Solution</div>
+    <p>Greedy algorithms are NOT always optimal! The cashier's algorithm fails without nickels. For talk scheduling, earliest-start and shortest-duration criteria are NOT optimal. Only provably-correct greedy algorithms (like earliest-finish scheduling) are guaranteed optimal.</p>
+  </div>
+  <div class="err"><div class="nl2">❌ Mistake 6 — f(x) = O(g(x)) is a Real Equation</div>
+    <p>This is a <strong>notational convention</strong>, NOT true equality. You can't do algebra: "since x² = O(x²) and x³ = O(x³), therefore x² = x³" is nonsense. Better: f(x) ∈ O(g(x)). The "=" just means "belongs to the class O(g(x))".</p>
+  </div>
+  <div class="err"><div class="nl2">❌ Mistake 7 — Log Base Matters in Big-O</div>
+    <p>It does NOT matter! log₂(n), log₁₀(n), and ln(n) are all Θ of each other (differ only by a constant: log₂n = log₁₀n / log₁₀2). In Big-O, always write just "log n" without specifying the base.</p>
+  </div>
+  <div class="err"><div class="nl2">❌ Mistake 8 — Bubble Sort Has O(n) Best Case</div>
+    <p>As written in Algorithm 4, bubble sort <strong>always</strong> does exactly n(n−1)/2 comparisons — it doesn't check if the list is already sorted. Its complexity is Θ(n²) for ALL inputs. Only a modified version with an early-exit flag can achieve O(n) best case.</p>
+  </div>
+  <div class="err"><div class="nl2">❌ Mistake 9 — Insertion Sort Worst Count is n(n+1)/2</div>
+    <p>The correct worst-case is <strong>n(n+1)/2 − 1</strong>. We start from j = 2 (not j = 1), so the sum is 2+3+…+n = n(n+1)/2 − 1. The "−1" comes from the missing first term. Don't use n(n+1)/2.</p>
+  </div>
+  <div class="err"><div class="nl2">❌ Mistake 10 — Complexity Translates Directly to Time</div>
+    <p>Θ(n²) does NOT tell you the actual seconds taken. An algorithm with 1000n² ops may be slower than n³ for small n. Big-Θ only tells you the <em>rate of growth</em> as n → ∞. The actual constants matter for practical performance.</p>
+  </div>
+</div>
+
+<!-- ═══ SOLVED TEXTBOOK EXAMPLES ═══ -->
+<div class="sec" id="examples">
+  <div class="sec-hd"><div class="badge bc">✏️</div>
+    <div class="sec-tg"><h2>All Textbook Examples — Fully Solved</h2>
+      <p>Every example from §3.1, §3.2, and §3.3 with complete working and explanations.</p>
+    </div>
+  </div>
+
+  <div class="ssec"><div class="ssec-t">§3.1 Examples</div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 1</span><span class="ex-ttl">Finding Maximum — Trace on 8, 4, 11, 3, 10</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Describe an algorithm for finding the maximum value in a finite sequence of integers. Trace it on: 8, 4, 11, 3, 10.</div>
+        <div class="sol">✅ Solution</div>
+        <p>Use Algorithm 1 (max). Initialize max = a₁ = 8, then compare each subsequent element.</p>
+        <div class="trace">
+          <div class="tr-hd" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">i</div><div class="tc-cell">aᵢ</div><div class="tc-cell">max &lt; aᵢ ?</div><div class="tc-cell">max</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">init</div><div class="tc-cell">—</div><div class="tc-cell">set max = 8</div><div class="tc-cell" style="color:var(--amber)">8</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">2</div><div class="tc-cell">4</div><div class="tc-cell">8 &lt; 4? No</div><div class="tc-cell">8</div></div>
+          <div class="tr-row hl" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">3</div><div class="tc-cell">11</div><div class="tc-cell">8 &lt; 11? Yes → update!</div><div class="tc-cell" style="color:var(--amber)">11</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">4</div><div class="tc-cell">3</div><div class="tc-cell">11 &lt; 3? No</div><div class="tc-cell">11</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">5</div><div class="tc-cell">10</div><div class="tc-cell">11 &lt; 10? No</div><div class="tc-cell" style="color:var(--emerald)">11 ✓</div></div>
+        </div>
+        <p><strong>Answer: max = 11.</strong> Total comparisons used = 2(5−1)+1 = <strong>9 = 2n−1</strong> for n=5.</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 2</span><span class="ex-ttl">Verifying Algorithm 1 Has All 7 Properties</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Show that Algorithm 1 (finding maximum) satisfies all seven required properties of an algorithm.</div>
+        <div class="sol">✅ Solution</div>
+        <div class="tw"><table>
+          <thead><tr><th>Property</th><th>✓?</th><th>Justification</th></tr></thead>
+          <tbody>
+            <tr><td>Input</td><td class="tg">✓</td><td>Accepts any sequence of n integers a₁, …, aₙ</td></tr>
+            <tr><td>Output</td><td class="tg">✓</td><td>Returns max = largest element</td></tr>
+            <tr><td>Definiteness</td><td class="tg">✓</td><td>Only assignments, a for-loop, and a conditional — all unambiguous</td></tr>
+            <tr><td>Correctness</td><td class="tg">✓</td><td>max starts at a₁ and is updated whenever a larger element is found; at termination it holds the true maximum</td></tr>
+            <tr><td>Finiteness</td><td class="tg">✓</td><td>Loop runs exactly n−1 times, then terminates</td></tr>
+            <tr><td>Effectiveness</td><td class="tg">✓</td><td>Only comparisons and assignments — each finishes in finite time</td></tr>
+            <tr><td>Generality</td><td class="tg">✓</td><td>Works for any finite sequence of integers, any length n ≥ 1</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 3</span><span class="ex-ttl">Binary Search — Trace for x=19</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Use binary search to find 19 in the sorted list: 1 2 3 5 6 7 8 10 12 13 15 16 18 19 20 22 (n=16).</div>
+        <div class="sol">✅ Solution</div>
+        <p>n = 16 = 2⁴. Maximum comparisons = 2(4)+2 = <strong>10</strong>.</p>
+        <div class="trace">
+          <div class="tr-hd" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">i</div><div class="tc-cell">j</div><div class="tc-cell">m=⌊(i+j)/2⌋</div><div class="tc-cell">a[m]</div><div class="tc-cell">Decision</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">1</div><div class="tc-cell">16</div><div class="tc-cell">8</div><div class="tc-cell">10</div><div class="tc-cell">19 &gt; 10 → i = 9</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">9</div><div class="tc-cell">16</div><div class="tc-cell">12</div><div class="tc-cell">16</div><div class="tc-cell">19 &gt; 16 → i = 13</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">13</div><div class="tc-cell">16</div><div class="tc-cell">14</div><div class="tc-cell">19</div><div class="tc-cell">19 ≤ 19 → j = 14</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">13</div><div class="tc-cell">14</div><div class="tc-cell">13</div><div class="tc-cell">18</div><div class="tc-cell">19 &gt; 18 → i = 14</div></div>
+          <div class="tr-row hl" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">14</div><div class="tc-cell">14</div><div class="tc-cell">—</div><div class="tc-cell">19</div><div class="tc-cell" style="color:var(--emerald)">i=j, exit. a₁₄=19=x → location = 14 ✓</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 4</span><span class="ex-ttl">Bubble Sort — Sort 3, 2, 4, 1, 5</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Use the bubble sort to put 3, 2, 4, 1, 5 into increasing order. Show all steps.</div>
+        <div class="sol">✅ Solution</div>
+        <p>n=5, so (5−1)×5/2 = <strong>10 total comparisons</strong>.</p>
+        <div class="tw"><table>
+          <thead><tr><th>Pass</th><th>Comparisons &amp; Swaps</th><th>List after pass</th></tr></thead>
+          <tbody>
+            <tr><td>Start</td><td>—</td><td class="tm">3, 2, 4, 1, 5</td></tr>
+            <tr><td>Pass 1 (4 cmps)</td><td>3↔2 swap; 3&lt;4 ok; 4↔1 swap; 4&lt;5 ok</td><td class="tm">2, 3, 1, 4, <span class="tg">5</span></td></tr>
+            <tr><td>Pass 2 (3 cmps)</td><td>2&lt;3 ok; 3↔1 swap; 3&lt;4 ok</td><td class="tm">2, 1, 3, <span class="tg">4, 5</span></td></tr>
+            <tr><td>Pass 3 (2 cmps)</td><td>2↔1 swap; 2&lt;3 ok</td><td class="tm">1, 2, <span class="tg">3, 4, 5</span></td></tr>
+            <tr><td>Pass 4 (1 cmp)</td><td>1&lt;2 ok</td><td class="tm tg">1, 2, 3, 4, 5 ✓</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 5</span><span class="ex-ttl">Insertion Sort — Sort 3, 2, 4, 1, 5</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Use the insertion sort to put 3, 2, 4, 1, 5 into increasing order.</div>
+        <div class="sol">✅ Solution</div>
+        <div class="tw"><table>
+          <thead><tr><th>Step (j)</th><th>Element</th><th>Action</th><th>List (sorted part in blue)</th></tr></thead>
+          <tbody>
+            <tr><td>Start</td><td>—</td><td>—</td><td class="tm">3, 2, 4, 1, 5</td></tr>
+            <tr><td>j = 2</td><td>2</td><td>2 &lt; 3 → insert before 3</td><td class="tm"><span class="ti">2, 3</span>, 4, 1, 5</td></tr>
+            <tr><td>j = 3</td><td>4</td><td>4 &gt; 2, 4 &gt; 3 → stays at end</td><td class="tm"><span class="ti">2, 3, 4</span>, 1, 5</td></tr>
+            <tr><td>j = 4</td><td>1</td><td>1 &lt; 2 → insert at start</td><td class="tm"><span class="ti">1, 2, 3, 4</span>, 5</td></tr>
+            <tr><td>j = 5</td><td>5</td><td>5 &gt; 1,2,3,4 → stays at end</td><td class="tm tg">1, 2, 3, 4, 5 ✓</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 6</span><span class="ex-ttl">Cashier's Algorithm — 67 Cents Change</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Use the cashier's greedy algorithm to make change for 67 cents using quarters (25¢), dimes (10¢), nickels (5¢), and pennies (1¢).</div>
+        <div class="sol">✅ Solution</div>
+        <div class="trace">
+          <div class="tr-hd" style="grid-template-columns:1fr 1fr 1fr 1fr"><div class="tc-cell">Step</div><div class="tc-cell">Coin</div><div class="tc-cell">Remaining</div><div class="tc-cell">Coins used</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr"><div class="tc-cell">1</div><div class="tc-cell" style="color:var(--amber)">Quarter 25¢</div><div class="tc-cell">42¢</div><div class="tc-cell">1Q</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr"><div class="tc-cell">2</div><div class="tc-cell" style="color:var(--amber)">Quarter 25¢</div><div class="tc-cell">17¢</div><div class="tc-cell">2Q</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr"><div class="tc-cell">3</div><div class="tc-cell" style="color:var(--cyan)">Dime 10¢</div><div class="tc-cell">7¢</div><div class="tc-cell">2Q 1D</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr"><div class="tc-cell">4</div><div class="tc-cell" style="color:var(--emerald)">Nickel 5¢</div><div class="tc-cell">2¢</div><div class="tc-cell">2Q 1D 1N</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr"><div class="tc-cell">5</div><div class="tc-cell">Penny 1¢</div><div class="tc-cell">1¢</div><div class="tc-cell">2Q 1D 1N 1P</div></div>
+          <div class="tr-row hl" style="grid-template-columns:1fr 1fr 1fr 1fr"><div class="tc-cell">6</div><div class="tc-cell">Penny 1¢</div><div class="tc-cell" style="color:var(--emerald)">0¢ ✓</div><div class="tc-cell" style="color:var(--emerald)">2Q 1D 1N 2P = 6 coins</div></div>
+        </div>
+        <p><strong>Result: 2 quarters + 1 dime + 1 nickel + 2 pennies = 6 coins.</strong> This is provably optimal for the standard coin set.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ssec"><div class="ssec-t">§3.2 Examples</div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 1</span><span class="ex-ttl">Show x²+2x+1 is O(x²)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Show that $f(x) = x^2 + 2x + 1$ is $O(x^2)$.</div>
+        <div class="sol">✅ Solution</div>
+        <p><strong>Strategy:</strong> Find C and k such that $x^2 + 2x + 1 \leq Cx^2$ for all $x > k$.</p>
+        <p><strong>For $x > 1$:</strong> We know $x < x^2$ and $1 < x^2$. Therefore:</p>
+        $$x^2 + 2x + 1 \leq x^2 + 2x^2 + x^2 = 4x^2$$
+        <p><strong>Witnesses: C = 4, k = 1.</strong> So $f(x) = x^2 + 2x + 1$ is $O(x^2)$. ✓</p>
+        <div class="tip"><div class="nl2">Alternative witnesses</div><p>For $x > 2$: $2x \leq x^2$ and $1 \leq x^2$, giving total $\leq 3x^2$. So C = 3, k = 2 also works. Multiple valid witnesses always exist.</p></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 2</span><span class="ex-ttl">Show 7x² is O(x³)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Show that $7x^2$ is $O(x^3)$.</div>
+        <div class="sol">✅ Solution</div>
+        <p>For $x > 7$: multiply both sides of $x > 7$ by $x^2$ (positive): $x^3 > 7x^2$.</p>
+        <p>So $7x^2 < x^3 = 1 \cdot x^3$ whenever $x > 7$.</p>
+        <p><strong>Witnesses: C = 1, k = 7.</strong> Therefore $7x^2$ is $O(x^3)$. ✓</p>
+        <div class="note"><div class="nl2">⚠️ Use the Tightest Estimate</div><p>Note that $7x^2$ is also $O(x^2)$ (tighter) and $O(2^x)$ (weaker). The best Big-O estimate uses the smallest reference function, which here is $O(x^2)$. But $O(x^3)$ is still technically correct.</p></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 3</span><span class="ex-ttl">Show n² is NOT O(n)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Show that $n^2$ is NOT $O(n)$.</div>
+        <div class="sol">✅ Solution — Proof by Contradiction</div>
+        <p><strong>Assume</strong> $n^2$ is $O(n)$. Then ∃ constants C, k such that $n^2 \leq Cn$ for all $n > k$.</p>
+        <p>Dividing both sides by $n$ (valid since $n > 0$): $n \leq C$ for all $n > k$.</p>
+        <p>But $n$ can be made arbitrarily large, so $n \leq C$ cannot hold for all large $n$. <strong>Contradiction!</strong></p>
+        <p><strong>Therefore $n^2$ is NOT $O(n)$. ∎</strong></p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 4</span><span class="ex-ttl">Show x³ is NOT O(7x²)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Is $x^3$ equal to $O(7x^2)$?</div>
+        <div class="sol">✅ Solution — Proof by Contradiction</div>
+        <p><strong>Assume</strong> $x^3$ is $O(7x^2)$. Then ∃ C, k: $x^3 \leq C(7x^2) = 7Cx^2$ for all $x > k$.</p>
+        <p>Dividing by $x^2 > 0$: $x \leq 7C$ for all $x > k$.</p>
+        <p>But $x$ grows without bound — impossible. <strong>Contradiction!</strong></p>
+        <p><strong>Therefore $x^3$ is NOT $O(7x^2)$. ∎</strong></p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 5</span><span class="ex-ttl">Sum 1+2+…+n is O(n²)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Show that $1 + 2 + \cdots + n$ is $O(n^2)$.</div>
+        <div class="sol">✅ Solution</div>
+        <p>Each of the $n$ terms in the sum is at most $n$:</p>
+        $$1 + 2 + \cdots + n \leq \underbrace{n + n + \cdots + n}_{n \text{ terms}} = n^2$$
+        <p><strong>Witnesses: C = 1, k = 1.</strong> Therefore the sum is $O(n^2)$. ✓</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 6</span><span class="ex-ttl">Big-O for n! and log(n!)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Find Big-O estimates for $n!$ and $\log(n!)$.</div>
+        <div class="sol">✅ Solution</div>
+        <p><strong>For $n!$:</strong> Each factor in $n! = 1 \cdot 2 \cdot 3 \cdots n$ is at most $n$, so:</p>
+        $$n! \leq \underbrace{n \cdot n \cdots n}_{n} = n^n$$
+        <p>So $n!$ is $O(n^n)$. Witnesses: C = 1, k = 1.</p>
+        <p><strong>For $\log(n!)$:</strong> Take log of $n! \leq n^n$:</p>
+        $$\log(n!) \leq \log(n^n) = n\log n$$
+        <p>So $\log(n!)$ is $O(n\log n)$. Witnesses: C = 1, k = 1. ✓</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 7</span><span class="ex-ttl">n is O(2ⁿ), and log n is O(n)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Using the inequality $n < 2^n$ (for positive integers), show $n$ is $O(2^n)$ and $\log n$ is $O(n)$.</div>
+        <div class="sol">✅ Solution</div>
+        <p>Since $n < 2^n$ for all $n \geq 1$: $n \leq 1 \cdot 2^n$. <strong>Witnesses C=1, k=1 → $n$ is $O(2^n)$.</strong> ✓</p>
+        <p>Taking $\log_2$ of both sides of $n < 2^n$:</p>
+        $$\log_2 n < \log_2(2^n) = n$$
+        <p>So $\log n < n$ for all $n \geq 1$. <strong>Witnesses C=1, k=1 → $\log n$ is $O(n)$.</strong> ✓</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 8</span><span class="ex-ttl">Arrange Functions by Growth Order</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Arrange in order (each is Big-O of the next): $8\sqrt{n},\; (\log n)^2,\; 2n\log n,\; n!,\; (1.1)^n,\; n^2$.</div>
+        <div class="sol">✅ Solution</div>
+        <ul>
+          <li>$(\log n)^2$: Any power of log grows slower than any positive power of n → <strong>slowest</strong></li>
+          <li>$8\sqrt{n} = 8n^{1/2}$: A fractional power of n</li>
+          <li>$2n\log n$: Faster than $n^c$ for $c < 1$, slower than $n^c$ for $c > 1$</li>
+          <li>$n^2$: Higher polynomial (c=2)</li>
+          <li>$(1.1)^n$: Exponential dominates all polynomials</li>
+          <li>$n!$: Factorial dominates all exponentials → <strong>fastest</strong></li>
+        </ul>
+        <p><strong>Order:</strong> $(\log n)^2 \prec 8\sqrt{n} \prec 2n\log n \prec n^2 \prec (1.1)^n \prec n!$</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 9</span><span class="ex-ttl">Big-O for 3n·log(n!) + (n²+3)·log n</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Give a Big-O estimate for $f(n) = 3n\log(n!) + (n^2+3)\log n$.</div>
+        <div class="sol">✅ Solution — Using Theorems 2 &amp; 3</div>
+        <p><strong>Part 1:</strong> $\log(n!)$ is $O(n\log n)$ (from Ex 6) and $3n$ is $O(n)$.</p>
+        <p>By Theorem 3 (product): $3n \cdot \log(n!)$ is $O(n \cdot n\log n) = O(n^2\log n)$.</p>
+        <p><strong>Part 2:</strong> For $n > 2$: $n^2+3 < 2n^2$, so $n^2+3$ is $O(n^2)$.</p>
+        <p>By Theorem 3: $(n^2+3)\log n$ is $O(n^2\log n)$.</p>
+        <p><strong>By Theorem 2 (sum):</strong> $f(n)$ is $O(\max(n^2\log n, n^2\log n))$ = <strong>$O(n^2\log n)$</strong>. ✓</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 10</span><span class="ex-ttl">Big-O for (x+1)log(x²+1) + 3x²</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Give a Big-O estimate for $f(x) = (x+1)\log(x^2+1) + 3x^2$.</div>
+        <div class="sol">✅ Solution</div>
+        <p>Step 1: $(x+1)$ is $O(x)$.</p>
+        <p>Step 2: For $x > 2$: $x^2+1 \leq 2x^2$, so $\log(x^2+1) \leq \log(2x^2) = \log 2 + 2\log x \leq 3\log x$. Thus $\log(x^2+1)$ is $O(\log x)$.</p>
+        <p>Step 3: By Theorem 3: $(x+1)\log(x^2+1)$ is $O(x\log x)$.</p>
+        <p>Step 4: $3x^2$ is $O(x^2)$. By Theorem 2: $f(x)$ is $O(\max(x\log x, x^2))$.</p>
+        <p>Step 5: Since $x\log x \leq x^2$ for $x > 1$, we get max $= x^2$.</p>
+        <p><strong>Conclusion: $f(x)$ is $O(x^2)$.</strong> ✓</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 11</span><span class="ex-ttl">8x³+5x²+7 is Ω(x³)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Show that $f(x) = 8x^3 + 5x^2 + 7$ is $\Omega(x^3)$.</div>
+        <div class="sol">✅ Solution</div>
+        <p>For all positive real $x$: $8x^3 + 5x^2 + 7 \geq 8x^3 \geq 1 \cdot x^3$.</p>
+        <p><strong>Witnesses: C = 1 (or C = 8), k = 0.</strong> So $f(x)$ is $\Omega(x^3)$. ✓</p>
+        <div class="tip"><div class="nl2">💡 Equivalently</div><p>This is equivalent to showing $x^3$ is $O(8x^3 + 5x^2 + 7)$, which is obvious since $x^3 \leq x^3 + \ldots$.</p></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 12</span><span class="ex-ttl">Sum 1+…+n is Θ(n²)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Show that $1 + 2 + \cdots + n$ is $\Theta(n^2)$ without using the summation formula.</div>
+        <div class="sol">✅ Solution</div>
+        <p>Let $f(n) = 1 + 2 + \cdots + n$.</p>
+        <p><strong>Upper bound (O):</strong> Already shown in Ex 5: $f(n) \leq n^2$. So $f(n)$ is $O(n^2)$.</p>
+        <p><strong>Lower bound (Ω):</strong> Ignore the first half of terms. For the top half (terms $> \lceil n/2 \rceil$):</p>
+        $$f(n) \geq \lceil n/2\rceil + \cdots + n \geq \underbrace{\lceil n/2\rceil + \cdots + \lceil n/2\rceil}_{n-\lceil n/2\rceil+1 \text{ terms}} \geq \frac{n}{2} \cdot \frac{n}{2} = \frac{n^2}{4}$$
+        <p>So $f(n) \geq \frac{1}{4}n^2$. Witnesses: $C = 1/4$, $k = 1$. Thus $f(n)$ is $\Omega(n^2)$.</p>
+        <p><strong>Since $f(n)$ is both $O(n^2)$ and $\Omega(n^2)$: $f(n)$ is $\Theta(n^2)$. ✓</strong></p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 13</span><span class="ex-ttl">3x²+8x·log x is Θ(x²)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Show that $3x^2 + 8x\log x$ is $\Theta(x^2)$.</div>
+        <div class="sol">✅ Solution</div>
+        <p><strong>Upper bound:</strong> Since $\log x \leq x$ for $x > 0$, we have $8x\log x \leq 8x^2$.</p>
+        <p>So $3x^2 + 8x\log x \leq 3x^2 + 8x^2 = 11x^2$. Witnesses for $O(x^2)$: $C_2 = 11$, $k = 1$.</p>
+        <p><strong>Lower bound:</strong> $3x^2 + 8x\log x \geq 3x^2$ for all $x > 0$. Witnesses for $\Omega(x^2)$: $C_1 = 3$, $k = 0$.</p>
+        <p><strong>Result:</strong> $3x^2 \leq 3x^2 + 8x\log x \leq 11x^2$ for $x > 1$. Therefore <strong>$\Theta(x^2)$. ✓</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ssec"><div class="ssec-t">§3.3 Examples</div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 1</span><span class="ex-ttl">Time Complexity of Max-Finding Algorithm</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Describe the time complexity of Algorithm 1 (finding maximum) in terms of number of comparisons.</div>
+        <div class="sol">✅ Solution</div>
+        <p>We count comparisons: (1) the loop condition <span class="ic">i ≤ n</span> is checked for i = 2, 3, …, n, n+1 → that is n times; (2) the comparison <span class="ic">max &lt; aᵢ</span> for i = 2, 3, …, n → that is n−1 times.</p>
+        <p>Total = n + (n−1) = <strong>2n − 1 comparisons</strong>.</p>
+        <p>Since $2n-1$ is $\Theta(n)$, the algorithm has <strong>time complexity $\Theta(n)$</strong>. Note: this count is <em>independent of input</em> — same for every possible input of size n.</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 2</span><span class="ex-ttl">Time Complexity of Linear Search</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Describe the worst-case and average-case time complexity of linear search.</div>
+        <div class="sol">✅ Solution</div>
+        <p><strong>Worst case</strong> (x not in list): The while loop runs n times, each iteration checking <span class="ic">i≤n</span> AND <span class="ic">x≠aᵢ</span> (2 comparisons). Plus 1 exit comparison + 1 outside loop = <strong>2n+2 comparisons</strong>. Since $2n+2 = \Theta(n)$: worst-case is $\Theta(n)$.</p>
+        <p><strong>Average case</strong> (x at position i with equal probability): Average = $\frac{\sum_{i=1}^n(2i+1)}{n} = \frac{n(n+1)+n}{n} = n+2 = \Theta(n)$.</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 3</span><span class="ex-ttl">Time Complexity of Binary Search</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Find the worst-case time complexity of binary search for a list of n = 2ᵏ elements.</div>
+        <div class="sol">✅ Solution</div>
+        <p>At each stage of the loop: 2 comparisons (i &lt; j and x &gt; aₘ). The loop halves the search space each time, running k times (since n = 2ᵏ). After k iterations, one element remains: 1 more comparison for i &lt; j (fails) + 1 to check x = aᵢ.</p>
+        <p>Total = $2k + 2 = 2\log n + 2$ comparisons.</p>
+        <p>Since $2\log n + 2 = \Theta(\log n)$: <strong>binary search has $\Theta(\log n)$ worst-case complexity</strong>. For general n: ≤ $2\lfloor\log n\rfloor + 2$ comparisons. ✓</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 4</span><span class="ex-ttl">Average-Case Linear Search Derivation</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Find the average number of comparisons for linear search, assuming x is in the list and equally likely to be at any position.</div>
+        <div class="sol">✅ Solution</div>
+        <p>If $x = a_i$, the algorithm uses $2i + 1$ comparisons (2 per loop step × i steps + 1 outside loop).</p>
+        $$\text{Average} = \frac{\sum_{i=1}^{n}(2i+1)}{n} = \frac{2\sum_{i=1}^{n}i + n}{n} = \frac{2 \cdot \frac{n(n+1)}{2} + n}{n} = \frac{n^2+n+n}{n} = n + 2$$
+        <p><strong>Average comparisons = $n + 2 = \Theta(n)$.</strong> ✓</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 5</span><span class="ex-ttl">Bubble Sort Worst-Case Complexity</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>What is the worst-case complexity of the bubble sort in terms of comparisons?</div>
+        <div class="sol">✅ Solution</div>
+        <p>Pass i uses n−i comparisons (compares pairs aⱼ and aⱼ₊₁ for j = 1 to n−i). Over all n−1 passes:</p>
+        $$\text{Total} = \sum_{i=1}^{n-1}(n-i) = (n-1)+(n-2)+\cdots+1 = \frac{(n-1)n}{2}$$
+        <p>Since $(n-1)n/2 = \Theta(n^2)$: <strong>Bubble sort has $\Theta(n^2)$ complexity</strong>. Note: this holds for ALL inputs, not just worst case! ✓</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 6</span><span class="ex-ttl">Insertion Sort Worst-Case Complexity</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>What is the worst-case complexity of the insertion sort?</div>
+        <div class="sol">✅ Solution</div>
+        <p>In the worst case (list in reverse order), inserting the j-th element requires j comparisons. Over j = 2 to n:</p>
+        $$\text{Total} = \sum_{j=2}^{n} j = (2+3+\cdots+n) = \frac{n(n+1)}{2} - 1$$
+        <p>Since $n(n+1)/2 - 1 = \Theta(n^2)$: <strong>Insertion sort worst-case is $\Theta(n^2)$</strong>. ✓</p>
+        <p>Best case (already sorted): each element requires just 1 comparison → total = n−1 = O(n). Unlike bubble sort, insertion sort CAN be O(n) best-case.</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 7</span><span class="ex-ttl">Matrix Multiplication — Operation Count</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>How many additions and multiplications does Algorithm 1 (matrix multiplication) use to multiply two n×n matrices?</div>
+        <div class="sol">✅ Solution</div>
+        <p>The product C = AB has $n^2$ entries. Each entry $c_{ij} = \sum_{q=1}^{n} a_{iq} b_{qj}$ requires:</p>
+        <ul>
+          <li>$n$ multiplications (one per term in the sum)</li>
+          <li>$n-1$ additions (to sum n terms)</li>
+        </ul>
+        <p>For all $n^2$ entries:</p>
+        <ul>
+          <li>Total multiplications: $n^2 \times n = \mathbf{n^3}$</li>
+          <li>Total additions: $n^2 \times (n-1) = \mathbf{n^2(n-1)}$</li>
+        </ul>
+        <p>Both are $\Theta(n^3)$, so matrix multiplication is <strong>$\Theta(n^3)$</strong>. ✓</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 9</span><span class="ex-ttl">Matrix Chain — Optimal Order</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Find the optimal order to multiply A₁(30×20), A₂(20×40), A₃(40×10).</div>
+        <div class="sol">✅ Solution</div>
+        <div class="g2">
+          <div class="card"><strong>Option 1: (A₁A₂)A₃</strong><br>
+            A₁A₂: 30×20×40 = 24,000<br>
+            (A₁A₂)A₃: 30×40×10 = 12,000<br>
+            <span class="ta">Total: 36,000 mult</span>
+          </div>
+          <div class="card"><strong>Option 2: A₁(A₂A₃) ← Optimal</strong><br>
+            A₂A₃: 20×40×10 = 8,000<br>
+            A₁(A₂A₃): 30×20×10 = 6,000<br>
+            <span class="tg">Total: 14,000 mult ✓</span>
+          </div>
+        </div>
+        <p>Computing $A_2A_3$ first saves <strong>36,000 − 14,000 = 22,000 multiplications</strong>!</p>
+      </div>
+    </div>
+  </div>
+</div><!-- end examples -->
+
+<!-- ═══ EXERCISE SOLUTIONS ═══ -->
+<div class="sec" id="exercises">
+  <div class="sec-hd"><div class="badge be">🔢</div>
+    <div class="sec-tg"><h2>Selected Exercise Solutions</h2>
+      <p>Representative problems from §3.1, §3.2, and §3.3 — one of every question type covered.</p>
+    </div>
+  </div>
+
+  <div class="ssec"><div class="ssec-t">§3.1 Exercises</div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 1</span><span class="ex-ttl">Trace Max Algorithm on 1,8,12,9,11,2,14,5,10,4</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>List all the steps used by Algorithm 1 to find the maximum of: 1, 8, 12, 9, 11, 2, 14, 5, 10, 4.</div>
+        <div class="sol">✅ Solution</div>
+        <div class="trace">
+          <div class="tr-hd" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">i</div><div class="tc-cell">aᵢ</div><div class="tc-cell">max &lt; aᵢ?</div><div class="tc-cell">max</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">init</div><div class="tc-cell">—</div><div class="tc-cell">max := a₁ = 1</div><div class="tc-cell">1</div></div>
+          <div class="tr-row hl" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">2</div><div class="tc-cell">8</div><div class="tc-cell">1 &lt; 8? Yes → update</div><div class="tc-cell" style="color:var(--amber)">8</div></div>
+          <div class="tr-row hl" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">3</div><div class="tc-cell">12</div><div class="tc-cell">8 &lt; 12? Yes → update</div><div class="tc-cell" style="color:var(--amber)">12</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">4</div><div class="tc-cell">9</div><div class="tc-cell">12 &lt; 9? No</div><div class="tc-cell">12</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">5</div><div class="tc-cell">11</div><div class="tc-cell">12 &lt; 11? No</div><div class="tc-cell">12</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">6</div><div class="tc-cell">2</div><div class="tc-cell">12 &lt; 2? No</div><div class="tc-cell">12</div></div>
+          <div class="tr-row hl" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">7</div><div class="tc-cell">14</div><div class="tc-cell">12 &lt; 14? Yes → update</div><div class="tc-cell" style="color:var(--amber)">14</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">8</div><div class="tc-cell">5</div><div class="tc-cell">14 &lt; 5? No</div><div class="tc-cell">14</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">9</div><div class="tc-cell">10</div><div class="tc-cell">14 &lt; 10? No</div><div class="tc-cell">14</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 2fr 1fr"><div class="tc-cell">10</div><div class="tc-cell">4</div><div class="tc-cell">14 &lt; 4? No</div><div class="tc-cell" style="color:var(--emerald)">14 ✓</div></div>
+        </div>
+        <p><strong>Maximum = 14.</strong> Total comparisons = 2(10−1)+1 = <strong>19 = 2n−1</strong> for n=10.</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 13</span><span class="ex-ttl">Linear and Binary Search for 9 in 1,3,4,5,6,8,9,11</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>List all steps to search for 9 in the sequence 1, 3, 4, 5, 6, 8, 9, 11 using (a) linear search and (b) binary search.</div>
+        <div class="sol">✅ Solution</div>
+        <p><strong>(a) Linear Search:</strong></p>
+        <p>Compare 9 with each element: 1 (no), 3 (no), 4 (no), 5 (no), 6 (no), 8 (no), <span style="color:var(--emerald)">9 (yes!) → location = 7</span>. Used 2(7)+1 = <strong>15 comparisons</strong>.</p>
+        <p><strong>(b) Binary Search</strong> (n=8, at most 2(3)+2=8 comparisons):</p>
+        <div class="trace">
+          <div class="tr-hd" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">i</div><div class="tc-cell">j</div><div class="tc-cell">m</div><div class="tc-cell">a[m]</div><div class="tc-cell">Decision</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">1</div><div class="tc-cell">8</div><div class="tc-cell">4</div><div class="tc-cell">5</div><div class="tc-cell">9 &gt; 5 → i = 5</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">5</div><div class="tc-cell">8</div><div class="tc-cell">6</div><div class="tc-cell">8</div><div class="tc-cell">9 &gt; 8 → i = 7</div></div>
+          <div class="tr-row" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">7</div><div class="tc-cell">8</div><div class="tc-cell">7</div><div class="tc-cell">9</div><div class="tc-cell">9 ≤ 9 → j = 7</div></div>
+          <div class="tr-row hl" style="grid-template-columns:1fr 1fr 1fr 1fr 2fr"><div class="tc-cell">7</div><div class="tc-cell">7</div><div class="tc-cell">—</div><div class="tc-cell">9</div><div class="tc-cell" style="color:var(--emerald)">i=j, a₇=9=x → location = 7 ✓</div></div>
+        </div>
+        <p>Binary search used only <strong>8 comparisons</strong> vs 15 for linear — much more efficient!</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 36</span><span class="ex-ttl">Bubble Sort — 6, 2, 3, 1, 5, 4</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Use bubble sort to sort 6, 2, 3, 1, 5, 4. Show lists at each step.</div>
+        <div class="sol">✅ Solution</div>
+        <p>n=6, total comparisons = 6(5)/2 = 15.</p>
+        <div class="tw"><table>
+          <thead><tr><th>Pass</th><th>List after pass</th><th>Sorted tail</th></tr></thead>
+          <tbody>
+            <tr><td>Start</td><td class="tm">6, 2, 3, 1, 5, 4</td><td>—</td></tr>
+            <tr><td>Pass 1 (5 cmps)</td><td class="tm">2, 3, 1, 5, 4, <span class="tg">6</span></td><td>6 in place</td></tr>
+            <tr><td>Pass 2 (4 cmps)</td><td class="tm">2, 1, 3, 4, <span class="tg">5, 6</span></td><td>5,6 in place</td></tr>
+            <tr><td>Pass 3 (3 cmps)</td><td class="tm">1, 2, 3, <span class="tg">4, 5, 6</span></td><td>4,5,6 in place</td></tr>
+            <tr><td>Pass 4 (2 cmps)</td><td class="tm">1, 2, <span class="tg">3, 4, 5, 6</span></td><td>3,4,5,6 in place</td></tr>
+            <tr><td>Pass 5 (1 cmp)</td><td class="tm tg">1, 2, 3, 4, 5, 6 ✓</td><td>All sorted!</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 40</span><span class="ex-ttl">Insertion Sort — 6, 2, 3, 1, 5, 4</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Use insertion sort to sort 6, 2, 3, 1, 5, 4.</div>
+        <div class="sol">✅ Solution</div>
+        <div class="tw"><table>
+          <thead><tr><th>j</th><th>Insert</th><th>Action</th><th>List (sorted part in blue)</th></tr></thead>
+          <tbody>
+            <tr><td>Start</td><td>—</td><td>—</td><td class="tm">6, 2, 3, 1, 5, 4</td></tr>
+            <tr><td>2</td><td>2</td><td>2 &lt; 6 → insert before 6</td><td class="tm"><span class="ti">2, 6</span>, 3, 1, 5, 4</td></tr>
+            <tr><td>3</td><td>3</td><td>3 &gt; 2, 3 &lt; 6 → insert between</td><td class="tm"><span class="ti">2, 3, 6</span>, 1, 5, 4</td></tr>
+            <tr><td>4</td><td>1</td><td>1 &lt; 2 → insert at start</td><td class="tm"><span class="ti">1, 2, 3, 6</span>, 5, 4</td></tr>
+            <tr><td>5</td><td>5</td><td>5 &gt; 1,2,3; 5 &lt; 6 → insert before 6</td><td class="tm"><span class="ti">1, 2, 3, 5, 6</span>, 4</td></tr>
+            <tr><td>6</td><td>4</td><td>4 &gt; 1,2,3; 4 &lt; 5 → insert before 5</td><td class="tm tg">1, 2, 3, 4, 5, 6 ✓</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.1 Ex 56</span><span class="ex-ttl">Cashier's Algorithm — Multiple Amounts</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Use the cashier's algorithm (quarters, dimes, nickels, pennies) for: (a) 87¢ (b) 49¢ (c) 99¢ (d) 33¢.</div>
+        <div class="sol">✅ Solution</div>
+        <div class="tw"><table>
+          <thead><tr><th>Amount</th><th>Quarters (25¢)</th><th>Dimes (10¢)</th><th>Nickels (5¢)</th><th>Pennies (1¢)</th><th>Total coins</th></tr></thead>
+          <tbody>
+            <tr><td class="tm">87¢</td><td class="tm">3 (75¢)</td><td class="tm">1 (10¢)</td><td class="tm">0</td><td class="tm">2 (2¢)</td><td class="tg tm"><strong>6 coins</strong></td></tr>
+            <tr><td class="tm">49¢</td><td class="tm">1 (25¢)</td><td class="tm">2 (20¢)</td><td class="tm">0</td><td class="tm">4 (4¢)</td><td class="tg tm"><strong>7 coins</strong></td></tr>
+            <tr><td class="tm">99¢</td><td class="tm">3 (75¢)</td><td class="tm">2 (20¢)</td><td class="tm">0</td><td class="tm">4 (4¢)</td><td class="tg tm"><strong>9 coins</strong></td></tr>
+            <tr><td class="tm">33¢</td><td class="tm">1 (25¢)</td><td class="tm">0</td><td class="tm">1 (5¢)</td><td class="tm">3 (3¢)</td><td class="tg tm"><strong>5 coins</strong></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ssec"><div class="ssec-t">§3.2 Exercises</div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 1</span><span class="ex-ttl">Which Functions are O(x)?</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Determine which are O(x): (a) f(x)=10, (b) f(x)=3x+7, (c) f(x)=x²+x+1, (d) f(x)=5log x, (e) f(x)=⌊x⌋, (f) f(x)=⌈x/2⌉.</div>
+        <div class="sol">✅ Solution</div>
+        <div class="tw"><table>
+          <thead><tr><th>f(x)</th><th>Is O(x)?</th><th>Witnesses / Reason</th></tr></thead>
+          <tbody>
+            <tr><td class="tm">10</td><td class="tag tg-g">YES</td><td>10 ≤ 10x for x ≥ 1. C=10, k=1.</td></tr>
+            <tr><td class="tm">3x+7</td><td class="tag tg-g">YES</td><td>3x+7 ≤ 3x+7x = 10x for x ≥ 1. C=10, k=1.</td></tr>
+            <tr><td class="tm">x²+x+1</td><td class="tag tg-r">NO</td><td>If x²+x+1 ≤ Cx then x+1+1/x ≤ C — impossible for all large x since x→∞.</td></tr>
+            <tr><td class="tm">5 log x</td><td class="tag tg-g">YES</td><td>log x ≤ x for all x ≥ 1, so 5 log x ≤ 5x. C=5, k=1.</td></tr>
+            <tr><td class="tm">⌊x⌋</td><td class="tag tg-g">YES</td><td>⌊x⌋ ≤ x ≤ 1·x for all x ≥ 0. C=1, k=0.</td></tr>
+            <tr><td class="tm">⌈x/2⌉</td><td class="tag tg-g">YES</td><td>⌈x/2⌉ ≤ x/2+1 ≤ x for x ≥ 2. C=1, k=2.</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 3</span><span class="ex-ttl">Show x⁴+9x³+4x+7 is O(x⁴)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Use the definition to show $x^4 + 9x^3 + 4x + 7$ is $O(x^4)$.</div>
+        <div class="sol">✅ Solution</div>
+        <p>For $x > 1$: $x^3 < x^4$, $x < x^4$, and $1 < x^4$. Therefore:</p>
+        $$x^4 + 9x^3 + 4x + 7 \leq x^4 + 9x^4 + 4x^4 + 7x^4 = 21x^4$$
+        <p><strong>Witnesses: C = 21, k = 1.</strong> Therefore $O(x^4)$. ✓</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 7</span><span class="ex-ttl">Find Least n such that f(x) is O(xⁿ)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Find the least integer n such that f(x) is O(xⁿ) for: (a) f(x)=2x³+x²log x, (b) f(x)=3x³+(log x)⁴, (c) f(x)=(x⁴+x²+1)/(x³+1).</div>
+        <div class="sol">✅ Solution</div>
+        <div class="tw"><table>
+          <thead><tr><th>f(x)</th><th>Least n</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr><td class="tm">2x³ + x²log x</td><td class="tm tg">3</td><td>x²log x is O(x³) since log x = O(x), so this is O(x³). The leading term is x³.</td></tr>
+            <tr><td class="tm">3x³ + (log x)⁴</td><td class="tm tg">3</td><td>(log x)⁴ is O(x) is O(x³). Leading term is x³.</td></tr>
+            <tr><td class="tm">(x⁴+x²+1)/(x³+1)</td><td class="tm tg">1</td><td>For large x: ≈ x⁴/x³ = x. So this is O(x). Least n = 1.</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 9</span><span class="ex-ttl">Show x²+4x+17 is O(x³) but x³ NOT O(x²+4x+17)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Show $x^2+4x+17$ is $O(x^3)$ but $x^3$ is not $O(x^2+4x+17)$.</div>
+        <div class="sol">✅ Solution</div>
+        <p><strong>Part 1: $x^2+4x+17$ is $O(x^3)$</strong></p>
+        <p>For $x > 1$: $x^2 < x^3$, $4x < 4x^3$, $17 < 17x^3$. So $x^2+4x+17 \leq 22x^3$. Witnesses: C=22, k=1. ✓</p>
+        <p><strong>Part 2: $x^3$ is NOT $O(x^2+4x+17)$ — Proof by Contradiction</strong></p>
+        <p>Suppose $x^3 \leq C(x^2+4x+17)$. Dividing by $x^2$: $x \leq C(1 + 4/x + 17/x^2) \leq 3C$ for large $x$. But $x$ is unbounded — contradiction. ∎</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 21</span><span class="ex-ttl">Arrange Functions by Growth Order</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Arrange so each is Big-O of the next: $\sqrt{n},\; 1000\log n,\; n\log n,\; 2n!,\; 2^n,\; 3^n,\; n^2/1{,}000{,}000$.</div>
+        <div class="sol">✅ Solution</div>
+        <p>Apply growth hierarchy rules:</p>
+        <ul>
+          <li><strong>$1000\log n$</strong>: log grows slower than any positive power of n</li>
+          <li><strong>$\sqrt{n} = n^{1/2}$</strong>: fractional power of n</li>
+          <li><strong>$n\log n$</strong>: faster than $n^c$ for $c &lt; 1$, slower for $c &gt; 1$</li>
+          <li><strong>$n^2/1{,}000{,}000 = n^2 \cdot 10^{-6}$</strong>: quadratic (constant doesn't change Big-O class)</li>
+          <li><strong>$2^n$</strong>: exponential (base 2)</li>
+          <li><strong>$3^n$</strong>: exponential (base 3 &gt; 2, so grows faster)</li>
+          <li><strong>$2n!$</strong>: factorial dominates all exponentials</li>
+        </ul>
+        <p><strong>Order:</strong> $1000\log n \prec \sqrt{n} \prec n\log n \prec n^2/10^6 \prec 2^n \prec 3^n \prec 2n!$</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.2 Ex 28</span><span class="ex-ttl">Determine Big-Ω and Big-Θ</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>For each function in Exercise 1, determine whether it is Ω(x) and whether it is Θ(x).</div>
+        <div class="sol">✅ Solution</div>
+        <div class="tw"><table>
+          <thead><tr><th>f(x)</th><th>Is O(x)?</th><th>Is Ω(x)?</th><th>Is Θ(x)?</th><th>Reasoning</th></tr></thead>
+          <tbody>
+            <tr><td class="tm">10</td><td class="tg">Yes</td><td class="tr2">No</td><td class="tr2">No</td><td>10 ≥ C·x fails for large x (10/x→0)</td></tr>
+            <tr><td class="tm">3x+7</td><td class="tg">Yes</td><td class="tg">Yes</td><td class="tg"><strong>Yes!</strong></td><td>3x+7 ≥ 3x = 3·x. C=3, k=0. Both bounds hold → Θ(x).</td></tr>
+            <tr><td class="tm">x²+x+1</td><td class="tr2">No</td><td class="tg">Yes</td><td class="tr2">No</td><td>x²+x+1 ≥ x². Is Ω(x) but not O(x) → not Θ(x).</td></tr>
+            <tr><td class="tm">5 log x</td><td class="tg">Yes</td><td class="tr2">No</td><td class="tr2">No</td><td>5 log x/x → 0, so not Ω(x).</td></tr>
+            <tr><td class="tm">⌊x⌋</td><td class="tg">Yes</td><td class="tg">Yes</td><td class="tg"><strong>Yes!</strong></td><td>x−1 ≤ ⌊x⌋ ≤ x. Both bounds → Θ(x).</td></tr>
+            <tr><td class="tm">⌈x/2⌉</td><td class="tg">Yes</td><td class="tg">Yes</td><td class="tg"><strong>Yes!</strong></td><td>x/2 ≤ ⌈x/2⌉ ≤ x/2+1 ≤ x. C₁=1/2, C₂=1 → Θ(x).</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ssec"><div class="ssec-t">§3.3 Exercises</div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 1</span><span class="ex-ttl">Big-O Estimate for Nested Loop (Constant)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Give a Big-O estimate for the number of operations in:<br>t := 0; for i:=1 to 3; for j:=1 to 4; t := t + i*j</div>
+        <div class="sol">✅ Solution</div>
+        <p>Outer loop runs 3 times, inner loop runs 4 times. Each inner iteration: 1 multiplication + 1 addition = 2 operations.</p>
+        <p>Total = 3 × 4 × 2 = <strong>24 operations</strong>. This is a fixed constant (no n).</p>
+        <p><strong>Big-O estimate: O(1)</strong> — constant complexity since loop bounds are fixed numbers, not n.</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 2</span><span class="ex-ttl">Big-O Estimate for Nested Loop (Quadratic)</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Give a Big-O estimate for additions used in:<br>t := 0; for i:=1 to n; for j:=1 to n; t := t + i + j</div>
+        <div class="sol">✅ Solution</div>
+        <p>Outer loop: n iterations. Inner loop: n iterations. Each iteration: 2 additions (i+j and then t+(i+j)).</p>
+        <p>Total additions = n × n × 2 = 2n².</p>
+        <p><strong>Big-O estimate: O(n²)</strong> since 2n² = O(n²) with C=2, k=1.</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 3</span><span class="ex-ttl">Big-O for Double Loop with Triangular Count</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Estimate operations in: m:=0; for i:=1 to n; for j:=i+1 to n; m:=max(aᵢaⱼ, m).</div>
+        <div class="sol">✅ Solution</div>
+        <p>For each i, j runs from i+1 to n: that's (n−i) iterations. Total inner iterations = $\sum_{i=1}^{n-1}(n-i) = (n-1)+(n-2)+\cdots+1 = \frac{n(n-1)}{2}$.</p>
+        <p>Each iteration: 1 multiplication + 1 comparison = 2 operations. Total ≈ $n(n-1)$.</p>
+        <p><strong>Big-O estimate: O(n²)</strong>.</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 48</span><span class="ex-ttl">Matrix Chain — Best Order for ABC</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Find the best order to form ABC where A is 3×9, B is 9×4, C is 4×2. Multiplications used = p×q×r for a (p×q)·(q×r) product.</div>
+        <div class="sol">✅ Solution</div>
+        <div class="g2">
+          <div class="card"><strong>Option 1: (AB)C</strong><br>AB: 3×9×4 = <strong>108</strong><br>(AB) is 3×4<br>(AB)C: 3×4×2 = <strong>24</strong><br><span class="ta">Total: 132 mult</span></div>
+          <div class="card"><strong>Option 2: A(BC) ← Optimal</strong><br>BC: 9×4×2 = <strong>72</strong><br>(BC) is 9×2<br>A(BC): 3×9×2 = <strong>54</strong><br><span class="tg">Total: 126 mult ✓</span></div>
+        </div>
+        <p><strong>Best order: A(BC) with 126 multiplications</strong> (saves 6 over (AB)C).</p>
+      </div>
+    </div>
+
+    <div class="ex">
+      <div class="ex-hd"><span class="ex-num">§3.3 Ex 49</span><span class="ex-ttl">Matrix Chain — Best Order for ABCD</span></div>
+      <div class="ex-body">
+        <div class="ex-q"><div class="ql">Question</div>Best order for ABCD where A(30×10), B(10×40), C(40×50), D(50×30)?</div>
+        <div class="sol">✅ Solution</div>
+        <p>Pre-compute single products: AB=12,000; BC=20,000; CD=60,000.</p>
+        <div class="tw"><table>
+          <thead><tr><th>Grouping</th><th>Step 1</th><th>Step 2</th><th>Step 3</th><th>Total</th></tr></thead>
+          <tbody>
+            <tr><td class="tm">((AB)C)D</td><td class="tm">AB=12,000</td><td class="tm">(AB)C: 30×40×50=60,000</td><td class="tm">×D: 30×50×30=45,000</td><td class="ta tm">117,000</td></tr>
+            <tr><td class="tm">(A(BC))D</td><td class="tm">BC=20,000</td><td class="tm">A(BC): 30×10×50=15,000</td><td class="tm">×D: 30×50×30=45,000</td><td class="ta tm">80,000</td></tr>
+            <tr><td class="tm">(AB)(CD)</td><td class="tm">AB=12,000</td><td class="tm">CD=60,000</td><td class="tm">(AB)(CD): 30×40×30=36,000</td><td class="ta tm">108,000</td></tr>
+            <tr><td class="tm" style="background:rgba(16,185,129,.08)">A((BC)D)</td><td class="tm">BC=20,000</td><td class="tm">(BC)D: 10×50×30=15,000</td><td class="tm">A×: 30×10×30=9,000</td><td class="tg tm"><strong>44,000 ✓</strong></td></tr>
+            <tr><td class="tm">A(B(CD))</td><td class="tm">CD=60,000</td><td class="tm">B(CD): 10×40×30=12,000</td><td class="tm">A×: 30×10×30=9,000</td><td class="ta tm">81,000</td></tr>
+          </tbody>
+        </table></div>
+        <p><strong>Best order: A((BC)D) with only 44,000 multiplications</strong> — nearly 3× better than the worst option!</p>
+      </div>
+    </div>
+  </div>
+</div><!-- end exercises -->
+
+<!-- ═══ PAST YEAR QUESTIONS ═══ -->
+<div class="sec" id="pyq">
+  <div class="sec-hd"><div class="badge br">📝</div>
+    <div class="sec-tg"><h2>Past Year Questions — Analysis &amp; Solutions</h2>
+      <p>IUT CSE 4203 mid-semester exam papers analysed against Chapter 3 topics.</p>
+    </div>
+  </div>
+
+  <div class="ssec">
+    <div class="note"><div class="nl2">📌 Important Note on Past Papers</div>
+      <p>Both mid-semester papers uploaded (Summer 2021–2023 and 2023–2024) primarily test <strong>Chapters 1 &amp; 2</strong> content (logic, sets, functions, recurrences, relations). Chapter 3 material (Algorithms, Big-O, Complexity) typically appears in the <strong>final examination</strong>. However, <em>proof techniques</em> used in Chapter 3 analysis do appear in the mid-papers, and they are solved fully below.</p>
+    </div>
+  </div>
+
+  <!-- Paper 1 -->
+  <div class="ssec">
+    <div class="ssec-t">Mid Exam — Summer 2021-2023 (March 2024)</div>
+
+    <div class="pyq">
+      <div class="pyq-hd"><span class="pyq-ttl">Q2(b) — Solve Recurrence Relation aₙ = 2n·aₙ₋₁, a₀ = 1</span><span class="pyq-yr">Summer 2021-23</span></div>
+      <div class="pyq-body">
+        <div class="ex-q"><div class="ql">Question</div>Find the solution of the recurrence relation $a_n = 2n \cdot a_{n-1}$, where $a_0 = 1$.</div>
+        <div class="sol">✅ Solution</div>
+        <p>This is a <strong>first-order linear recurrence</strong>. Unroll it iteratively:</p>
+        $$a_n = 2n \cdot a_{n-1} = 2n \cdot (2(n-1) \cdot a_{n-2}) = \cdots$$
+        <p>By repeated substitution:</p>
+        $$a_n = (2n)(2(n-1))(2(n-2))\cdots(2 \cdot 1) \cdot a_0$$
+        $$= 2^n \cdot n! \cdot 1 = 2^n \cdot n!$$
+        <p><strong>Solution: $a_n = 2^n \cdot n!$</strong></p>
+        <p><strong>Verify:</strong> $a_1 = 2\cdot 1 \cdot a_0 = 2$. Formula: $2^1 \cdot 1! = 2$. ✓</p>
+        <p>$a_2 = 2\cdot 2 \cdot a_1 = 4\cdot 2 = 8$. Formula: $2^2 \cdot 2! = 4\cdot 2 = 8$. ✓</p>
+        <div class="tip"><div class="nl2">💡 Chapter 3 Connection</div>
+          <p>This type of recurrence appears in algorithm analysis! The factorial function $n!$ and $2^n$ both arise in counting algorithm steps — exactly the functions we study in Big-O analysis.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pyq">
+      <div class="pyq-hd"><span class="pyq-ttl">Q2(c) — Corona Virus Tripling Recurrence (12 hours)</span><span class="pyq-yr">Summer 2021-23</span></div>
+      <div class="pyq-body">
+        <div class="ex-q"><div class="ql">Question</div>Suppose the number of corona viruses triples per hour. Construct a recurrence relation to monitor the number after n hours. Calculate the number after 12 hours, starting with 99.</div>
+        <div class="sol">✅ Solution</div>
+        <p><strong>Recurrence relation:</strong> If $C_n$ = number of viruses after n hours, then $C_n = 3 \cdot C_{n-1}$, with $C_0 = 99$.</p>
+        <p><strong>Closed-form solution:</strong> Unrolling: $C_n = 3 \cdot C_{n-1} = 3^2 \cdot C_{n-2} = \cdots = 3^n \cdot C_0 = 99 \cdot 3^n$.</p>
+        <p><strong>After 12 hours:</strong></p>
+        $$C_{12} = 99 \cdot 3^{12} = 99 \cdot 531{,}441 = \mathbf{52{,}612{,}659}$$
+        <p>That's over <strong>52 million</strong> viruses after just 12 hours!</p>
+        <div class="tip"><div class="nl2">💡 Chapter 3 Connection</div>
+          <p>This is an <strong>exponential growth</strong> function: $C_n = 99 \cdot 3^n$ is $\Theta(3^n)$. In Big-O terms, this has <strong>exponential complexity</strong> — it illustrates why exponential algorithms are impractical. $3^{12}$ already exceeds 500,000!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pyq">
+      <div class="pyq-hd"><span class="pyq-ttl">Q3(c) — Is f(x) = (x+2)/(2x-1) a Bijection?</span><span class="pyq-yr">Summer 2021-23</span></div>
+      <div class="pyq-body">
+        <div class="ex-q"><div class="ql">Question</div>Determine whether $f(x) = \dfrac{x+2}{2x-1}$ is a bijection from $\mathbb{R}$ to $\mathbb{R}$. If not, find the necessary condition for it to be a bijection.</div>
+        <div class="sol">✅ Solution</div>
+        <p><strong>Step 1 — Check domain.</strong> $f$ is undefined when $2x-1 = 0$, i.e., $x = 1/2$. So $f: \mathbb{R} \to \mathbb{R}$ is <strong>not well-defined</strong> as stated.</p>
+        <p><strong>Step 2 — Check range.</strong> What values can $f$ take? Suppose $y = \frac{x+2}{2x-1}$. Solving for x: $y(2x-1) = x+2 \Rightarrow 2xy - y = x + 2 \Rightarrow x(2y-1) = y+2 \Rightarrow x = \frac{y+2}{2y-1}$. This fails when $y = 1/2$, so $f$ never takes the value $1/2$. Thus $f$ is <strong>not surjective onto $\mathbb{R}$</strong>.</p>
+        <p><strong>Step 3 — Check one-to-one.</strong> If $f(x_1) = f(x_2)$: $\frac{x_1+2}{2x_1-1} = \frac{x_2+2}{2x_2-1}$ gives $(x_1+2)(2x_2-1) = (x_2+2)(2x_1-1)$, which simplifies to $x_1 = x_2$. So <strong>$f$ is injective (one-to-one)</strong>.</p>
+        <p><strong>Conclusion:</strong> $f$ is <strong>NOT a bijection</strong> from $\mathbb{R}$ to $\mathbb{R}$ because (1) it is not defined at $x = 1/2$, and (2) $y = 1/2$ is not in the range.</p>
+        <p><strong>Necessary condition for bijection:</strong> Restrict domain to $\mathbb{R} \setminus \{1/2\}$ and codomain to $\mathbb{R} \setminus \{1/2\}$. Then $f: \mathbb{R}\setminus\{1/2\} \to \mathbb{R}\setminus\{1/2\}$ is a bijection. ✓</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Paper 2 -->
+  <div class="ssec">
+    <div class="ssec-t">Mid Exam — Summer 2023-2024 (July 2025)</div>
+
+    <div class="pyq">
+      <div class="pyq-hd"><span class="pyq-ttl">Q2(b) — Recurrence aₙ = 6aₙ₋₁ − 9aₙ₋₂, a₁=1, a₂=3</span><span class="pyq-yr">Summer 2023-24</span></div>
+      <div class="pyq-body">
+        <div class="ex-q"><div class="ql">Question</div>(i) Find a closed-form formula for $a_n$ where $a_1=1$, $a_2=3$, $a_n = 6a_{n-1} - 9a_{n-2}$ for $n \geq 3$. (ii) Prove by mathematical induction.</div>
+        <div class="sol">✅ Solution</div>
+        <p><strong>Part (i) — Solve the recurrence</strong></p>
+        <p>The characteristic equation is $r^2 - 6r + 9 = 0$, giving $(r-3)^2 = 0$. So $r = 3$ is a <strong>repeated root</strong>.</p>
+        <p>For repeated root $r = 3$, the general solution is: $a_n = (C_1 + C_2 n) \cdot 3^n$</p>
+        <p>Apply initial conditions:
+          <br>$a_1 = 1$: $(C_1 + C_2)\cdot 3 = 1 \Rightarrow C_1 + C_2 = 1/3$
+          <br>$a_2 = 3$: $(C_1 + 2C_2)\cdot 9 = 3 \Rightarrow C_1 + 2C_2 = 1/3$
+        </p>
+        <p>Subtracting: $C_2 = 0$, so $C_1 = 1/3$.</p>
+        <p><strong>Closed form: $a_n = \dfrac{1}{3} \cdot 3^n = 3^{n-1}$</strong></p>
+        <p>Verify: $a_1 = 3^0 = 1$ ✓, $a_2 = 3^1 = 3$ ✓, $a_3 = 6(3)-9(1)=9=3^2$ ✓</p>
+        <p><strong>Part (ii) — Proof by Mathematical Induction</strong></p>
+        <p><em>Base cases:</em> $a_1 = 1 = 3^0 = 3^{1-1}$ ✓ and $a_2 = 3 = 3^1 = 3^{2-1}$ ✓.</p>
+        <p><em>Inductive step:</em> Assume $a_k = 3^{k-1}$ and $a_{k-1} = 3^{k-2}$ for some $k \geq 3$. Then:</p>
+        $$a_{k+1} = 6a_k - 9a_{k-1} = 6\cdot 3^{k-1} - 9\cdot 3^{k-2} = 6\cdot 3^{k-1} - 3^2\cdot 3^{k-2} = 6\cdot 3^{k-1} - 3\cdot 3^{k-1} = 3\cdot 3^{k-1} = 3^k$$
+        <p>So $a_{k+1} = 3^{(k+1)-1}$. <strong>By induction, $a_n = 3^{n-1}$ for all $n \geq 1$. ∎</strong></p>
+      </div>
+    </div>
+
+    <div class="pyq">
+      <div class="pyq-hd"><span class="pyq-ttl">Q4(a) — Five Proof Techniques (Chapter 3 Context)</span><span class="pyq-yr">Summer 2023-24 · 10 marks</span></div>
+      <div class="pyq-body">
+        <div class="ex-q"><div class="ql">Question</div>Identify and describe at least five different proof techniques. For each, briefly explain its general approach and the type of mathematical statement it is most effectively applied to.</div>
+        <div class="sol">✅ Solution — 5 Proof Techniques (with Algorithm Analysis Context)</div>
+        <div class="tw"><table>
+          <thead><tr><th>#</th><th>Technique</th><th>Approach</th><th>Best Used For</th><th>Algorithm Example</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Direct Proof</strong></td>
+              <td>Assume the hypothesis is true; use definitions and logic to derive the conclusion directly.</td>
+              <td>Conditional statements (P → Q)</td>
+              <td>Proving $f(x) = O(g(x))$ by finding witnesses C and k directly</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Proof by Contradiction</strong></td>
+              <td>Assume the conclusion is FALSE; show this leads to a logical impossibility (contradiction).</td>
+              <td>Existence or impossibility results</td>
+              <td>Proving $n^2$ is NOT O(n); proving the Halting Problem is unsolvable</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Mathematical Induction</strong></td>
+              <td>Base case + Inductive step: if P(k) holds, prove P(k+1) holds. Conclude for all n ≥ base.</td>
+              <td>Statements about all natural numbers</td>
+              <td>Proving $n &lt; 2^n$ for all positive n; proving algorithm correctness</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Proof by Contraposition</strong></td>
+              <td>Instead of proving P→Q, prove the equivalent ¬Q→¬P (contrapositive).</td>
+              <td>Conditional statements where the contrapositive is easier</td>
+              <td>If a sorting algorithm is correct, it must do at least Ω(n log n) comparisons</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>Existence Proof</strong> (Constructive)</td>
+              <td>Prove something exists by constructing an explicit example.</td>
+              <td>Existence statements (∃x P(x))</td>
+              <td>Showing witnesses C=4, k=1 exist for x²+2x+1 is O(x²)</td>
+            </tr>
+          </tbody>
+        </table></div>
+        <div class="tip"><div class="nl2">💡 Bonus: Non-Constructive Existence Proof</div>
+          <p>A 6th technique — <strong>Non-constructive existence proof</strong>: proves something exists without explicitly showing it (e.g., by contradiction). Example: "There exist irrational numbers a, b such that a^b is rational" — proved by considering $\sqrt{2}^{\sqrt{2}}$ and using cases.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pyq">
+      <div class="pyq-hd"><span class="pyq-ttl">Q4(b) — Show n³−n is Divisible by 6 for all n ∈ ℕ₀</span><span class="pyq-yr">Summer 2023-24 · 10 marks</span></div>
+      <div class="pyq-body">
+        <div class="ex-q"><div class="ql">Question</div>Show that $n^3 - n$ is divisible by 6 for all $n \in \mathbb{N}_0$ using an appropriate proof technique.</div>
+        <div class="sol">✅ Solution — By Mathematical Induction</div>
+        <p><strong>Base case (n = 0):</strong> $0^3 - 0 = 0 = 6 \times 0$. Divisible by 6. ✓</p>
+        <p><strong>Inductive hypothesis:</strong> Assume $k^3 - k$ is divisible by 6 for some $k \geq 0$, i.e., $6 \mid (k^3 - k)$.</p>
+        <p><strong>Inductive step:</strong> Show $(k+1)^3 - (k+1)$ is divisible by 6.</p>
+        $$(k+1)^3 - (k+1) = k^3 + 3k^2 + 3k + 1 - k - 1 = k^3 + 3k^2 + 2k$$
+        $$= (k^3 - k) + 3k^2 + 3k = (k^3-k) + 3k(k+1)$$
+        <p>By the inductive hypothesis, $6 \mid (k^3-k)$.</p>
+        <p>For $3k(k+1)$: one of $k$ or $k+1$ is even (consecutive integers), so $k(k+1)$ is always even. Thus $3k(k+1) = 3 \times (\text{even}) = 6m$ for some integer $m$. So $6 \mid 3k(k+1)$.</p>
+        <p>Therefore $6 \mid [(k^3-k) + 3k(k+1)]$, which means $6 \mid [(k+1)^3-(k+1)]$. ∎</p>
+        <p><strong>By mathematical induction, $6 \mid (n^3-n)$ for all $n \in \mathbb{N}_0$.</strong></p>
+        <div class="tip"><div class="nl2">💡 Alternative: Factorisation Method</div>
+          <p>$n^3 - n = n(n^2-1) = n(n-1)(n+1) = (n-1)n(n+1)$ — the product of 3 consecutive integers. Any 3 consecutive integers always include at least one multiple of 2 and one of 3, so their product is divisible by $2 \times 3 = 6$.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pyq">
+      <div class="pyq-hd"><span class="pyq-ttl">Q4(c) — Relation R = {(a,b) | a ≡ b (mod 7)}</span><span class="pyq-yr">Summer 2023-24 · 2×5 marks</span></div>
+      <div class="pyq-body">
+        <div class="ex-q"><div class="ql">Question</div>Consider the relation R on integers: $R = \{(a,b) \mid a \equiv b \pmod{7}\}$. Determine whether R is (i) Reflexive (ii) Symmetric (iii) Antisymmetric (iv) Transitive (v) a Partial Order.</div>
+        <div class="sol">✅ Solution</div>
+        <div class="tw"><table>
+          <thead><tr><th>Property</th><th>Result</th><th>Proof</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Reflexive</strong></td>
+              <td class="tg">✓ YES</td>
+              <td>For any integer $a$: $a - a = 0 = 7 \times 0$, so $a \equiv a \pmod 7$. Thus $(a,a) \in R$ for all $a$.</td>
+            </tr>
+            <tr>
+              <td><strong>Symmetric</strong></td>
+              <td class="tg">✓ YES</td>
+              <td>If $a \equiv b \pmod 7$ then $7 \mid (a-b)$. Since $7 \mid (a-b) \Rightarrow 7 \mid (b-a)$, we get $b \equiv a \pmod 7$. So $(a,b)\in R \Rightarrow (b,a)\in R$.</td>
+            </tr>
+            <tr>
+              <td><strong>Antisymmetric</strong></td>
+              <td class="tr2">✗ NO</td>
+              <td>Counter-example: $(1,8) \in R$ (since $8-1=7$) and $(8,1) \in R$, but $1 \neq 8$. So both $(a,b)$ and $(b,a)$ can be in R with $a \neq b$ — violates antisymmetry.</td>
+            </tr>
+            <tr>
+              <td><strong>Transitive</strong></td>
+              <td class="tg">✓ YES</td>
+              <td>If $a \equiv b \pmod 7$ and $b \equiv c \pmod 7$, then $7\mid(a-b)$ and $7\mid(b-c)$. So $7\mid(a-b+b-c) = (a-c)$, giving $a \equiv c \pmod 7$.</td>
+            </tr>
+            <tr>
+              <td><strong>Partial Order?</strong></td>
+              <td class="tr2">✗ NO</td>
+              <td>A partial order requires reflexive, antisymmetric, and transitive. R is NOT antisymmetric, so R is <strong>not a partial order</strong>. (It is an <em>equivalence relation</em> — reflexive, symmetric, transitive.)</td>
+            </tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Predicted Ch3 Questions -->
+  <div class="ssec">
+    <div class="ssec-t">Predicted Chapter 3 Exam Questions</div>
+    <p>Based on the content of Chapter 3, these are the types of questions likely to appear in a final exam:</p>
+    <div class="tw"><table>
+      <thead><tr><th>Topic</th><th>Likely Question Type</th><th>Key Points to Show</th></tr></thead>
+      <tbody>
+        <tr><td>Big-O Proof</td><td>Show f(x) is O(g(x)) using the definition</td><td>Find explicit C and k; show inequality holds for x &gt; k</td></tr>
+        <tr><td>NOT Big-O</td><td>Show f(x) is NOT O(g(x))</td><td>Use proof by contradiction; show C or k cannot exist</td></tr>
+        <tr><td>Big-Θ Proof</td><td>Show f(x) is Θ(g(x))</td><td>Show BOTH Big-O (upper) and Big-Ω (lower) bounds</td></tr>
+        <tr><td>Growth Ordering</td><td>Arrange functions by growth rate</td><td>Apply hierarchy: log ≪ polynomial ≪ exponential ≪ factorial</td></tr>
+        <tr><td>Algorithm Tracing</td><td>Trace binary/linear search, bubble/insertion sort</td><td>Show each step; count comparisons; identify final answer</td></tr>
+        <tr><td>Complexity Count</td><td>Find exact comparisons or operations used</td><td>Use formulas: 2n−1, n(n−1)/2, 2⌊log n⌋+2, etc.</td></tr>
+        <tr><td>Matrix Chain</td><td>Find optimal multiplication order</td><td>Compute costs for all orderings; pick minimum</td></tr>
+        <tr><td>Greedy Algorithm</td><td>Apply cashier's or scheduling algorithm</td><td>Show steps; note when greedy may fail</td></tr>
+        <tr><td>Halting Problem</td><td>Explain why it is unsolvable</td><td>Describe Turing's proof by contradiction with K(P)</td></tr>
+        <tr><td>P vs NP</td><td>Define P, NP, NP-Complete</td><td>SAT is NP-Complete (Cook-Levin); million-dollar question</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div><!-- end past year -->
+
+<!-- CLOSING -->
+</main>
+
+<a href="#hero" class="btop">↑</a>
+
+<script>
+// Smooth active link highlighting on scroll
+const sections = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('.nl');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + entry.target.id) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(sec => observer.observe(sec));
+
+// Render KaTeX after page load
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof renderMathInElement !== 'undefined') {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ],
+      throwOnError: false
+    });
+  }
+});
+</script>
+</body>
+</html>

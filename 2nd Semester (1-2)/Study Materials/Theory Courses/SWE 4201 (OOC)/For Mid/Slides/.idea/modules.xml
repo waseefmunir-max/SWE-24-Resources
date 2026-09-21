@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Slide6Practice/Animal/Animal.iml" filepath="$PROJECT_DIR$/Slide6Practice/Animal/Animal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Slide2Practice/Slide2Practice.iml" filepath="$PROJECT_DIR$/Slide2Practice/Slide2Practice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Slide3PracticeFiles/Slide3PracticeFiles.iml" filepath="$PROJECT_DIR$/Slide3PracticeFiles/Slide3PracticeFiles.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Slide5Practice/Slide5Practice.iml" filepath="$PROJECT_DIR$/Slide5Practice/Slide5Practice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Slide6Practice/Slide6Practice.iml" filepath="$PROJECT_DIR$/Slide6Practice/Slide6Practice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Slide7Practice/Slide7Practice.iml" filepath="$PROJECT_DIR$/Slide7Practice/Slide7Practice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Slides.iml" filepath="$PROJECT_DIR$/.idea/Slides.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Slide7Practice/SpecialCases/SpecialCases.iml" filepath="$PROJECT_DIR$/Slide7Practice/SpecialCases/SpecialCases.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Slide2Practice/StaticAndInstanceTraps/StaticAndInstanceTraps.iml" filepath="$PROJECT_DIR$/Slide2Practice/StaticAndInstanceTraps/StaticAndInstanceTraps.iml" />
+    </modules>
+  </component>
+</project>

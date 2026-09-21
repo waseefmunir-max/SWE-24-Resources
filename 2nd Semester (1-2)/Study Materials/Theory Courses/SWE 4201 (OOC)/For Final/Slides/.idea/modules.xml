@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PracticeS12/DefaultMethods/DefaultMethods.iml" filepath="$PROJECT_DIR$/PracticeS12/DefaultMethods/DefaultMethods.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS10/Downcasting/Downcasting.iml" filepath="$PROJECT_DIR$/PracticeS10/Downcasting/Downcasting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS13/GenericsBasics/GenericsBasics.iml" filepath="$PROJECT_DIR$/PracticeS13/GenericsBasics/GenericsBasics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS13/GenericsInCollection/GenericsInCollection.iml" filepath="$PROJECT_DIR$/PracticeS13/GenericsInCollection/GenericsInCollection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS10/InstanceOf/InstanceOf.iml" filepath="$PROJECT_DIR$/PracticeS10/InstanceOf/InstanceOf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS12/PayableStockholders/PayableStockholders.iml" filepath="$PROJECT_DIR$/PracticeS12/PayableStockholders/PayableStockholders.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS12/PracticeS12.iml" filepath="$PROJECT_DIR$/PracticeS12/PracticeS12.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS9/PracticeS9.iml" filepath="$PROJECT_DIR$/PracticeS9/PracticeS9.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS11/PredatorAndPrey/PredatorAndPrey.iml" filepath="$PROJECT_DIR$/PracticeS11/PredatorAndPrey/PredatorAndPrey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS13/Re-GenericsBasics/Re-GenericsBasics.iml" filepath="$PROJECT_DIR$/PracticeS13/Re-GenericsBasics/Re-GenericsBasics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS12/ResolvingConfluctOfTwoInterfaces/ResolvingConfluctOfTwoInterfaces.iml" filepath="$PROJECT_DIR$/PracticeS12/ResolvingConfluctOfTwoInterfaces/ResolvingConfluctOfTwoInterfaces.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS14/SimpeleCouplingExample/SimpeleCouplingExample.iml" filepath="$PROJECT_DIR$/PracticeS14/SimpeleCouplingExample/SimpeleCouplingExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Slides.iml" filepath="$PROJECT_DIR$/.idea/Slides.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS10/Upcasting/Upcasting.iml" filepath="$PROJECT_DIR$/PracticeS10/Upcasting/Upcasting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PracticeS11/PayableStockholders/payableStockholders.iml" filepath="$PROJECT_DIR$/PracticeS11/PayableStockholders/payableStockholders.iml" />
+    </modules>
+  </component>
+</project>

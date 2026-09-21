@@ -1,0 +1,20 @@
+Set 1- ODE: Higher-order differential equations (Part of Series solution)- Definitions (ordinary/singular/regular singular points) and math; 
+
+factorization of operators, Legendre’s differential equation and polynomials, 
+
+Bessel’s differential equation and polynomials/functions (definition and math).
+
+------------------------------------------------------------------
+
+Set 2 - ODE + First-order Linear PDE: Higher-order differential equations (Part of Series solution); formation of PDE; Solution of PDE by using Lagrange’s method (Auxiliary equations) and method of multipliers. - No definition or theory in this set
+
+------------------------------------------------------------------
+
+Set 3 - First-order Nonlinear PDE + Classification: PDE Nonlinear p and q; standard forms f(p,q)=0, z=px+qy+f(p,q), f(p,q,z)=0, f_1(x,p)=f_2(y,q); Charpit’s method; second-order PDE classification.
+
+------------------------------------------------------------------
+
+Set 4 - Second-order/Linear PDE: Higher-order linear PDEs with constant coefficients; CF and PI; homogeneous and non-homogeneous equations;
+Theory: different rules for evaluating the particular integral.
+
+------------------------------------------------------------------

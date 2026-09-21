@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discrete Mathematics — Ch 5.1 & 9.1 Study Hub | IUT CSE 4203</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #0A0C10;
+  --bg-card: #12151C;
+  --bg-elevated: #1A1E2B;
+  --bg-hover: #1F2436;
+  --accent-teal: #00D4B4;
+  --accent-teal-dim: rgba(0,212,180,0.12);
+  --accent-violet: #8B6FFF;
+  --accent-violet-dim: rgba(139,111,255,0.12);
+  --accent-amber: #FFB340;
+  --accent-amber-dim: rgba(255,179,64,0.12);
+  --accent-red: #FF4D6A;
+  --accent-red-dim: rgba(255,77,106,0.12);
+  --accent-green: #3DDB85;
+  --accent-green-dim: rgba(61,219,133,0.12);
+  --text-primary: #E8ECF4;
+  --text-secondary: #B0BBCC;
+  --text-muted: #7A849C;
+  --border: #252A38;
+  --border-bright: #353D52;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { background: var(--bg-deep); color: var(--text-primary); font-family: var(--font-body); line-height: 1.7; overflow-x: hidden; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-teal); }
+.sidebar {
+  position: fixed; top: 0; left: 0; width: 256px; height: 100vh;
+  background: var(--bg-card); border-right: 1px solid var(--border);
+  overflow-y: auto; z-index: 100; padding-bottom: 40px; transition: transform 0.3s;
+}
+.sidebar-logo { padding: 22px 18px 18px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+.sidebar-logo .course-tag { font-family: var(--font-mono); font-size: 10px; color: var(--accent-teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+.sidebar-logo h2 { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+.nav-section { padding: 8px 18px 4px; font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; }
+.nav-link { display: flex; align-items: center; gap: 10px; padding: 8px 18px; text-decoration: none; color: var(--text-secondary); font-size: 12.5px; border-left: 2px solid transparent; transition: all 0.18s; }
+.nav-link:hover, .nav-link.active { color: var(--accent-teal); background: var(--accent-teal-dim); border-left-color: var(--accent-teal); }
+.nav-link .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--border-bright); flex-shrink: 0; transition: background 0.18s; }
+.nav-link:hover .dot, .nav-link.active .dot { background: var(--accent-teal); }
+.main { margin-left: 256px; min-height: 100vh; }
+.hero { padding: 80px 60px 60px; background: linear-gradient(135deg, #0A0C10 0%, #0F1320 50%, #0A0C10 100%); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,212,180,0.08) 0%, transparent 70%); pointer-events: none; }
+.hero::after { content: ''; position: absolute; bottom: -80px; left: 200px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(139,111,255,0.06) 0%, transparent 70%); pointer-events: none; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-teal-dim); border: 1px solid rgba(0,212,180,0.25); border-radius: 40px; padding: 5px 14px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-teal); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 24px; }
+.hero h1 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 48px); font-weight: 700; line-height: 1.15; margin-bottom: 16px; color: var(--text-primary); }
+.hero h1 span { color: var(--accent-teal); }
+.hero p { font-size: 15px; color: var(--text-secondary); max-width: 600px; margin-bottom: 28px; }
+.hero-badges { display: flex; flex-wrap: wrap; gap: 10px; }
+.badge { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; font-family: var(--font-mono); }
+.badge-teal { background: var(--accent-teal-dim); color: var(--accent-teal); border: 1px solid rgba(0,212,180,0.2); }
+.badge-violet { background: var(--accent-violet-dim); color: var(--accent-violet); border: 1px solid rgba(139,111,255,0.2); }
+.badge-amber { background: var(--accent-amber-dim); color: var(--accent-amber); border: 1px solid rgba(255,179,64,0.2); }
+.badge-red { background: var(--accent-red-dim); color: var(--accent-red); border: 1px solid rgba(255,77,106,0.2); }
+.badge-green { background: var(--accent-green-dim); color: var(--accent-green); border: 1px solid rgba(61,219,133,0.2); }
+.content-section { padding: 56px 60px; border-bottom: 1px solid var(--border); }
+.section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 36px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
+.section-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.icon-teal { background: var(--accent-teal-dim); }
+.icon-violet { background: var(--accent-violet-dim); }
+.icon-amber { background: var(--accent-amber-dim); }
+.section-num { font-family: var(--font-mono); font-size: 10px; color: var(--accent-teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 3px; }
+.section-title { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--text-primary); }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; transition: border-color 0.2s; }
+.card:hover { border-color: var(--border-bright); }
+.card-title { font-family: var(--font-display); font-size: 15px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.card p, .card li { font-size: 14px; color: var(--text-secondary); line-height: 1.75; }
+.card ul, .card ol { padding-left: 20px; }
+.card li { margin-bottom: 5px; }
+.def-box { background: var(--bg-elevated); border: 1px solid rgba(0,212,180,0.2); border-left: 4px solid var(--accent-teal); border-radius: 0 10px 10px 0; padding: 20px 22px; margin: 18px 0; }
+.def-box .def-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent-teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.def-box p { font-size: 14px; color: var(--text-secondary); }
+.theorem-box { background: var(--bg-elevated); border: 1px solid rgba(139,111,255,0.2); border-left: 4px solid var(--accent-violet); border-radius: 0 10px 10px 0; padding: 20px 22px; margin: 18px 0; }
+.theorem-box .thm-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent-violet); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.memorize-box { background: var(--accent-amber-dim); border: 1px solid rgba(255,179,64,0.3); border-radius: 10px; padding: 18px 22px; margin: 18px 0; }
+.memorize-box .mem-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent-amber); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.memorize-box ul { list-style: none; padding: 0; }
+.memorize-box li { padding: 5px 0; font-size: 14px; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 8px; }
+.memorize-box li::before { content: "★"; color: var(--accent-amber); font-size: 11px; margin-top: 3px; flex-shrink: 0; }
+.danger-box { background: var(--accent-red-dim); border: 1px solid rgba(255,77,106,0.3); border-left: 4px solid var(--accent-red); border-radius: 0 10px 10px 0; padding: 18px 22px; margin: 18px 0; }
+.danger-box .danger-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent-red); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.danger-box p, .danger-box li { font-size: 14px; color: var(--text-secondary); }
+.danger-box ul { padding-left: 18px; margin-top: 6px; }
+.proof-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin: 22px 0; }
+.proof-header { background: var(--bg-elevated); padding: 14px 22px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.proof-header-left { display: flex; align-items: center; gap: 12px; }
+.proof-example-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent-violet); letter-spacing: 1.5px; text-transform: uppercase; }
+.proof-header h3 { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.proof-body { padding: 22px; }
+.question-box { background: var(--bg-elevated); border: 1px solid rgba(139,111,255,0.15); border-radius: 8px; padding: 14px 18px; margin-bottom: 18px; }
+.question-box .q-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent-violet); letter-spacing: 2px; margin-bottom: 6px; }
+.proof-step { display: grid; grid-template-columns: 28px 1fr; gap: 0 14px; margin: 14px 0; }
+.step-num { width: 28px; height: 28px; background: var(--bg-elevated); border: 1px solid var(--border-bright); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 11px; color: var(--accent-teal); font-weight: 600; flex-shrink: 0; margin-top: 2px; }
+.step-content h4 { font-family: var(--font-display); font-size: 12px; font-weight: 600; color: var(--accent-teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.step-content p, .step-content li { font-size: 13.5px; color: var(--text-secondary); line-height: 1.75; }
+.ih-highlight { display: inline; background: rgba(139,111,255,0.15); border: 1px solid rgba(139,111,255,0.3); border-radius: 4px; padding: 1px 7px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-violet); }
+.math-line { background: var(--bg-elevated); border-radius: 6px; padding: 9px 14px; margin: 7px 0; font-family: var(--font-mono); font-size: 12.5px; color: var(--text-primary); overflow-x: auto; }
+.math-line .reason { color: var(--text-muted); font-size: 11px; margin-left: 10px; }
+.conclusion { background: var(--accent-green-dim); border: 1px solid rgba(61,219,133,0.25); border-radius: 8px; padding: 12px 16px; margin-top: 14px; }
+.conclusion .con-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent-green); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
+.conclusion p { font-size: 13.5px; color: var(--text-secondary); }
+.formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin: 20px 0; }
+.formula-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; transition: all 0.2s; }
+.formula-card:hover { border-color: var(--accent-teal); transform: translateY(-2px); }
+.formula-card .f-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent-teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+.formula-card .f-name { font-family: var(--font-display); font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
+.formula-card .f-expr { background: var(--bg-elevated); border-radius: 6px; padding: 10px 14px; font-family: var(--font-mono); font-size: 12px; color: var(--accent-teal); overflow-x: auto; margin-bottom: 8px; }
+.formula-card .f-note { font-size: 12px; color: var(--text-muted); }
+.compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13.5px; }
+.compare-table th { background: var(--bg-elevated); color: var(--accent-teal); font-family: var(--font-mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 11px 14px; text-align: left; border-bottom: 2px solid var(--border-bright); }
+.compare-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+.compare-table tr:hover td { background: var(--bg-hover); }
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table td.check { color: var(--accent-green); font-weight: 600; }
+.compare-table td.cross { color: var(--accent-red); font-weight: 600; }
+.compare-table td.key { color: var(--text-primary); font-weight: 500; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.cheat-item { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+.cheat-item .ci-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
+.cheat-item .ci-val { font-size: 13px; color: var(--text-primary); }
+.exam-q { background: var(--bg-card); border: 1px solid rgba(255,179,64,0.2); border-radius: 12px; overflow: hidden; margin-bottom: 26px; }
+.exam-q-header { background: var(--accent-amber-dim); border-bottom: 1px solid rgba(255,179,64,0.2); padding: 13px 22px; display: flex; align-items: center; gap: 12px; }
+.exam-q-header .eq-tag { font-family: var(--font-mono); font-size: 10px; color: var(--accent-amber); letter-spacing: 2px; text-transform: uppercase; white-space: nowrap; }
+.exam-q-header h3 { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.exam-q-body { padding: 22px; }
+.prop-tag { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-family: var(--font-mono); font-weight: 500; margin: 2px; }
+.prop-reflexive { background: rgba(0,212,180,0.12); color: var(--accent-teal); border: 1px solid rgba(0,212,180,0.2); }
+.prop-symmetric { background: rgba(139,111,255,0.12); color: var(--accent-violet); border: 1px solid rgba(139,111,255,0.2); }
+.prop-antisymmetric { background: rgba(255,77,106,0.12); color: var(--accent-red); border: 1px solid rgba(255,77,106,0.2); }
+.prop-transitive { background: rgba(61,219,133,0.12); color: var(--accent-green); border: 1px solid rgba(61,219,133,0.2); }
+code { background: var(--bg-elevated); border: 1px solid var(--border-bright); border-radius: 4px; padding: 1px 6px; font-family: var(--font-mono); font-size: 12px; color: var(--accent-teal); }
+h2.sub { font-family: var(--font-display); font-size: 19px; font-weight: 600; color: var(--text-primary); margin: 32px 0 14px; padding-bottom: 9px; border-bottom: 1px solid var(--border); }
+h3.mini { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text-secondary); margin: 20px 0 10px; }
+p.body { font-size: 14px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 12px; }
+p.body strong { color: var(--text-primary); font-weight: 600; }
+.info-box { background: rgba(0,212,180,0.06); border: 1px solid rgba(0,212,180,0.15); border-radius: 8px; padding: 12px 16px; margin: 14px 0; font-size: 13.5px; color: var(--text-secondary); }
+.info-box strong { color: var(--accent-teal); }
+.prop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin: 18px 0; }
+.prop-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; transition: all 0.2s; }
+.prop-card:hover { transform: translateY(-2px); }
+.prop-card.reflexive { border-top: 3px solid var(--accent-teal); }
+.prop-card.symmetric { border-top: 3px solid var(--accent-violet); }
+.prop-card.antisymmetric { border-top: 3px solid var(--accent-red); }
+.prop-card.transitive { border-top: 3px solid var(--accent-green); }
+.prop-card .pc-name { font-family: var(--font-display); font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.prop-card.reflexive .pc-name { color: var(--accent-teal); }
+.prop-card.symmetric .pc-name { color: var(--accent-violet); }
+.prop-card.antisymmetric .pc-name { color: var(--accent-red); }
+.prop-card.transitive .pc-name { color: var(--accent-green); }
+.prop-card .pc-def { font-size: 13px; color: var(--text-secondary); line-height: 1.65; margin-bottom: 8px; }
+.prop-card .pc-formal { background: var(--bg-elevated); border-radius: 6px; padding: 7px 11px; font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.prop-card .pc-example { font-size: 12px; color: var(--text-muted); }
+.back-top { position: fixed; bottom: 28px; right: 28px; background: var(--accent-teal); color: #000; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; text-decoration: none; font-weight: 700; box-shadow: 0 4px 20px rgba(0,212,180,0.3); z-index: 50; transition: transform 0.2s; }
+.back-top:hover { transform: translateY(-3px); }
+.toggle-nav { display: none; position: fixed; top: 14px; left: 14px; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-primary); width: 40px; height: 40px; border-radius: 8px; font-size: 18px; cursor: pointer; z-index: 200; align-items: center; justify-content: center; }
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .content-section { padding: 36px 20px; }
+  .hero { padding: 56px 20px 36px; }
+  .toggle-nav { display: flex; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<button class="toggle-nav" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle nav">☰</button>
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="course-tag">CSE 4203 · IUT · SWE 2nd Sem</div>
+    <h2>Discrete Mathematics<br>Exam Study Hub</h2>
+  </div>
+  <div class="nav-section">Overview</div>
+  <a href="#hero" class="nav-link"><span class="dot"></span>Introduction</a>
+  <a href="#formulas" class="nav-link"><span class="dot"></span>All Key Formulas</a>
+  <a href="#cheatsheet" class="nav-link"><span class="dot"></span>Quick Cheatsheet</a>
+  <div class="nav-section">Ch 5.1 · Induction</div>
+  <a href="#induction-intro" class="nav-link"><span class="dot"></span>What is Induction?</a>
+  <a href="#induction-steps" class="nav-link"><span class="dot"></span>The Two Steps</a>
+  <a href="#induction-template" class="nav-link"><span class="dot"></span>Proof Template</a>
+  <a href="#ex-summation" class="nav-link"><span class="dot"></span>Summation Proofs</a>
+  <a href="#ex-inequality" class="nav-link"><span class="dot"></span>Inequality Proofs</a>
+  <a href="#ex-divisibility" class="nav-link"><span class="dot"></span>Divisibility Proofs</a>
+  <a href="#ex-sets" class="nav-link"><span class="dot"></span>Sets & Creative Uses</a>
+  <a href="#mistakes" class="nav-link"><span class="dot"></span>Common Mistakes</a>
+  <a href="#exercises-5" class="nav-link"><span class="dot"></span>Exercise Problems</a>
+  <div class="nav-section">Ch 9.1 · Relations</div>
+  <a href="#relations-intro" class="nav-link"><span class="dot"></span>Binary Relations</a>
+  <a href="#properties" class="nav-link"><span class="dot"></span>Four Properties</a>
+  <a href="#combining" class="nav-link"><span class="dot"></span>Combining Relations</a>
+  <a href="#composition" class="nav-link"><span class="dot"></span>Composition & Powers</a>
+  <a href="#exercises-9" class="nav-link"><span class="dot"></span>Exercise Problems</a>
+  <div class="nav-section">Past Papers</div>
+  <a href="#pastq-2024" class="nav-link"><span class="dot"></span>Mid 2024 (Summer)</a>
+  <a href="#pastq-2025" class="nav-link"><span class="dot"></span>Mid 2025 (Summer)</a>
+</nav>
+
+<main class="main">
+<section class="hero" id="hero">
+  <div class="hero-eyebrow">📐 IUT · SWE 2nd Semester · CSE 4203</div>
+  <h1>Master <span>Discrete Math</span><br>Chapters 5.1 & 9.1</h1>
+  <p>Mathematical Induction + Relations — Complete exam preparation with fully solved examples, proofs, error analysis, comparison tables, and past paper solutions.</p>
+  <div class="hero-badges">
+    <span class="badge badge-teal">📘 Ch 5.1 — Induction</span>
+    <span class="badge badge-violet">🔗 Ch 9.1 — Relations</span>
+    <span class="badge badge-amber">★ Memorize Lists</span>
+    <span class="badge badge-red">⚠ Error-Prone Zones</span>
+    <span class="badge badge-green">✓ Past Papers Solved</span>
+  </div>
+</section>
+
+<!-- ═══ FORMULAS ═══ -->
+<section class="content-section" id="formulas">
+  <div class="section-header">
+    <div class="section-icon icon-amber">📋</div>
+    <div><div class="section-num">Reference</div><div class="section-title">All Key Formulas & Results</div></div>
+  </div>
+  <h2 class="sub">Summation Formulas (Must Memorize)</h2>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="f-label">Formula 1</div>
+      <div class="f-name">Sum of First n Integers</div>
+      <div class="f-expr">1 + 2 + 3 + … + n = n(n+1)/2</div>
+      <div class="f-note">Example: 1+2+…+100 = 100×101/2 = 5050</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-label">Formula 2</div>
+      <div class="f-name">Sum of First n Odd Integers</div>
+      <div class="f-expr">1 + 3 + 5 + … + (2n−1) = n²</div>
+      <div class="f-note">Always a perfect square — elegant result!</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-label">Formula 3</div>
+      <div class="f-name">Sum of Squares</div>
+      <div class="f-expr">1² + 2² + … + n² = n(n+1)(2n+1)/6</div>
+      <div class="f-note">Denominator is 6 — easy to forget!</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-label">Formula 4</div>
+      <div class="f-name">Sum of Cubes</div>
+      <div class="f-expr">1³ + 2³ + … + n³ = [n(n+1)/2]²</div>
+      <div class="f-note">Square of Formula 1 — beautiful!</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-label">Formula 5</div>
+      <div class="f-name">Geometric Series (r ≠ 1)</div>
+      <div class="f-expr">a + ar + ar² + … + arⁿ = a(rⁿ⁺¹−1)/(r−1)</div>
+      <div class="f-note">Special case: 1+2+4+…+2ⁿ = 2ⁿ⁺¹−1 (a=1,r=2)</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-label">Formula 6</div>
+      <div class="f-name">Harmonic Number Inequality</div>
+      <div class="f-expr">H₂ₙ ≥ 1 + n/2</div>
+      <div class="f-note">Where Hⱼ = 1 + 1/2 + 1/3 + … + 1/j</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-label">Formula 7</div>
+      <div class="f-name">Subsets of a Finite Set</div>
+      <div class="f-expr">A set with n elements has 2ⁿ subsets</div>
+      <div class="f-note">Empty set ∅ has exactly 1 subset (itself)</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-label">Formula 8</div>
+      <div class="f-name">Total Relations on a Set</div>
+      <div class="f-expr">n-element set has 2^(n²) relations on it</div>
+      <div class="f-note">|A×A| = n², each subset is a valid relation</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-label">Formula 9</div>
+      <div class="f-name">Reflexive Relations Count</div>
+      <div class="f-expr">2^(n(n−1)) reflexive relations on n-element set</div>
+      <div class="f-note">n diagonal pairs forced; remaining n(n-1) pairs are free</div>
+    </div>
+  </div>
+
+  <h2 class="sub">Key Inequalities</h2>
+  <div class="formula-grid">
+    <div class="formula-card">
+      <div class="f-label">Inequality 1</div>
+      <div class="f-name">n vs 2ⁿ</div>
+      <div class="f-expr">n &lt; 2ⁿ  for all n ≥ 1</div>
+      <div class="f-note">Always true — basis at n=1</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-label">Inequality 2</div>
+      <div class="f-name">Factorial beats Power</div>
+      <div class="f-expr">2ⁿ &lt; n!  for all n ≥ 4</div>
+      <div class="f-note">FALSE for n=1,2,3. Basis step must be P(4)!</div>
+    </div>
+    <div class="formula-card">
+      <div class="f-label">Inequality 3</div>
+      <div class="f-name">Exponential beats Polynomial</div>
+      <div class="f-expr">2ⁿ &gt; n²  for all n ≥ 5</div>
+      <div class="f-note">Exponential growth dominates polynomial</div>
+    </div>
+  </div>
+
+  <h2 class="sub">Relation Properties — Formal Definitions</h2>
+  <table class="compare-table">
+    <thead><tr><th>Property</th><th>Formal Definition</th><th>Plain English</th><th>How to Disprove</th></tr></thead>
+    <tbody>
+      <tr><td><span class="prop-tag prop-reflexive">Reflexive</span></td><td><code>∀a ∈ A: (a,a) ∈ R</code></td><td>Every element relates to itself</td><td>Find any a where (a,a) ∉ R</td></tr>
+      <tr><td><span class="prop-tag prop-symmetric">Symmetric</span></td><td><code>∀a,b: (a,b)∈R → (b,a)∈R</code></td><td>If aRb then bRa</td><td>Find (a,b)∈R but (b,a)∉R</td></tr>
+      <tr><td><span class="prop-tag prop-antisymmetric">Antisymmetric</span></td><td><code>∀a,b: (a,b)∈R ∧ (b,a)∈R → a=b</code></td><td>Both aRb and bRa only if a=b</td><td>Find distinct a≠b with both (a,b) and (b,a) in R</td></tr>
+      <tr><td><span class="prop-tag prop-transitive">Transitive</span></td><td><code>∀a,b,c: (a,b)∈R ∧ (b,c)∈R → (a,c)∈R</code></td><td>aRb and bRc implies aRc</td><td>Find (a,b),(b,c) in R but (a,c) not in R</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ CHEATSHEET ═══ -->
+<section class="content-section" id="cheatsheet">
+  <div class="section-header">
+    <div class="section-icon icon-teal">⚡</div>
+    <div><div class="section-num">Quick Reference</div><div class="section-title">Exam Cheatsheet</div></div>
+  </div>
+  <div class="grid-3">
+    <div class="cheat-item"><div class="ci-label">Induction Steps</div><div class="ci-val">1. Basis: Prove P(1) [or P(b)]<br>2. Inductive: Assume P(k), then prove P(k+1)</div></div>
+    <div class="cheat-item"><div class="ci-label">Inductive Hypothesis</div><div class="ci-val">Assume P(k) is true for arbitrary k ≥ b. Use this assumption to prove P(k+1). Never assume all P(k)!</div></div>
+    <div class="cheat-item"><div class="ci-label">Basis Step Warning</div><div class="ci-val">If P(n) is false for small n, check values first. Example: 2ⁿ &lt; n! needs P(4) not P(1).</div></div>
+    <div class="cheat-item"><div class="ci-label">Reflexive Check</div><div class="ci-val">Does (a,a) ∈ R for ALL a? Missing even one = NOT reflexive.</div></div>
+    <div class="cheat-item"><div class="ci-label">Sym vs Antisym</div><div class="ci-val">NOT opposites! A relation CAN be both (equality) or neither. Check carefully.</div></div>
+    <div class="cheat-item"><div class="ci-label">Composition S∘R</div><div class="ci-val">Apply R FIRST, then S. Read right-to-left. (a,c) ∈ S∘R if ∃b: (a,b)∈R and (b,c)∈S</div></div>
+    <div class="cheat-item"><div class="ci-label">Total Relations</div><div class="ci-val">n elements → n² pairs → 2^(n²) possible relations total on the set</div></div>
+    <div class="cheat-item"><div class="ci-label">Transitivity Shortcut</div><div class="ci-val">R transitive ⟺ Rⁿ ⊆ R for all n ≥ 1. Just check R² ⊆ R!</div></div>
+    <div class="cheat-item"><div class="ci-label">Empty Relation R=∅</div><div class="ci-val">Symmetric ✓ and transitive ✓ (vacuously), but NOT reflexive if A is nonempty.</div></div>
+  </div>
+  <div class="memorize-box" style="margin-top:22px;">
+    <div class="mem-label">⭐ Must Memorize Before Exam</div>
+    <ul>
+      <li>Σk = n(n+1)/2 · Σk² = n(n+1)(2n+1)/6 · Σk³ = [n(n+1)/2]²</li>
+      <li>Sum of first n odd numbers = n² (just n squared — nothing else)</li>
+      <li>Geometric: a + ar + … + arⁿ = a(rⁿ⁺¹−1)/(r−1) for r≠1</li>
+      <li>A set with n elements has 2ⁿ subsets; n-element set has 2^(n²) total relations</li>
+      <li>R transitive ⟺ R² ⊆ R (Theorem 1, Ch 9.1)</li>
+      <li>The 4 relation properties and their formal quantifier definitions</li>
+      <li>Composition S∘R: right-to-left order. NOT symmetric in general: S∘R ≠ R∘S</li>
+      <li>n &lt; 2ⁿ for all n ≥ 1 ; n! &gt; 2ⁿ for n ≥ 4 ; 2ⁿ &gt; n² for n &gt; 4</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ INDUCTION INTRO ═══ -->
+<section class="content-section" id="induction-intro">
+  <div class="section-header">
+    <div class="section-icon icon-teal">📐</div>
+    <div><div class="section-num">Chapter 5.1</div><div class="section-title">Mathematical Induction — Core Concepts</div></div>
+  </div>
+  <p class="body">Mathematical induction proves statements that hold for <strong>all positive integers</strong> (or from some starting point). Think of it as an infinite ladder: if you reach the first rung, and each rung guarantees the next, you can reach every rung.</p>
+  <div class="grid-2">
+    <div class="def-box">
+      <div class="def-label">🪜 Ladder Analogy</div>
+      <p>(1) We can reach the first rung. (2) Reaching any rung k guarantees reaching rung k+1. Therefore, we can reach every rung. This is the exact logic of induction.</p>
+    </div>
+    <div class="def-box">
+      <div class="def-label">🁢 Domino Analogy</div>
+      <p>Domino 1 falls (basis). Every falling domino k knocks down domino k+1 (inductive step). Conclusion: all dominoes fall — infinitely many cases handled at once.</p>
+    </div>
+  </div>
+  <div class="danger-box">
+    <div class="danger-label">⚠ Critical Distinction — Mathematical Induction is NOT Inductive Reasoning</div>
+    <p><strong>Mathematical induction is DEDUCTIVE</strong>, not inductive. Despite the name, it is a rigorous logical proof — not pattern-guessing from examples. The textbook explicitly flags this as a common source of confusion.</p>
+  </div>
+  <div class="info-box"><strong>What induction CANNOT do:</strong> It cannot discover or derive new formulas. You must already have the statement. Induction only <em>verifies</em> something you already conjectured.</div>
+  <div class="theorem-box">
+    <div class="thm-label">📜 Principle of Mathematical Induction</div>
+    <p style="color:var(--text-secondary);font-size:14px;margin-bottom:10px;">To prove P(n) is true for all positive integers n, complete TWO steps:</p>
+    <div class="math-line"><strong style="color:var(--accent-teal);">BASIS STEP:</strong> Show P(1) [or P(b)] is true.</div>
+    <div class="math-line"><strong style="color:var(--accent-violet);">INDUCTIVE STEP:</strong> Show P(k) → P(k+1) is true for all k ≥ 1 [or ≥ b].</div>
+    <div class="math-line" style="color:var(--text-muted);">Rule of inference: (P(1) ∧ ∀k(P(k)→P(k+1))) → ∀n P(n)</div>
+  </div>
+</section>
+
+<!-- ═══ INDUCTION STEPS ═══ -->
+<section class="content-section" id="induction-steps">
+  <div class="section-header">
+    <div class="section-icon icon-teal">🔢</div>
+    <div><div class="section-num">5.1 — Core</div><div class="section-title">Understanding Each Step</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🎯 Step 1: Basis Step</div>
+      <ul>
+        <li>Show P(1) is true [or P(b) if starting from b]</li>
+        <li>Usually the easiest step — just substitute n = 1</li>
+        <li>Anchors the entire chain of reasoning</li>
+        <li>Missing basis step = invalid proof, even with perfect inductive step</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🔄 Step 2: Inductive Step</div>
+      <ul>
+        <li><strong>Assume</strong> P(k) is true for an arbitrary fixed k ≥ 1 [this is the IH]</li>
+        <li><strong>Show</strong> that P(k+1) must also be true</li>
+        <li>You do NOT prove P(k) — you assume it as a tool</li>
+        <li>Mark where you use the IH clearly in your proof</li>
+        <li>Usually the hardest step — look for how P(k+1) relates to P(k)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="danger-box" style="margin-top:18px;">
+    <div class="danger-label">⚠ The Most Common Induction Error</div>
+    <p><strong>"In an induction proof we assume P(k) is true for ALL positive integers."</strong> — WRONG! We assume P(k) for ONE arbitrary fixed k, then prove P(k+1) from that. Assuming P(n) for all n would be circular — that is what we are trying to prove!</p>
+  </div>
+  <h3 class="mini">Why Induction is Valid — Well-Ordering Property</h3>
+  <p class="body">Induction is valid because every nonempty set of positive integers has a <strong>least element</strong>. If P(n) were false for some n, the set S = {n : P(n) is false} would be nonempty, so it has a least element m. But P(m−1) would be true (m−1 &lt; m so m−1 ∉ S), and the inductive step gives P(m−1) → P(m), so P(m) is true — contradiction!</p>
+</section>
+
+<!-- ═══ TEMPLATE ═══ -->
+<section class="content-section" id="induction-template">
+  <div class="section-header">
+    <div class="section-icon icon-violet">📝</div>
+    <div><div class="section-num">5.1 — Template</div><div class="section-title">Universal Proof Template</div></div>
+  </div>
+  <div class="theorem-box">
+    <div class="thm-label">📋 Follow These Steps in Every Induction Proof</div>
+    <div class="proof-step" style="margin-top:14px;">
+      <div class="step-num">1</div>
+      <div class="step-content"><h4>State the Proposition</h4><p>Express: "For all n ≥ b, P(n)" — identify b (usually 1 or 0). Write P(n) explicitly.</p></div>
+    </div>
+    <div class="proof-step">
+      <div class="step-num">2</div>
+      <div class="step-content"><h4>Write "Basis Step"</h4><p>Show P(b) is true. Substitute n = b, verify LHS = RHS (or inequality holds). State: "P(b) is true."</p></div>
+    </div>
+    <div class="proof-step">
+      <div class="step-num">3</div>
+      <div class="step-content"><h4>Write "Inductive Step" + State the IH</h4><p>Write: <em>"Assume P(k) is true for an arbitrary fixed integer k ≥ b."</em> Then write out explicitly what P(k) says.</p></div>
+    </div>
+    <div class="proof-step">
+      <div class="step-num">4</div>
+      <div class="step-content"><h4>State What You Need to Prove</h4><p>Write out explicitly what P(k+1) says. This is your target destination.</p></div>
+    </div>
+    <div class="proof-step">
+      <div class="step-num">5</div>
+      <div class="step-content"><h4>Prove P(k+1) Using the IH</h4><p>Manipulate algebraically. When you substitute the IH, write <span class="ih-highlight">IH</span> above the equals/inequality sign. This is usually the hardest step.</p></div>
+    </div>
+    <div class="proof-step">
+      <div class="step-num">6</div>
+      <div class="step-content"><h4>Write Conclusion</h4><p><em>"By the principle of mathematical induction, P(n) is true for all integers n ≥ b."</em></p></div>
+    </div>
+  </div>
+  <div class="memorize-box">
+    <div class="mem-label">★ Choosing the Right Basis Step</div>
+    <ul>
+      <li>P(n) for all <strong>positive integers</strong> → basis is P(<strong>1</strong>)</li>
+      <li>P(n) for all <strong>nonnegative integers</strong> → basis is P(<strong>0</strong>)</li>
+      <li>2ⁿ &lt; n! is false for n=1,2,3 → check small values first, use P(<strong>4</strong>)</li>
+      <li>Proving for n ≥ b where b ≠ 1 → use P(<strong>b</strong>) as basis</li>
+      <li>If recurrence uses TWO previous terms (like aₙ = f(aₙ₋₁, aₙ₋₂)) → you need TWO base cases!</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ SUMMATION PROOFS ═══ -->
+<section class="content-section" id="ex-summation">
+  <div class="section-header">
+    <div class="section-icon icon-violet">∑</div>
+    <div><div class="section-num">5.1 — Examples 1–4</div><div class="section-title">Summation Formula Proofs</div></div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header">
+      <div class="proof-header-left"><span class="proof-example-num">Example 1</span><h3>Prove: 1 + 2 + 3 + … + n = n(n+1)/2</h3></div>
+      <span class="badge badge-teal">Classic — Must Know</span>
+    </div>
+    <div class="proof-body">
+      <div class="question-box"><div class="q-label">📌 Question</div><p style="color:var(--text-secondary);font-size:14px;">Show that for all positive integers n: <strong>1 + 2 + … + n = n(n+1)/2</strong></p></div>
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis Step (n=1)</h4><p>LHS = 1. &nbsp; RHS = 1(1+1)/2 = 2/2 = 1. &nbsp; LHS = RHS ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>Inductive Hypothesis</h4><div class="math-line">Assume: 1 + 2 + … + k = k(k+1)/2 &nbsp; for some arbitrary k ≥ 1</div></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove P(k+1): 1 + 2 + … + k + (k+1) = (k+1)(k+2)/2</h4>
+        <p><strong>Strategy:</strong> The LHS of P(k+1) = LHS of P(k) + (k+1). Add (k+1) to both sides of IH.</p>
+        <div class="math-line">1 + 2 + … + k + (k+1)</div>
+        <div class="math-line">= [1 + 2 + … + k] + (k+1)</div>
+        <div class="math-line"><span class="ih-highlight">IH applied</span>: = k(k+1)/2 + (k+1)</div>
+        <div class="math-line">= k(k+1)/2 + 2(k+1)/2 &nbsp; <span class="reason">[common denominator]</span></div>
+        <div class="math-line">= [k(k+1) + 2(k+1)] / 2 = (k+1)(k+2)/2 ✓</div>
+        <p style="color:var(--text-muted);font-size:13px;margin-top:6px;">This equals (k+1)[(k+1)+1]/2 — exactly what P(k+1) requires.</p>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>By mathematical induction, 1 + 2 + … + n = n(n+1)/2 for all positive integers n.</p></div>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header">
+      <div class="proof-header-left"><span class="proof-example-num">Example 2</span><h3>Prove: 1 + 3 + 5 + … + (2n−1) = n²</h3></div>
+      <span class="badge badge-violet">Conjecture + Prove</span>
+    </div>
+    <div class="proof-body">
+      <div class="question-box"><div class="q-label">📌 Question</div><p style="color:var(--text-secondary);font-size:14px;">Conjecture a formula for the sum of first n positive odd integers, then prove it.</p></div>
+      <div class="proof-step"><div class="step-num">C</div><div class="step-content"><h4>Conjecture Phase — Check Small Values</h4>
+        <div class="math-line">n=1: 1 = 1²  &nbsp;  n=2: 1+3 = 4 = 2²  &nbsp;  n=3: 1+3+5 = 9 = 3²  &nbsp;  n=4: 16 = 4²</div>
+        <p><strong>Conjecture:</strong> 1 + 3 + 5 + … + (2n−1) = n². (The nth odd integer is 2n−1.)</p>
+      </div></div>
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=1)</h4><p>LHS = 1. RHS = 1² = 1. ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: 1 + 3 + … + (2k−1) = k²</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove P(k+1): 1 + 3 + … + (2k−1) + (2k+1) = (k+1)²</h4>
+        <p>The (k+1)th odd integer is 2(k+1)−1 = 2k+1.</p>
+        <div class="math-line">LHS = [1+3+…+(2k−1)] + (2k+1)</div>
+        <div class="math-line"><span class="ih-highlight">IH applied</span>: = k² + (2k+1) = k² + 2k + 1 = (k+1)² ✓</div>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>1 + 3 + 5 + … + (2n−1) = n² for all positive integers n.</p></div>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header">
+      <div class="proof-header-left"><span class="proof-example-num">Example 3</span><h3>Prove: 1 + 2 + 2² + … + 2ⁿ = 2ⁿ⁺¹ − 1</h3></div>
+      <span class="badge badge-green">Basis at n=0!</span>
+    </div>
+    <div class="proof-body">
+      <div class="danger-box" style="margin-bottom:14px;"><div class="danger-label">⚠ Basis at n=0 not n=1</div><p>The statement says "nonnegative integers" — basis step must show P(0), not P(1).</p></div>
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=0)</h4><p>LHS = 2⁰ = 1. &nbsp; RHS = 2⁰⁺¹ − 1 = 2 − 1 = 1. ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: 1 + 2 + 2² + … + 2ᵏ = 2ᵏ⁺¹ − 1</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove P(k+1): 1 + 2 + … + 2ᵏ + 2ᵏ⁺¹ = 2ᵏ⁺² − 1</h4>
+        <div class="math-line">LHS = (1 + 2 + … + 2ᵏ) + 2ᵏ⁺¹</div>
+        <div class="math-line"><span class="ih-highlight">IH applied</span>: = (2ᵏ⁺¹ − 1) + 2ᵏ⁺¹ = 2·2ᵏ⁺¹ − 1 = 2ᵏ⁺² − 1 ✓</div>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>1 + 2 + 4 + … + 2ⁿ = 2ⁿ⁺¹ − 1 for all nonneg. integers n. (Special case of geometric sum with a=1, r=2.)</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INEQUALITY PROOFS ═══ -->
+<section class="content-section" id="ex-inequality">
+  <div class="section-header">
+    <div class="section-icon icon-teal">≤</div>
+    <div><div class="section-num">5.1 — Examples 5–7</div><div class="section-title">Proving Inequalities by Induction</div></div>
+  </div>
+  <div class="info-box"><strong>Key Insight for Inequality Proofs:</strong> When proving P(k+1) from P(k), you often need extra facts like "1 ≤ 2ᵏ" or "2 &lt; k+1 for k ≥ 4" to bridge the gap. Look for these auxiliary inequalities.</div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Example 5</span><h3>Prove: n &lt; 2ⁿ for all positive integers n</h3></div></div>
+    <div class="proof-body">
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=1)</h4><p>1 &lt; 2¹ = 2. ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: k &lt; 2ᵏ</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove: k+1 &lt; 2ᵏ⁺¹</h4>
+        <div class="math-line">k+1 &lt; 2ᵏ + 1  &nbsp; <span class="reason">[by IH, k &lt; 2ᵏ, so k+1 &lt; 2ᵏ+1]</span></div>
+        <div class="math-line">≤ 2ᵏ + 2ᵏ = 2·2ᵏ = 2ᵏ⁺¹  &nbsp; <span class="reason">[since 1 ≤ 2ᵏ for all k ≥ 1]</span></div>
+        <div class="info-box" style="margin-top:10px;"><strong>Key auxiliary fact used:</strong> 1 ≤ 2ᵏ because 2ᵏ ≥ 2 for k ≥ 1 ≥ 1. This lets us replace +1 with +2ᵏ.</div>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>n &lt; 2ⁿ for all positive integers n.</p></div>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header">
+      <div class="proof-header-left"><span class="proof-example-num">Example 6</span><h3>Prove: 2ⁿ &lt; n! for all integers n ≥ 4</h3></div>
+      <span class="badge badge-amber">Basis at n=4!</span>
+    </div>
+    <div class="proof-body">
+      <div class="danger-box" style="margin-bottom:14px;"><div class="danger-label">⚠ This is FALSE for n=1,2,3 — Basis MUST be P(4)!</div><p>n=1: 2&gt;1. n=2: 4&gt;2. n=3: 8&gt;6. Only true from n=4 onward: 2⁴=16 &lt; 24=4!. If you use P(1) as the basis here, your proof is WRONG.</p></div>
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=4)</h4><p>2⁴ = 16 &lt; 24 = 4! ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: 2ᵏ &lt; k! for some k ≥ 4</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove: 2ᵏ⁺¹ &lt; (k+1)!</h4>
+        <div class="math-line">2ᵏ⁺¹ = 2 · 2ᵏ</div>
+        <div class="math-line"><span class="ih-highlight">IH applied</span>: &lt; 2 · k!</div>
+        <div class="math-line">&lt; (k+1) · k!  &nbsp; <span class="reason">[since 2 &lt; k+1 when k ≥ 4, so k+1 ≥ 5 &gt; 2]</span></div>
+        <div class="math-line">= (k+1)! ✓</div>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>2ⁿ &lt; n! for all integers n ≥ 4.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DIVISIBILITY ═══ -->
+<section class="content-section" id="ex-divisibility">
+  <div class="section-header">
+    <div class="section-icon icon-teal">÷</div>
+    <div><div class="section-num">5.1 — Examples 8–9</div><div class="section-title">Proving Divisibility Results</div></div>
+  </div>
+  <div class="def-box"><div class="def-label">📖 Divisibility Rules Used in Proofs</div><p>If d|a and d|b, then d|(a+b) and d|(a−b). &nbsp; Also if d|a, then d|(c·a) for any integer c. Use these to show sums of divisible parts are divisible.</p></div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Example 8</span><h3>Prove: 3 | (n³ − n) for all positive integers n</h3></div></div>
+    <div class="proof-body">
+      <div class="info-box"><strong>Slicker direct proof:</strong> n³−n = (n−1)n(n+1) = product of 3 consecutive integers. One is always divisible by 3. So 3|(n³−n) directly. Induction works but isn't the most elegant approach here.</div>
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=1)</h4><p>1³ − 1 = 0 = 3·0. Since 3|0, P(1) is true. ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: 3 | (k³ − k)</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove: 3 | (k+1)³ − (k+1)</h4>
+        <div class="math-line">(k+1)³ − (k+1) = (k³ + 3k² + 3k + 1) − (k + 1)</div>
+        <div class="math-line">= (k³ − k) + 3k² + 3k = (k³ − k) + 3(k² + k)</div>
+        <p style="color:var(--text-secondary);font-size:13.5px;margin-top:8px;"><span class="ih-highlight">IH</span>: 3|(k³−k). Also 3|3(k²+k) obviously. Sum of two multiples of 3 is divisible by 3. ✓</p>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>n³ − n is divisible by 3 for all positive integers n.</p></div>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header">
+      <div class="proof-header-left"><span class="proof-example-num">Example 9</span><h3>Prove: 57 | (7ⁿ⁺² + 8²ⁿ⁺¹) for all n ≥ 0</h3></div>
+      <span class="badge badge-red">Hard — Exam Favourite</span>
+    </div>
+    <div class="proof-body">
+      <div class="danger-box" style="margin-bottom:14px;"><div class="danger-label">⚠ Hardest Induction Proof — Learn the Algebraic Trick</div><p>The key is rewriting 7ᵏ⁺³ + 8²ᵏ⁺³ so that (7ᵏ⁺² + 8²ᵏ⁺¹) appears as a factor — then apply IH. The trick: split the coefficient 64 = 7 + 57.</p></div>
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=0)</h4><p>7⁰⁺² + 8²⁽⁰⁾⁺¹ = 7² + 8¹ = 49 + 8 = <strong>57</strong> = 57·1. ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: 57 | (7ᵏ⁺² + 8²ᵏ⁺¹)</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove: 57 | 7ᵏ⁺³ + 8²ᵏ⁺³</h4>
+        <div class="math-line">7ᵏ⁺³ + 8²ᵏ⁺³ = 7·7ᵏ⁺² + 8²·8²ᵏ⁺¹ = 7·7ᵏ⁺² + 64·8²ᵏ⁺¹</div>
+        <div class="math-line">= 7·7ᵏ⁺² + (7 + 57)·8²ᵏ⁺¹  &nbsp; <span class="reason">[split 64 = 7 + 57 ← the KEY trick]</span></div>
+        <div class="math-line">= 7·7ᵏ⁺² + 7·8²ᵏ⁺¹ + 57·8²ᵏ⁺¹</div>
+        <div class="math-line">= 7(7ᵏ⁺² + 8²ᵏ⁺¹) + 57·8²ᵏ⁺¹</div>
+        <p style="color:var(--text-secondary);font-size:13.5px;margin-top:8px;"><span class="ih-highlight">IH</span>: 57|(7ᵏ⁺²+8²ᵏ⁺¹), so 57|7(7ᵏ⁺²+8²ᵏ⁺¹). Also 57|57·8²ᵏ⁺¹. So 57 divides the total. ✓</p>
+      </div></div>
+      <div class="memorize-box"><div class="mem-label">★ The Algebraic Trick Pattern</div><ul><li>Expand using exponent rules: 8²ᵏ⁺³ = 8²·8²ᵏ⁺¹ = 64·8²ᵏ⁺¹</li><li>Split the big coefficient: 64 = 7 + 57 (so that 7 groups with 7ᵏ⁺²)</li><li>Form (7ᵏ⁺² + 8²ᵏ⁺¹) as a factor — that's the IH expression</li><li>The divisor (57) should appear as the remaining coefficient naturally</li></ul></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>57 | (7ⁿ⁺² + 8²ⁿ⁺¹) for all nonneg. integers n.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SETS & CREATIVE ═══ -->
+<section class="content-section" id="ex-sets">
+  <div class="section-header">
+    <div class="section-icon icon-violet">🔬</div>
+    <div><div class="section-num">5.1 — Examples 10–14</div><div class="section-title">Sets, De Morgan & Checkerboard Tiling</div></div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Example 10</span><h3>A finite set with n elements has 2ⁿ subsets</h3></div></div>
+    <div class="proof-body">
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=0): Empty Set</h4><p>The empty set ∅ has exactly 2⁰ = 1 subset — itself. ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: Every k-element set has 2ᵏ subsets</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove: A (k+1)-element set T has 2ᵏ⁺¹ subsets</h4>
+        <p>Write T = S ∪ {a}, where a ∈ T and S = T − {a} (so |S| = k).</p>
+        <p>Every subset of T is either a subset X of S, or X ∪ {a} for some subset X of S.</p>
+        <p><span class="ih-highlight">IH</span>: S has 2ᵏ subsets. For each subset X of S, we get exactly 2 subsets of T. So T has 2·2ᵏ = 2ᵏ⁺¹ subsets. ✓</p>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>A set with n elements has 2ⁿ subsets for all n ≥ 0.</p></div>
+    </div>
+  </div>
+
+  <h3 class="mini">Example 14 — Checkerboard Tiling (Creative Induction)</h3>
+  <div class="card">
+    <div class="card-title">🎮 Claim: Every 2ⁿ×2ⁿ board with one square removed can be tiled with L-shaped right triominoes</div>
+    <p><strong>Basis (n=1):</strong> A 2×2 board with one square removed is itself an L-triomino. ✓</p>
+    <p style="margin-top:8px;"><strong>Inductive Step:</strong> Split the 2ᵏ⁺¹×2ᵏ⁺¹ board into four 2ᵏ×2ᵏ quadrants. The removed square is in one quadrant — tile it by IH. For the other 3, temporarily remove the corner nearest the center, apply IH to each, then cover the 3 temporary corners with ONE single triomino.</p>
+    <div class="info-box" style="margin-top:12px;"><strong>Why it works:</strong> The center triomino bridges all 4 quadrants. Each quadrant has exactly one "missing" square — either the real removed square or the temporarily removed corner.</div>
+  </div>
+</section>
+
+<!-- ═══ MISTAKES ═══ -->
+<section class="content-section" id="mistakes">
+  <div class="section-header">
+    <div class="section-icon icon-amber">⚠</div>
+    <div><div class="section-num">5.1 — Error Analysis</div><div class="section-title">Invalid Proofs & How to Spot Errors</div></div>
+  </div>
+
+  <div class="danger-box">
+    <div class="danger-label">⚠ Example 15 — "All Lines Meet at a Point" (False Proof)</div>
+    <p>This famous incorrect proof tries to show any n non-parallel lines all pass through a common point. <strong>Error:</strong> The inductive step fails for k = 2. When trying to go from k=2 lines to k+1=3, the "first k" and "last k" sets share only ONE line. So points p₁ and p₂ don't have to coincide. The basis step P(2) is true, but the inductive step only works for k ≥ 3 — so the step P(2)→P(3) is the broken link.</p>
+  </div>
+
+  <div class="danger-box">
+    <div class="danger-label">⚠ Exercise 49 — "All Horses Same Color" (Classic Invalid Proof)</div>
+    <p><strong>False claim:</strong> All horses in any set of n horses have the same color.<br><strong>Error:</strong> The inductive step fails at k=1 → k+1=2. For k=1, "first k" = {horse 1} and "last k" = {horse 2}. The sets DON'T OVERLAP, so you can't conclude they're the same color. The overlap argument only works when k ≥ 2, but the basis is k=1, leaving a gap at the critical first step.</p>
+  </div>
+
+  <div class="memorize-box">
+    <div class="mem-label">★ How to Spot Invalid Induction Proofs</div>
+    <ul>
+      <li>Explicitly check if the inductive step works for the smallest k (k = basis value) — this is where false proofs usually break</li>
+      <li>Watch for set overlap arguments — they can silently fail for small k</li>
+      <li>If something sounds too surprising to be true, be skeptical and check k = basis value extra carefully</li>
+      <li>Both basis AND inductive step must be correctly done — an invalid proof might have one correct and one subtly wrong</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═══ EXERCISES 5.1 ═══ -->
+<section class="content-section" id="exercises-5">
+  <div class="section-header">
+    <div class="section-icon icon-amber">✏</div>
+    <div><div class="section-num">5.1 — Practice</div><div class="section-title">Exercise Problems — Solved</div></div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Exercise 3</span><h3>Prove: 1² + 2² + … + n² = n(n+1)(2n+1)/6</h3></div></div>
+    <div class="proof-body">
+      <div class="question-box"><div class="q-label">📌 Exercise 3</div><p style="color:var(--text-secondary);font-size:14px;">P(n): 1² + 2² + ⋯ + n² = n(n+1)(2n+1)/6. Prove for all positive integers n.</p></div>
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=1)</h4><p>LHS = 1² = 1. &nbsp; RHS = 1·2·3/6 = 6/6 = 1. ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: 1² + 2² + … + k² = k(k+1)(2k+1)/6</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove P(k+1): sum + (k+1)² = (k+1)(k+2)(2k+3)/6</h4>
+        <div class="math-line">LHS = [1² + … + k²] + (k+1)²</div>
+        <div class="math-line"><span class="ih-highlight">IH</span>: = k(k+1)(2k+1)/6 + (k+1)²</div>
+        <div class="math-line">= (k+1)[k(2k+1)/6 + (k+1)] = (k+1)[k(2k+1) + 6(k+1)] / 6</div>
+        <div class="math-line">= (k+1)[2k² + k + 6k + 6] / 6 = (k+1)(2k² + 7k + 6) / 6</div>
+        <div class="math-line">= (k+1)(k+2)(2k+3) / 6 ✓  &nbsp; <span class="reason">[factor: 2k²+7k+6 = (k+2)(2k+3)]</span></div>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>1² + 2² + … + n² = n(n+1)(2n+1)/6 for all positive integers n.</p></div>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Exercise 6</span><h3>Prove: 1·1! + 2·2! + … + n·n! = (n+1)! − 1</h3></div></div>
+    <div class="proof-body">
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=1)</h4><p>LHS = 1·1! = 1. &nbsp; RHS = 2! − 1 = 1. ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: 1·1! + … + k·k! = (k+1)! − 1</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove: sum + (k+1)·(k+1)! = (k+2)! − 1</h4>
+        <div class="math-line"><span class="ih-highlight">IH</span>: [(k+1)! − 1] + (k+1)·(k+1)!</div>
+        <div class="math-line">= (k+1)![1 + (k+1)] − 1 = (k+1)!(k+2) − 1 = (k+2)! − 1 ✓</div>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>1·1! + 2·2! + … + n·n! = (n+1)! − 1 for all positive integers n.</p></div>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Exercise 21</span><h3>Prove: 2ⁿ &gt; n² for all integers n &gt; 4</h3></div></div>
+    <div class="proof-body">
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=5)</h4><p>2⁵ = 32 &gt; 25 = 5². ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: 2ᵏ &gt; k² for some k ≥ 5</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove: 2ᵏ⁺¹ &gt; (k+1)²</h4>
+        <div class="math-line">2ᵏ⁺¹ = 2·2ᵏ  <span class="ih-highlight">IH</span>  &gt; 2k²</div>
+        <p style="color:var(--text-secondary);font-size:13.5px;margin-top:6px;">Need: 2k² ≥ (k+1)² = k² + 2k + 1 &nbsp;⟺&nbsp; k² − 2k − 1 ≥ 0.</p>
+        <p style="color:var(--text-secondary);font-size:13.5px;">For k ≥ 5: k² − 2k − 1 ≥ 25 − 10 − 1 = 14 &gt; 0. ✓ So 2ᵏ⁺¹ &gt; (k+1)². ✓</p>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>2ⁿ &gt; n² for all integers n &gt; 4.</p></div>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Exercise 32</span><h3>Prove: 3 | (n³ + 2n) for all positive integers n</h3></div></div>
+    <div class="proof-body">
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=1)</h4><p>1³ + 2(1) = 3 = 3·1. So 3|3. ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: 3 | (k³ + 2k)</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove: 3 | (k+1)³ + 2(k+1)</h4>
+        <div class="math-line">(k+1)³ + 2(k+1) = k³ + 3k² + 3k + 1 + 2k + 2 = (k³ + 2k) + 3k² + 3k + 3</div>
+        <div class="math-line">= (k³ + 2k) + 3(k² + k + 1)</div>
+        <p style="color:var(--text-secondary);font-size:13.5px;margin-top:6px;"><span class="ih-highlight">IH</span>: 3|(k³+2k). Also 3|3(k²+k+1). Sum of multiples of 3 is divisible by 3. ✓</p>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>3 | (n³ + 2n) for all positive integers n.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ CH 9.1 RELATIONS ═══════════════════════════════ -->
+<section class="content-section" id="relations-intro">
+  <div class="section-header">
+    <div class="section-icon icon-violet">🔗</div>
+    <div><div class="section-num">Chapter 9.1</div><div class="section-title">Relations and Their Properties</div></div>
+  </div>
+  <div class="def-box"><div class="def-label">📖 Definition 1 — Binary Relation</div><p>Let A and B be sets. A <strong>binary relation</strong> from A to B is a subset R ⊆ A × B. We write <code>aRb</code> if (a,b) ∈ R.</p></div>
+  <div class="def-box"><div class="def-label">📖 Definition 2 — Relation ON a Set</div><p>A relation <strong>on</strong> set A is a relation from A to A — i.e., a subset of A×A. This is the most common type studied.</p></div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">📊 Functions vs Relations</div>
+      <ul>
+        <li>Every function f: A→B is a relation (its graph is a subset of A×B)</li>
+        <li>A relation where every element of A appears as a first element exactly once = a function</li>
+        <li>Relations allow one-to-many: "Middletown" can belong to both New Jersey AND New York</li>
+        <li>Relations are a generalization of functions</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">📈 Counting Relations</div>
+      <ul>
+        <li>If |A| = n, then |A×A| = n²</li>
+        <li>Each of the 2^(n²) subsets of A×A is a valid relation on A</li>
+        <li>Example: {a,b,c} → 2^9 = 512 relations</li>
+        <li>{0,1} → 2^4 = 16 relations (memorize this!)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="mini">Example 5 — Six Relations on ℤ (Key Reference Table)</h3>
+  <div class="card">
+    <table class="compare-table" style="margin-top:0;">
+      <thead><tr><th>Relation</th><th>Definition</th><th>(1,1)</th><th>(1,2)</th><th>(2,1)</th><th>(1,−1)</th><th>(2,2)</th></tr></thead>
+      <tbody>
+        <tr><td>R₁</td><td>a ≤ b</td><td class="check">✓</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>R₂</td><td>a &gt; b</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td><td class="cross">✗</td></tr>
+        <tr><td>R₃</td><td>a = b or a = −b</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>R₄</td><td>a = b</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td></tr>
+        <tr><td>R₅</td><td>a = b + 1</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td><td class="cross">✗</td><td class="cross">✗</td></tr>
+        <tr><td>R₆</td><td>a + b ≤ 3</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td><td class="cross">✗</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ PROPERTIES ═══ -->
+<section class="content-section" id="properties">
+  <div class="section-header">
+    <div class="section-icon icon-violet">🎯</div>
+    <div><div class="section-num">9.1 — Core</div><div class="section-title">The Four Properties of Relations</div></div>
+  </div>
+
+  <div class="prop-grid">
+    <div class="prop-card reflexive">
+      <div class="pc-name">🟢 Reflexive</div>
+      <div class="pc-def">Every element is related to itself. No element can be "skipped."</div>
+      <div class="pc-formal">∀a ∈ A: (a,a) ∈ R</div>
+      <div class="pc-example"><strong>YES:</strong> ≤, =, divides on ℤ⁺<br><strong>NO:</strong> &lt;, "is parent of," ≠</div>
+    </div>
+    <div class="prop-card symmetric">
+      <div class="pc-name">💜 Symmetric</div>
+      <div class="pc-def">If a relates to b, then b relates to a. Direction doesn't matter.</div>
+      <div class="pc-formal">∀a,b: (a,b)∈R → (b,a)∈R</div>
+      <div class="pc-example"><strong>YES:</strong> =, "same age as," "married to"<br><strong>NO:</strong> divides, &lt;, ≤</div>
+    </div>
+    <div class="prop-card antisymmetric">
+      <div class="pc-name">🔴 Antisymmetric</div>
+      <div class="pc-def">If aRb and bRa, then a must equal b. No two distinct elements relate in both directions.</div>
+      <div class="pc-formal">∀a,b: (a,b)∈R ∧ (b,a)∈R → a=b</div>
+      <div class="pc-example"><strong>YES:</strong> ≤, divides, &lt;<br><strong>NO:</strong> "same age as," ≠</div>
+    </div>
+    <div class="prop-card transitive">
+      <div class="pc-name">🟩 Transitive</div>
+      <div class="pc-def">If aRb and bRc, then aRc. Like a chain — if each link holds, the whole chain holds.</div>
+      <div class="pc-formal">∀a,b,c: (a,b)∈R ∧ (b,c)∈R → (a,c)∈R</div>
+      <div class="pc-example"><strong>YES:</strong> ≤, divides, "ancestor of"<br><strong>NO:</strong> "parent of," "next to"</div>
+    </div>
+  </div>
+
+  <div class="danger-box" style="margin-top:22px;">
+    <div class="danger-label">⚠ Biggest Confusion — Symmetric vs Antisymmetric are NOT Opposites!</div>
+    <ul>
+      <li><strong>A relation CAN be BOTH symmetric and antisymmetric:</strong> Example: equality R = {(a,a) | a∈A}. It's symmetric (if aRa then aRa trivially) and antisymmetric (if (a,b)∈R and (b,a)∈R then a=b — holds since only diagonal pairs exist).</li>
+      <li><strong>A relation can be NEITHER:</strong> R = {(1,2),(2,1),(1,3)} — not symmetric (lacks (3,1)), not antisymmetric ((1,2)&(2,1) in R but 1≠2).</li>
+      <li><strong>Antisymmetric ≠ asymmetric:</strong> Antisymmetric allows (a,a) pairs. Asymmetric (a stricter condition) forbids ALL self-loops.</li>
+    </ul>
+  </div>
+
+  <h2 class="sub">Properties of Famous Relations on ℤ (Example 5)</h2>
+  <table class="compare-table">
+    <thead><tr><th>Relation</th><th>Reflexive</th><th>Symmetric</th><th>Antisymmetric</th><th>Transitive</th></tr></thead>
+    <tbody>
+      <tr><td>R₁: a ≤ b</td><td class="check">✓ (a≤a)</td><td class="cross">✗ (1≤2, 2≰1)</td><td class="check">✓ (a≤b,b≤a → a=b)</td><td class="check">✓</td></tr>
+      <tr><td>R₂: a &gt; b</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓ (impossible a&gt;b and b&gt;a)</td><td class="check">✓</td></tr>
+      <tr><td>R₃: a = ±b</td><td class="check">✓ (a=a)</td><td class="check">✓</td><td class="cross">✗ (1=−(−1), −1=−1)</td><td class="check">✓</td></tr>
+      <tr><td>R₄: a = b</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓ (BOTH sym & antisym!)</td><td class="check">✓</td></tr>
+      <tr><td>R₅: a = b+1</td><td class="cross">✗</td><td class="cross">✗</td><td class="check">✓</td><td class="cross">✗ ((2,1),(1,0)∈R but (2,0)∉R)</td></tr>
+      <tr><td>R₆: a+b ≤ 3</td><td class="cross">✗ (2+2=4&gt;3)</td><td class="check">✓ (a+b=b+a)</td><td class="cross">✗</td><td class="cross">✗</td></tr>
+      <tr><td>divides on ℤ⁺</td><td class="check">✓ (a|a)</td><td class="cross">✗ (2|4, 4∤2)</td><td class="check">✓</td><td class="check">✓ (a|b,b|c → a|c)</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="sub">Counting Reflexive Relations (Example 16)</h2>
+  <div class="card">
+    <div class="card-title">How many reflexive relations on an n-element set?</div>
+    <p style="color:var(--accent-teal);font-weight:600;font-size:15px;">Answer: 2^(n(n−1))</p>
+    <p style="color:var(--text-secondary);font-size:14px;margin-top:8px;"><strong>Reasoning:</strong> A×A has n² pairs. The n diagonal pairs (a,a) MUST be in any reflexive relation — no choice. The remaining n²−n = n(n−1) non-diagonal pairs can freely be included or not → 2 choices each → 2^(n(n−1)) total.</p>
+    <div class="math-line">n=3: 2^(3·2) = 2⁶ = 64 reflexive relations on a 3-element set</div>
+  </div>
+</section>
+
+<!-- ═══ COMBINING ═══ -->
+<section class="content-section" id="combining">
+  <div class="section-header">
+    <div class="section-icon icon-teal">⊕</div>
+    <div><div class="section-num">9.1 — Section 5</div><div class="section-title">Combining Relations</div></div>
+  </div>
+  <p class="body">Relations are sets, so they can be combined with all set operations: ∪, ∩, −, ⊕.</p>
+  <div class="card">
+    <div class="card-title">Example 18 — Real-World Combination</div>
+    <p>A = students, B = courses. R₁ = "has taken", R₂ = "needs to graduate"</p>
+    <table class="compare-table" style="margin-top:10px;">
+      <thead><tr><th>Operation</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>R₁ ∪ R₂</td><td>Student has taken OR needs the course</td></tr>
+        <tr><td>R₁ ∩ R₂</td><td>Student has taken AND the course is required</td></tr>
+        <tr><td>R₁ ⊕ R₂</td><td>Taken-but-not-required (elective) OR required-but-not-taken</td></tr>
+        <tr><td>R₁ − R₂</td><td>Elective taken (taken, not required)</td></tr>
+        <tr><td>R₂ − R₁</td><td>Still needs to take (required, not yet taken)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══ COMPOSITION ═══ -->
+<section class="content-section" id="composition">
+  <div class="section-header">
+    <div class="section-icon icon-violet">∘</div>
+    <div><div class="section-num">9.1 — Composition</div><div class="section-title">Composition of Relations & Powers</div></div>
+  </div>
+
+  <div class="def-box"><div class="def-label">📖 Definition 6 — Composite of Relations</div><p>Let R be a relation from A to B, and S a relation from B to C. The <strong>composite S∘R</strong> is a relation from A to C:<br><code>(a,c) ∈ S∘R &nbsp;⟺&nbsp; ∃b ∈ B: (a,b) ∈ R &nbsp;and&nbsp; (b,c) ∈ S</code></p></div>
+
+  <div class="danger-box"><div class="danger-label">⚠ Order is Critical — Right to Left!</div><p>In <strong>S∘R</strong>, apply R FIRST, then S. The notation reads right-to-left (like function composition). <code>S∘R ≠ R∘S</code> in general.</p></div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Example 20</span><h3>Compute S∘R</h3></div></div>
+    <div class="proof-body">
+      <div class="question-box"><div class="q-label">📌 Question</div><p style="color:var(--text-secondary);font-size:14px;">R = {(1,1),(1,4),(2,3),(3,1),(3,4)} from {1,2,3} to {1,2,3,4}<br>S = {(1,0),(2,0),(3,1),(3,2),(4,1)} from {1,2,3,4} to {0,1,2}. Find S∘R.</p></div>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin-bottom:10px;">For each (a,b)∈R, find all (b,c)∈S → pair (a,c) goes into S∘R:</p>
+      <div class="math-line">(1,1)∈R + (1,0)∈S → (1,0) ∈ S∘R</div>
+      <div class="math-line">(1,4)∈R + (4,1)∈S → (1,1) ∈ S∘R</div>
+      <div class="math-line">(2,3)∈R + (3,1)∈S → (2,1) ∈ S∘R</div>
+      <div class="math-line">(2,3)∈R + (3,2)∈S → (2,2) ∈ S∘R</div>
+      <div class="math-line">(3,1)∈R + (1,0)∈S → (3,0) ∈ S∘R</div>
+      <div class="math-line">(3,4)∈R + (4,1)∈S → (3,1) ∈ S∘R</div>
+      <div class="conclusion"><div class="con-label">S∘R =</div><p>{(1,0),(1,1),(2,1),(2,2),(3,0),(3,1)}</p></div>
+    </div>
+  </div>
+
+  <div class="def-box" style="margin-top:20px;"><div class="def-label">📖 Definition 7 — Powers of a Relation</div><p>R¹ = R &nbsp;|&nbsp; Rⁿ⁺¹ = Rⁿ ∘ R<br>So R² = R∘R, R³ = R²∘R, etc.</p></div>
+
+  <div class="theorem-box"><div class="thm-label">📜 Theorem 1 — Transitivity and Powers (Key Theorem!)</div><p style="color:var(--text-secondary);font-size:14px;margin-bottom:8px;"><strong>R on set A is transitive &nbsp;⟺&nbsp; Rⁿ ⊆ R for all n = 1, 2, 3, …</strong></p><p style="color:var(--text-muted);font-size:13px;">Shortcut: R is transitive ⟺ R² ⊆ R. Just check if every (a,c) reachable in 2 steps is already directly in R.</p></div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Example 22</span><h3>R = {(1,1),(2,1),(3,2),(4,3)} — Find R², R³, R⁴</h3></div></div>
+    <div class="proof-body">
+      <p style="color:var(--text-secondary);font-size:13.5px;margin-bottom:10px;">Compute R² = R∘R: for each (a,b)∈R and (b,c)∈R, put (a,c) in R²:</p>
+      <div class="math-line">From (1,1): (1,1)∈R → (1,1). From (2,1): (1,1)∈R → (2,1). From (3,2): (2,1)∈R → (3,1). From (4,3): (3,2)∈R → (4,2).</div>
+      <div class="math-line">R² = {(1,1),(2,1),(3,1),(4,2)}</div>
+      <div class="math-line">R³ = R²∘R: Similar computation → R³ = {(1,1),(2,1),(3,1),(4,1)}</div>
+      <div class="math-line">R⁴ = R³∘R: Verify — R⁴ = {(1,1),(2,1),(3,1),(4,1)} = R³ (STABILIZED!)</div>
+      <div class="info-box"><strong>Key observation:</strong> Powers of a finite relation eventually stabilize. This relation stabilizes at R³ since all "chain" information is exhausted.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EXERCISES 9.1 ═══ -->
+<section class="content-section" id="exercises-9">
+  <div class="section-header">
+    <div class="section-icon icon-amber">✏</div>
+    <div><div class="section-num">9.1 — Practice</div><div class="section-title">Exercise Problems — Solved</div></div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Exercise 3b</span><h3>Analyze: {(1,1),(1,2),(2,1),(2,2),(3,3),(4,4)} on {1,2,3,4}</h3></div></div>
+    <div class="proof-body">
+      <div class="proof-step"><div class="step-num">R</div><div class="step-content"><h4>Reflexive?</h4><p>All (1,1),(2,2),(3,3),(4,4) are present. ✓ <strong>Reflexive</strong></p></div></div>
+      <div class="proof-step"><div class="step-num">S</div><div class="step-content"><h4>Symmetric?</h4><p>(1,2)∈R and (2,1)∈R ✓. Diagonal pairs symmetric trivially. ✓ <strong>Symmetric</strong></p></div></div>
+      <div class="proof-step"><div class="step-num">A</div><div class="step-content"><h4>Antisymmetric?</h4><p>(1,2) and (2,1) both in R, but 1≠2. ✗ <strong>Not Antisymmetric</strong></p></div></div>
+      <div class="proof-step"><div class="step-num">T</div><div class="step-content"><h4>Transitive?</h4><p>Chains: (1,2)&(2,1)→need (1,1)∈R ✓. (2,1)&(1,2)→need (2,2)∈R ✓. No other non-trivial chains exist. ✓ <strong>Transitive</strong></p></div></div>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Exercise 6d</span><h3>R on ℝ: (x,y)∈R iff x = 2y — Check all properties</h3></div></div>
+    <div class="proof-body">
+      <div class="proof-step"><div class="step-num">R</div><div class="step-content"><h4>Reflexive?</h4><p>Is x = 2x for all x? Only if x=0. For x=1: 1 ≠ 2. ✗ <strong>Not Reflexive</strong></p></div></div>
+      <div class="proof-step"><div class="step-num">S</div><div class="step-content"><h4>Symmetric?</h4><p>(4,2)∈R since 4=2·2. Is (2,4)∈R? Need 2=2·4=8. ✗ <strong>Not Symmetric</strong></p></div></div>
+      <div class="proof-step"><div class="step-num">A</div><div class="step-content"><h4>Antisymmetric?</h4><p>If x=2y AND y=2x, then x=2(2x)=4x, so 3x=0, x=0=y. ✓ <strong>Antisymmetric</strong></p></div></div>
+      <div class="proof-step"><div class="step-num">T</div><div class="step-content"><h4>Transitive?</h4><p>If x=2y and y=2z, then x=4z. Need x=2z. Counterexample: (8,4)∈R, (4,2)∈R, but (8,2)∉R (8≠4). ✗ <strong>Not Transitive</strong></p></div></div>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Exercise 32</span><h3>Compute S∘R for R={(1,2),(1,3),(2,3),(2,4),(3,1)}, S={(2,1),(3,1),(3,2),(4,2)}</h3></div></div>
+    <div class="proof-body">
+      <div class="math-line">(1,2)∈R, (2,1)∈S → (1,1)</div>
+      <div class="math-line">(1,3)∈R, (3,1)∈S → (1,1) [duplicate] ; (3,2)∈S → (1,2)</div>
+      <div class="math-line">(2,3)∈R, (3,1)∈S → (2,1) ; (3,2)∈S → (2,2)</div>
+      <div class="math-line">(2,4)∈R, (4,2)∈S → (2,2) [duplicate]</div>
+      <div class="math-line">(3,1)∈R, (1,?)∈S? → None (1 not a first element in S)</div>
+      <div class="conclusion"><div class="con-label">S∘R =</div><p>{(1,1),(1,2),(2,1),(2,2)}</p></div>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-header"><div class="proof-header-left"><span class="proof-example-num">Exercise 51</span><h3>Find error: "symmetric + transitive → reflexive"</h3></div></div>
+    <div class="proof-body">
+      <div class="question-box"><div class="q-label">📌 Exercise 51 — Spot the Error</div><p style="color:var(--text-secondary);font-size:14px;">"Proof": Let a∈A. Take b with (a,b)∈R. By symmetry (b,a)∈R. By transitivity (a,b)∈R and (b,a)∈R gives (a,a)∈R. So R is reflexive.</p></div>
+      <div class="danger-box" style="margin-top:0;"><div class="danger-label">⚠ Error Found</div><p>The "proof" assumes there EXISTS a b such that (a,b)∈R. But if a is not related to ANY element (no pairs with a as first element), the argument never starts! Counterexample: A = {1,2}, R = {(1,1),(2,2),(1,2),(2,1)} is symmetric and transitive, and reflexive. BUT take R = ∅ on A={1,2} — symmetric ✓, transitive ✓ (vacuously), but NOT reflexive since (1,1)∉R. The error is assuming ∃b: (a,b)∈R.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PAST PAPERS ═══ -->
+<section class="content-section" id="pastq-2024">
+  <div class="section-header">
+    <div class="section-icon icon-amber">📝</div>
+    <div><div class="section-num">Past Paper — 12 March 2024</div><div class="section-title">Mid Semester Exam — Summer Semester 2022–2023</div></div>
+  </div>
+  <div class="memorize-box"><div class="mem-label">📋 Exam Info</div><ul><li>Duration: 1 hr 30 min | Full Marks: 75 | Answer all 3 questions</li><li>Q2b: Recurrence solution (iterative) | Q2c: Recurrence modelling | Q3c: Function bijection</li></ul></div>
+
+  <div class="exam-q">
+    <div class="exam-q-header"><span class="eq-tag">Q2b — 9 marks</span><h3>Solve aₙ = 2n·aₙ₋₁, a₀ = 1</h3></div>
+    <div class="exam-q-body">
+      <div class="question-box"><div class="q-label">📌 Question</div><p style="color:var(--text-secondary);font-size:14px;">Find the solution of aₙ = 2naₙ₋₁ where a₀ = 1.</p></div>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin-bottom:10px;"><strong>Method: Iterate (unroll) the recurrence backward.</strong></p>
+      <div class="math-line">aₙ = 2n·aₙ₋₁ = 2n·[2(n−1)·aₙ₋₂] = 2n·2(n−1)·[2(n−2)·aₙ₋₃] = …</div>
+      <div class="math-line">= (2n)·(2(n−1))·(2(n−2))·…·(2·1)·a₀</div>
+      <div class="math-line">= 2ⁿ · (n·(n−1)·…·1) · 1 = 2ⁿ · n!</div>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin-top:8px;"><strong>Verification:</strong> a₀ = 2⁰·0! = 1 ✓ &nbsp;|&nbsp; a₁ = 2¹·1! = 2 ✓ &nbsp;|&nbsp; a₂ = 2²·2! = 4·2 = 8. Check: 2·2·a₁ = 4·2 = 8 ✓</p>
+      <div class="conclusion"><div class="con-label">✓ Answer</div><p>aₙ = 2ⁿ · n! for all n ≥ 0.</p></div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-q-header"><span class="eq-tag">Q2c — 8 marks</span><h3>Corona virus triples per hour — model and compute after 12 hours from 99</h3></div>
+    <div class="exam-q-body">
+      <div class="question-box"><div class="q-label">📌 Question</div><p style="color:var(--text-secondary);font-size:14px;">Number of Corona viruses triples per hour. Construct recurrence. Find count after 12 hours from initial 99.</p></div>
+      <p style="color:var(--text-secondary);font-size:13.5px;"><strong>Recurrence Relation:</strong></p>
+      <div class="math-line">Cₙ = 3·Cₙ₋₁ &nbsp; with C₀ = 99</div>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin-top:8px;"><strong>Closed form:</strong> By iteration: Cₙ = 3ⁿ · C₀ = 99 · 3ⁿ</p>
+      <div class="math-line">C₁₂ = 99 · 3¹² = 99 · 531,441 = <strong>52,612,659</strong></div>
+      <div class="info-box"><strong>Computation:</strong> 3¹² = 531,441. Then 531,441 × 99 = 531,441 × 100 − 531,441 = 53,144,100 − 531,441 = 52,612,659.</div>
+      <div class="conclusion"><div class="con-label">✓ Answer</div><p>Cₙ = 99 · 3ⁿ. After 12 hours: 52,612,659 viruses.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="content-section" id="pastq-2025">
+  <div class="section-header">
+    <div class="section-icon icon-amber">📝</div>
+    <div><div class="section-num">Past Paper — 11 July 2025</div><div class="section-title">Mid Semester Exam — Summer Semester 2023–2024</div></div>
+  </div>
+  <div class="memorize-box"><div class="mem-label">📋 Exam Info</div><ul><li>Duration: 2 hours | Full Marks: 120 | Answer all 4 questions</li><li>Ch 5.1 questions: Q2b (closed-form + induction proof), Q4b (divisibility by 6)</li><li>Ch 9.1 questions: Q4c (relation properties — modular arithmetic)</li></ul></div>
+
+  <div class="exam-q">
+    <div class="exam-q-header"><span class="eq-tag">Q2b — 14 marks (6+8)</span><h3>a₁=1, a₂=3, aₙ=6aₙ₋₁−9aₙ₋₂ for n≥3 — Find closed form, then prove by induction</h3></div>
+    <div class="exam-q-body">
+      <div class="question-box"><div class="q-label">📌 Question</div><p style="color:var(--text-secondary);font-size:14px;">i. Find closed-form formula for aₙ. ii. Prove it is correct for all n ≥ 1 using mathematical induction.</p></div>
+
+      <h4 style="color:var(--accent-teal);font-size:13.5px;margin-bottom:10px;">Part i — Closed Form (Characteristic Equation Method)</h4>
+      <p style="color:var(--text-secondary);font-size:13.5px;">Linear homogeneous recurrence with constant coefficients. Characteristic equation:</p>
+      <div class="math-line">r² = 6r − 9 &nbsp;⟹&nbsp; r² − 6r + 9 = 0 &nbsp;⟹&nbsp; (r−3)² = 0</div>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin:8px 0;">Repeated root r = 3. General solution for repeated root:</p>
+      <div class="math-line">aₙ = (C₁ + C₂n) · 3ⁿ</div>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin:8px 0;">Apply initial conditions a₁ = 1, a₂ = 3:</p>
+      <div class="math-line">n=1: (C₁ + C₂)·3 = 1 &nbsp;⟹&nbsp; C₁ + C₂ = 1/3</div>
+      <div class="math-line">n=2: (C₁ + 2C₂)·9 = 3 &nbsp;⟹&nbsp; C₁ + 2C₂ = 1/3</div>
+      <div class="math-line">Subtracting: C₂ = 0. Then C₁ = 1/3.</div>
+      <div class="math-line">aₙ = (1/3)·3ⁿ = 3ⁿ/3 = <strong>3ⁿ⁻¹</strong></div>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin-top:6px;"><strong>Check:</strong> a₁=3⁰=1 ✓, a₂=3¹=3 ✓, a₃=6(3)−9(1)=9=3² ✓</p>
+
+      <h4 style="color:var(--accent-violet);font-size:13.5px;margin:18px 0 10px;">Part ii — Proof by Mathematical Induction</h4>
+      <div class="danger-box" style="margin-bottom:12px;"><div class="danger-label">⚠ Need TWO base cases — recurrence uses aₙ₋₁ AND aₙ₋₂</div><p>When a recurrence involves two previous terms, both P(1) and P(2) must be verified in the basis step.</p></div>
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis Step</h4><p>P(1): a₁ = 3¹⁻¹ = 3⁰ = 1 ✓ (matches given a₁=1)</p><p>P(2): a₂ = 3²⁻¹ = 3¹ = 3 ✓ (matches given a₂=3)</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>Inductive Hypothesis (Strong Form)</h4><p>Assume P(j) is true for all j with 1 ≤ j ≤ k (k ≥ 2): &nbsp; aⱼ = 3^(j−1).</p><p>In particular: aₖ = 3^(k−1) and aₖ₋₁ = 3^(k−2).</p></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove P(k+1): aₖ₊₁ = 3ᵏ</h4>
+        <div class="math-line">aₖ₊₁ = 6aₖ − 9aₖ₋₁  &nbsp; <span class="reason">[by recurrence relation]</span></div>
+        <div class="math-line"><span class="ih-highlight">IH applied</span>: = 6·3^(k−1) − 9·3^(k−2)</div>
+        <div class="math-line">= 2·3·3^(k−1) − 3²·3^(k−2) = 2·3ᵏ − 3ᵏ = 3ᵏ ✓</div>
+        <p style="color:var(--text-muted);font-size:12.5px;margin-top:5px;">Key steps: 6·3^(k−1) = 2·3·3^(k−1) = 2·3ᵏ and 9·3^(k−2) = 3²·3^(k−2) = 3ᵏ</p>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>By mathematical induction, aₙ = 3^(n−1) for all n ≥ 1.</p></div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-q-header"><span class="eq-tag">Q4b — 10 marks</span><h3>Show n³ − n is divisible by 6 for all n ∈ ℕ₀</h3></div>
+    <div class="exam-q-body">
+      <div class="question-box"><div class="q-label">📌 Question</div><p style="color:var(--text-secondary);font-size:14px;">Show that n³ − n is divisible by 6 for all n ∈ ℕ₀ using an appropriate proof technique.</p></div>
+
+      <h4 style="color:var(--accent-teal);font-size:13.5px;margin-bottom:10px;">Method 1 — Direct Proof (Best Approach)</h4>
+      <div class="math-line">n³ − n = n(n²−1) = n(n−1)(n+1) = (n−1)·n·(n+1)</div>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin:8px 0;">This is the product of THREE consecutive integers: n−1, n, n+1.</p>
+      <p style="color:var(--text-secondary);font-size:13.5px;"><strong>Divisible by 2:</strong> Among any 3 consecutive integers, at least one is even → 2 | (n−1)n(n+1).</p>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin-top:6px;"><strong>Divisible by 3:</strong> Among any 3 consecutive integers, exactly one is divisible by 3 → 3 | (n−1)n(n+1).</p>
+      <p style="color:var(--text-secondary);font-size:13.5px;margin-top:6px;">Since gcd(2,3)=1 and both 2 and 3 divide the product, we have <strong>6 | n³−n</strong>. ✓</p>
+
+      <h4 style="color:var(--accent-violet);font-size:13.5px;margin:16px 0 10px;">Method 2 — By Mathematical Induction</h4>
+      <div class="proof-step"><div class="step-num">B</div><div class="step-content"><h4>Basis (n=0)</h4><p>0³ − 0 = 0. 6|0 (since 0 = 6·0). ✓</p></div></div>
+      <div class="proof-step"><div class="step-num">H</div><div class="step-content"><h4>IH: 6 | (k³ − k)</h4></div></div>
+      <div class="proof-step"><div class="step-num">I</div><div class="step-content"><h4>Prove: 6 | (k+1)³ − (k+1)</h4>
+        <div class="math-line">(k+1)³ − (k+1) = k³ + 3k² + 3k + 1 − k − 1 = (k³ − k) + 3k² + 3k</div>
+        <div class="math-line">= (k³ − k) + 3k(k+1)</div>
+        <p style="color:var(--text-secondary);font-size:13.5px;margin-top:6px;"><span class="ih-highlight">IH</span>: 6|(k³−k). For 3k(k+1): k and k+1 are consecutive → one is even → k(k+1)=2m → 3k(k+1)=6m → 6|3k(k+1). Sum of two multiples of 6 → 6 divides the whole expression. ✓</p>
+      </div></div>
+      <div class="conclusion"><div class="con-label">✓ Conclusion</div><p>6 | (n³−n) for all n ∈ ℕ₀.</p></div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-q-header"><span class="eq-tag">Q4c — 10 marks (2×5)</span><h3>R = {(a,b) | a ≡ b (mod 7)} — all properties + partial order?</h3></div>
+    <div class="exam-q-body">
+      <div class="question-box"><div class="q-label">📌 Question</div><p style="color:var(--text-secondary);font-size:14px;">Determine whether R is: i. Reflexive. ii. Symmetric. iii. Antisymmetric. iv. Transitive. v. Discuss whether R qualifies as a partial order.</p></div>
+
+      <div class="proof-step"><div class="step-num">i</div><div class="step-content"><h4>Reflexive — YES ✓</h4><p>For any integer a: a − a = 0, and 7|0 (0 = 7·0). So a ≡ a (mod 7), meaning (a,a) ∈ R for all a ∈ ℤ. R is reflexive.</p></div></div>
+      <div class="proof-step"><div class="step-num">ii</div><div class="step-content"><h4>Symmetric — YES ✓</h4><p>Suppose (a,b) ∈ R. Then 7|(a−b), so a−b = 7k for some integer k. Then b−a = −7k = 7(−k), so 7|(b−a), meaning (b,a) ∈ R. R is symmetric.</p></div></div>
+      <div class="proof-step"><div class="step-num">iii</div><div class="step-content"><h4>Antisymmetric — NO ✗</h4><p>Counterexample: a=1, b=8. Then 1−8 = −7 and 7|(−7), so (1,8) ∈ R. Also 8−1 = 7 and 7|7, so (8,1) ∈ R. But 1 ≠ 8. This violates antisymmetry. R is NOT antisymmetric.</p></div></div>
+      <div class="proof-step"><div class="step-num">iv</div><div class="step-content"><h4>Transitive — YES ✓</h4><p>If (a,b)∈R and (b,c)∈R, then 7|(a−b) and 7|(b−c). So 7|((a−b)+(b−c)) = 7|(a−c), meaning (a,c)∈R. R is transitive.</p></div></div>
+      <div class="proof-step"><div class="step-num">v</div><div class="step-content"><h4>Partial Order?</h4><p>A partial order requires: Reflexive ✓ + <strong>Antisymmetric ✗</strong> + Transitive ✓. Since R is NOT antisymmetric, <strong>R is NOT a partial order</strong>.</p><p style="margin-top:6px;">Since R is reflexive + symmetric + transitive, it is an <strong>equivalence relation</strong>. Its equivalence classes are [0],[1],[2],[3],[4],[5],[6] — the 7 residue classes modulo 7.</p></div></div>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-q-header"><span class="eq-tag">Q4a — 10 marks</span><h3>Identify 5 proof techniques with examples</h3></div>
+    <div class="exam-q-body">
+      <table class="compare-table" style="margin-top:0;">
+        <thead><tr><th>#</th><th>Technique</th><th>Approach</th><th>Best Used For</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td class="key">Direct Proof</td><td>Assume p, derive q step by step using definitions and theorems</td><td>p → q statements where algebra/definitions directly yield conclusion</td></tr>
+          <tr><td>2</td><td class="key">Proof by Contraposition</td><td>Prove ¬q → ¬p instead (logically equivalent to p → q)</td><td>When negating the conclusion gives a clearer starting point</td></tr>
+          <tr><td>3</td><td class="key">Proof by Contradiction</td><td>Assume ¬p, derive a contradiction (so ¬p must be false)</td><td>Proving irrationality (√2), proving no-existence statements</td></tr>
+          <tr><td>4</td><td class="key">Mathematical Induction</td><td>Basis step + inductive step (IH → P(k+1))</td><td>Statements about all positive integers: "for all n ≥ 1, P(n)"</td></tr>
+          <tr><td>5</td><td class="key">Proof by Cases</td><td>Divide into exhaustive, mutually exclusive cases; prove each</td><td>Absolute values, parity (even/odd), modular cases</td></tr>
+          <tr><td>6</td><td class="key">Exhaustive/Brute Force</td><td>Check every possible value in the (finite) domain</td><td>Claims about small finite sets; verifying base cases in induction</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<section style="padding: 36px 60px; border-top: 1px solid var(--border); background: var(--bg-card);">
+  <div style="max-width:700px;">
+    <div style="font-family:var(--font-mono);font-size:10px;color:var(--accent-teal);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">CSE 4203 · Discrete Mathematics · IUT · SWE 2nd Semester</div>
+    <p style="font-size:13px;color:var(--text-muted);line-height:1.7;">Comprehensive study guide covering Ch 5.1 (Mathematical Induction) and Ch 9.1 (Relations and Their Properties). All textbook examples solved with full step-by-step proofs. Past exam questions from Mid Semester 2024 & 2025 fully worked out with explanations. Built for exam preparation.</p>
+    <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px;">
+      <span class="badge badge-teal">Ch 5.1 ✓</span>
+      <span class="badge badge-violet">Ch 9.1 ✓</span>
+      <span class="badge badge-amber">Past Papers ✓</span>
+      <span class="badge badge-green">All Examples ✓</span>
+      <span class="badge badge-red">Error Analysis ✓</span>
+    </div>
+  </div>
+</section>
+</main>
+
+<a href="#hero" class="back-top" title="Back to top">↑</a>
+
+<script>
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('[id]');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + entry.target.id) link.classList.add('active');
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+navLinks.forEach(link => {
+  link.addEventListener('click', () => document.querySelector('.sidebar').classList.remove('open'));
+});
+</script>
+</body>
+</html>
